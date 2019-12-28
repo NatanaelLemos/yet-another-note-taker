@@ -7,15 +7,15 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="2e0e8c8b-2ad8-41f3-bf6d-03aae31c4bf1"
-    Publisher="CN=com.example"
+    Name="348e4b10-33aa-4a13-b1aa-81b24645afc7"
+    Publisher="CN=3d8a3cf4-66bd-4019-8976-97e8014421ef"
     Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="42169e6e-a558-4746-9d70-7f6d13b827ef" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="ec0cc741-fd3e-485c-81be-68815c480690" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>NoteTaker.Client</DisplayName>
-    <PublisherDisplayName>NoteTaker.Client</PublisherDisplayName>
+    <DisplayName>NoteTaker.Client.UWP</DisplayName>
+    <PublisherDisplayName>3d8a3cf4-66bd-4019-8976-97e8014421ef</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
@@ -29,15 +29,21 @@
 
   <Applications>
     <Application Id="App"
-      Executable="NoteTaker.Client.exe"
-      EntryPoint="NoteTaker.Client.App">
+      Executable="$targetnametoken$.exe"
+      EntryPoint="NoteTaker.Client.UWP.App">
       <uap:VisualElements
-        DisplayName="NoteTaker.Client"
+        DisplayName="NoteTaker.Client.UWP"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="NoteTaker.Client"
+        Description="NoteTaker.Client.UWP"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png">
+          <uap:ShowNameOnTiles>
+            <uap:ShowOn Tile="square150x150Logo" />
+            <uap:ShowOn Tile="wide310x150Logo" />
+            <uap:ShowOn Tile="square310x310Logo" />
+          </uap:ShowNameOnTiles>
+        </uap:DefaultTile>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>

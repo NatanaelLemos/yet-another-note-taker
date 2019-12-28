@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 using NoteTaker.Domain.Data;
 
 namespace NoteTaker.Domain.Services
@@ -8,12 +6,14 @@ namespace NoteTaker.Domain.Services
     public interface INotebooksService
     {
         ICollection<Notebook> GetAll();
+
         void Create(Notebook notebook);
     }
 
     public class NotebooksRepository : INotebooksRepository
     {
         private static List<Notebook> _notebooks = new List<Notebook>();
+
         public void Create(Notebook notebook)
         {
             _notebooks.Add(notebook);
