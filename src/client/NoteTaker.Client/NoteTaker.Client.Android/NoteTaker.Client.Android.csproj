@@ -15,7 +15,6 @@
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
     <AndroidUseAapt2>true</AndroidUseAapt2>
@@ -89,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NoteTaker.Client\NoteTaker.Client.csproj">
-      <Project>{39B76439-C68F-4417-BCC5-2C3E2D20EA6F}</Project>
+      <Project>{B08A3E4B-6654-42A9-9924-4220787D8ED6}</Project>
       <Name>NoteTaker.Client</Name>
     </ProjectReference>
   </ItemGroup>
