@@ -1,15 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Domain.Data
 {
     public interface INotebooksRepository
     {
-        void Create(Notebook notebook);
+        Task<Notebook> GetById(Guid id);
 
-        void Update(Notebook notebook);
+        Task<List<Notebook>> GetAll();
 
-        void Delete(Notebook notebook);
+        Task Create(Notebook notebook);
 
-        ICollection<Notebook> GetAll();
+        Task Update(Notebook notebook);
+
+        Task Save();
     }
 }

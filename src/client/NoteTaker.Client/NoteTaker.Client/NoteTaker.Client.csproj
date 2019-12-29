@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\NoteTaker.Data\NoteTaker.Data.csproj" />
     <ProjectReference Include="..\..\..\NoteTaker.Domain\NoteTaker.Domain.csproj" />
   </ItemGroup>
 

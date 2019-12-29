@@ -1,6 +1,7 @@
 ﻿using System;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
+using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -17,6 +18,7 @@ namespace NoteTaker.Client.Views
 
             _service = ServiceLocator.Get<INotebooksAppService>();
             lsvNotebooks.ItemsSource = _service.DataSource;
+            lsvNotebooks.ItemSelected += LsvNotebooks_ItemSelected;
         }
 
         protected override async void OnAppearing()
@@ -25,13 +27,21 @@ namespace NoteTaker.Client.Views
             await _service.FetchAll();
         }
 
+        private void LsvNotebooks_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            var notebookDto = e?.SelectedItem as NotebookDto;
+            PageNavigator.NavigateTo<NotesPage>(notebookDto);
+        }
+
         private void btnNewNotebook_OnClick(object sender, EventArgs e)
         {
+            lsvNotebooks.SelectedItem = null;
             PageNavigator.NavigateTo<NotebookEditorPage>();
         }
 
         private void btnAllNotes_OnClick(object sender, EventArgs e)
         {
+            lsvNotebooks.SelectedItem = null;
             PageNavigator.NavigateTo<NotesPage>();
         }
     }

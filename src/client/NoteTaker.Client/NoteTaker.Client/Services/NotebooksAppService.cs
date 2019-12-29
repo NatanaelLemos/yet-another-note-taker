@@ -3,33 +3,39 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using NoteTaker.Domain;
+using NoteTaker.Domain.Dtos;
+using NoteTaker.Domain.Entities;
+using NoteTaker.Domain.Services;
 
 namespace NoteTaker.Client.Services
 {
     public class NotebooksAppService : INotebooksAppService
     {
-        public NotebooksAppService()
+        private readonly INotebooksService _service;
+
+        public NotebooksAppService(INotebooksService service)
         {
-            DataSource = new ObservableCollection<Notebook>();
+            _service = service;
+            DataSource = new ObservableCollection<NotebookDto>();
         }
 
-        public ObservableCollection<Notebook> DataSource { get; private set; }
+        public ObservableCollection<NotebookDto> DataSource { get; private set; }
 
-        public Task FetchAll()
+        public async Task FetchAll()
         {
-            if (!DataSource.Any())
+            var data = await _service.GetAll();
+            DataSource.Clear();
+
+            foreach (var item in data)
             {
-                DataSource.Add(new Notebook { Id = Guid.NewGuid(), Name = "Notebook 1" });
-                DataSource.Add(new Notebook { Id = Guid.NewGuid(), Name = "Notebook 2" });
+                DataSource.Add(item);
             }
-
-            return Task.CompletedTask;
         }
 
-        public Task Create(Notebook notebook)
+        public async Task Create(NewNotebookDto notebook)
         {
-            DataSource.Add(notebook);
-            return Task.CompletedTask;
+            var dto = await _service.Create(notebook);
+            DataSource.Add(dto);
         }
     }
 }

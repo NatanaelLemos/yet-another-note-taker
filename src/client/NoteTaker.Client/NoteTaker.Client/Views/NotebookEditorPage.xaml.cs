@@ -3,6 +3,7 @@ using NoteTaker.Client.Extensions;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
 using NoteTaker.Domain;
+using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -33,7 +34,7 @@ namespace NoteTaker.Client.Views
 
         private void Save_Clicked(object sender, EventArgs e)
         {
-            _service.Create(new Notebook { Name = txtNotebook.Text });
+            _service.Create(new NewNotebookDto { Name = txtNotebook.Text });
             PageNavigator.Back();
         }
     }

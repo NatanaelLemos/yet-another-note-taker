@@ -1,38 +1,12 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using NoteTaker.Domain.Data;
+using NoteTaker.Domain.Dtos;
+using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Domain.Services
 {
-    public interface INotebooksService
-    {
-        ICollection<Notebook> GetAll();
-
-        void Create(Notebook notebook);
-    }
-
-    public class NotebooksRepository : INotebooksRepository
-    {
-        private static List<Notebook> _notebooks = new List<Notebook>();
-
-        public void Create(Notebook notebook)
-        {
-            _notebooks.Add(notebook);
-        }
-
-        public void Delete(Notebook notebook)
-        {
-        }
-
-        public ICollection<Notebook> GetAll()
-        {
-            return _notebooks;
-        }
-
-        public void Update(Notebook notebook)
-        {
-        }
-    }
-
     public class NotebooksService : INotebooksService
     {
         private readonly INotebooksRepository _repository;
@@ -42,24 +16,50 @@ namespace NoteTaker.Domain.Services
             _repository = repository;
         }
 
-        public ICollection<Notebook> GetAll()
+        public async Task<ICollection<NotebookDto>> GetAll()
         {
-            return _repository.GetAll();
+            var allNotebooks = await _repository.GetAll();
+            return allNotebooks.Select(n => new NotebookDto
+            {
+                Id = n.Id,
+                Name = n.Name
+            }).ToList();
         }
 
-        public void Create(Notebook notebook)
+        public async Task<NotebookDto> Create(NewNotebookDto notebook)
         {
-            _repository.Create(notebook);
+            var entity = new Notebook
+            {
+                Name = notebook?.Name
+            };
+
+            await _repository.Create(entity);
+            await _repository.Save();
+
+            return new NotebookDto
+            {
+                Id = entity.Id,
+                Name = entity.Name
+            };
         }
 
-        public void Update(Notebook notebook)
+        public async Task<NotebookDto> Update(NotebookDto notebook)
         {
-            _repository.Update(notebook);
+            var dbNotebook = await _repository.GetById(notebook.Id);
+            dbNotebook.Name = notebook.Name;
+
+            await _repository.Update(dbNotebook);
+            await _repository.Save();
+
+            return notebook;
         }
 
-        public void Delete(Notebook notebook)
+        public async Task Delete(NotebookDto notebook)
         {
-            _repository.Delete(notebook);
+            var dbNotebook = await _repository.GetById(notebook.Id);
+            dbNotebook.Available = false;
+            await _repository.Update(dbNotebook);
+            await _repository.Save();
         }
     }
 }

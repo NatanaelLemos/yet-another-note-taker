@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
 using NoteTaker.Domain;
+using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Client.Services
 {
@@ -12,5 +13,7 @@ namespace NoteTaker.Client.Services
         ObservableCollection<Note> DataSource { get; }
 
         Task FetchAll();
+
+        Task FilterByNotebookId(Guid id);
     }
 }

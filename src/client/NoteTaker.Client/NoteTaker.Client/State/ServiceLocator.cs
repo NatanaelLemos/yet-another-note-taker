@@ -7,6 +7,18 @@ namespace NoteTaker.Client.State
     {
         private static Lazy<Container> _container = new Lazy<Container>(() => new Container());
 
+        public static void Register<TService>()
+            where TService : class
+        {
+            _container.Value.Register<TService>();
+        }
+
+        public static void Register<TService>(Lifestyle lifestyle)
+            where TService : class
+        {
+            _container.Value.Register<TService>(lifestyle);
+        }
+
         public static void Register<TService, TImplementation>()
             where TService : class
             where TImplementation : class, TService
