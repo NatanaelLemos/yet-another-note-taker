@@ -7,6 +7,7 @@
              x:Class="NoteTaker.Client.Views.NotebooksPage"
              Title="Notebooks">
     <StackLayout VerticalOptions="FillAndExpand">
+        <Button Text="All notes" Clicked="btnAllNotes_OnClick" />
         <ListView x:Name="lsvNotebooks">
             <ListView.ItemTemplate>
                 <DataTemplate>

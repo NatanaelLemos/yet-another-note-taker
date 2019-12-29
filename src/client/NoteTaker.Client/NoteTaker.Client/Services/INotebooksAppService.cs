@@ -4,7 +4,7 @@ using NoteTaker.Domain;
 
 namespace NoteTaker.Client.Services
 {
-    public interface INotebooksService
+    public interface INotebooksAppService
     {
         ObservableCollection<Notebook> DataSource { get; }
 

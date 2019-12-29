@@ -11,7 +11,8 @@ namespace NoteTaker.Client
         {
             InitializeComponent();
 
-            ServiceLocator.Register<INotebooksService, NotebooksService>(Lifestyle.Singleton);
+            ServiceLocator.Register<INotebooksAppService, NotebooksAppService>(Lifestyle.Singleton);
+            ServiceLocator.Register<INotesAppService, NotesAppService>(Lifestyle.Singleton);
 
             MainPage = new MainPage();
         }

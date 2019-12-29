@@ -52,6 +52,7 @@ namespace NoteTaker.Client.State
             if (Instance.listener != null)
             {
                 Instance.listener.Detail = new NavigationPage(pageInstance);
+                Instance.listener.IsPresented = false;
             }
 
             Instance.history.AddLast((pageType, args));

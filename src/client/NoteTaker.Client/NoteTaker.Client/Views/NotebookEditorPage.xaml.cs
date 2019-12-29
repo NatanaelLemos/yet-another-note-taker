@@ -11,12 +11,12 @@ namespace NoteTaker.Client.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotebookEditorPage : ContentPage
     {
-        private readonly INotebooksService _service;
+        private readonly INotebooksAppService _service;
 
         public NotebookEditorPage()
         {
             InitializeComponent();
-            _service = ServiceLocator.Get<INotebooksService>();
+            _service = ServiceLocator.Get<INotebooksAppService>();
             boxNotebook.SetDynamicWidth();
         }
 

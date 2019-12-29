@@ -6,9 +6,9 @@ using NoteTaker.Domain;
 
 namespace NoteTaker.Client.Services
 {
-    public class NotebooksService : INotebooksService
+    public class NotebooksAppService : INotebooksAppService
     {
-        public NotebooksService()
+        public NotebooksAppService()
         {
             DataSource = new ObservableCollection<Notebook>();
         }

@@ -9,13 +9,13 @@ namespace NoteTaker.Client.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotebooksPage : ContentPage
     {
-        private readonly INotebooksService _service;
+        private readonly INotebooksAppService _service;
 
         public NotebooksPage()
         {
             InitializeComponent();
 
-            _service = ServiceLocator.Get<INotebooksService>();
+            _service = ServiceLocator.Get<INotebooksAppService>();
             lsvNotebooks.ItemsSource = _service.DataSource;
         }
 
@@ -28,6 +28,11 @@ namespace NoteTaker.Client.Views
         private void btnNewNotebook_OnClick(object sender, EventArgs e)
         {
             PageNavigator.NavigateTo<NotebookEditorPage>();
+        }
+
+        private void btnAllNotes_OnClick(object sender, EventArgs e)
+        {
+            PageNavigator.NavigateTo<NotesPage>();
         }
     }
 }
