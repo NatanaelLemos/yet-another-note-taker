@@ -19,6 +19,7 @@ namespace NoteTaker.Client.Views
             InitializeComponent();
             _service = ServiceLocator.Get<INotesAppService>();
             lsvNotes.ItemsSource = _service.DataSource;
+            lsvNotes.ItemTapped += LsvNotes_ItemTapped;
         }
 
         public NotesPage(NotebookDto notebook)
@@ -35,12 +36,24 @@ namespace NoteTaker.Client.Views
             {
                 Title = "All notes";
                 await _service.FetchAll();
+
+                ToolbarItems.RemoveAt(0);
             }
             else
             {
                 Title = _notebook.Name;
                 await _service.FilterByNotebookId(_notebook.Id);
             }
+        }
+
+        private void btnNewNote_OnClick(object sender, EventArgs e)
+        {
+            PageNavigator.NavigateTo<NoteEditorPage>(_notebook);
+        }
+
+        private void LsvNotes_ItemTapped(object sender, ItemTappedEventArgs e)
+        {
+            PageNavigator.NavigateTo<NoteEditorPage>(_notebook, e.Item as NoteListItemDto);
         }
     }
 }

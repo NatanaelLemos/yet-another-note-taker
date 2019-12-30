@@ -6,6 +6,9 @@
              mc:Ignorable="d"
              x:Class="NoteTaker.Client.Views.NotesPage"
              Title="Notes">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="New note" Clicked="btnNewNote_OnClick" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <ListView x:Name="lsvNotes">
             <ListView.ItemTemplate>

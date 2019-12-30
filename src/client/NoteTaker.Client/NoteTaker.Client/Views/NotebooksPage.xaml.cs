@@ -18,7 +18,7 @@ namespace NoteTaker.Client.Views
 
             _service = ServiceLocator.Get<INotebooksAppService>();
             lsvNotebooks.ItemsSource = _service.DataSource;
-            lsvNotebooks.ItemSelected += LsvNotebooks_ItemSelected;
+            lsvNotebooks.ItemTapped += LsvNotebooks_ItemTapped;
         }
 
         protected override async void OnAppearing()
@@ -27,9 +27,9 @@ namespace NoteTaker.Client.Views
             await _service.FetchAll();
         }
 
-        private void LsvNotebooks_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        private void LsvNotebooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            var notebookDto = e?.SelectedItem as NotebookDto;
+            var notebookDto = e?.Item as NotebookDto;
             PageNavigator.NavigateTo<NotesPage>(notebookDto);
         }
 

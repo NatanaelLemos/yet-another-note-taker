@@ -27,12 +27,12 @@ namespace NoteTaker.Client.Views
             this.Title = "New notebook";
         }
 
-        private void Cancel_Clicked(object sender, EventArgs e)
+        private void btnCancel_OnClick(object sender, EventArgs e)
         {
             PageNavigator.Back();
         }
 
-        private void Save_Clicked(object sender, EventArgs e)
+        private void btnSave_OnClick(object sender, EventArgs e)
         {
             _service.Create(new NewNotebookDto { Name = txtNotebook.Text });
             PageNavigator.Back();

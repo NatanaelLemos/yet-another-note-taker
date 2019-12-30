@@ -3,44 +3,102 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Threading.Tasks;
+using NoteTaker.Client.Helpers;
 using NoteTaker.Domain;
+using NoteTaker.Domain.Dtos;
 using NoteTaker.Domain.Entities;
+using NoteTaker.Domain.Services;
+using System.Timers;
+using System.Linq;
 
 namespace NoteTaker.Client.Services
 {
     public class NotesAppService : INotesAppService
     {
-        public NotesAppService()
+        private readonly INotesService _service;
+        private readonly Timer _updateTimer;
+        private readonly List<NoteDetailDto> _currentUpdates;
+
+        public NotesAppService(INotesService service)
         {
-            DataSource = new ObservableCollection<Note>();
+            _service = service;
+
+            _updateTimer = new Timer(1000);
+            _updateTimer.Elapsed += UpdateTimer_Elapsed;
+            _updateTimer.Start();
+
+            _currentUpdates = new List<NoteDetailDto>();
+
+            DataSource = new ObservableCollection<NoteListItemDto>();
+            Current = new BindableObject<NoteDetailDto>();
+            Current.OnDtoChanged += Current_OnDtoChanged;
         }
 
-        public ObservableCollection<Note> DataSource { get; }
+        public ObservableCollection<NoteListItemDto> DataSource { get; private set; }
 
-        public Task FetchAll()
+        public BindableObject<NoteDetailDto> Current { get; private set; }
+
+        public async Task FetchAll()
         {
+            var data = await _service.GetAll();
             DataSource.Clear();
-            DataSource.Add(new Note
-            {
-                Name = "Bla"
-            });
-            DataSource.Add(new Note
-            {
-                Name = "Bla 2"
-            });
 
-            return Task.CompletedTask;
+            foreach (var item in data)
+            {
+                DataSource.Add(item);
+            }
         }
 
-        public Task FilterByNotebookId(Guid id)
+        public async Task FilterByNotebookId(Guid id)
         {
+            var data = await _service.FindByNotebookId(id);
             DataSource.Clear();
-            DataSource.Add(new Note
-            {
-                Name = "Bla 1"
-            });
 
-            return Task.CompletedTask;
+            foreach (var item in data)
+            {
+                DataSource.Add(item);
+            }
+        }
+
+        public void NewNote(Guid notebookId)
+        {
+            Current.UpdateObject(new NoteDetailDto { NotebookId = notebookId });
+        }
+
+        public async Task LoadNote(Guid noteId)
+        {
+            var note = await _service.GetById(noteId);
+            Current.UpdateObject(note);
+        }
+
+        private void Current_OnDtoChanged(NoteDetailDto dto)
+        {
+            _currentUpdates.Add(dto);
+        }
+
+        private async void UpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            if (!_currentUpdates.Any())
+            {
+                return;
+            }
+
+            _updateTimer.Stop();
+
+            try
+            {
+                var response = await _service.CreateOrUpdate(_currentUpdates.LastOrDefault());
+                Current.Dto.Id = response.Id;
+
+                lock (_currentUpdates)
+                {
+                    _currentUpdates.Clear();
+                }
+            }
+            finally
+            {
+                _updateTimer.Start();
+            }
         }
     }
 }

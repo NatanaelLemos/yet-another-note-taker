@@ -4,14 +4,14 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="NoteTaker.Client.Views.NotebookEditorPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Cancel" Clicked="btnCancel_OnClick" />
-        <ToolbarItem Text="Save" Clicked="btnSave_OnClick" />
-    </ContentPage.ToolbarItems>
+             x:Class="NoteTaker.Client.Views.NoteEditorPage">
     <ContentPage.Content>
-        <StackLayout x:Name="boxNotebook">
-            <Entry x:Name="txtNotebook" Placeholder="Notebook name" />
+        <StackLayout x:Name="boxNote">
+            <Entry x:Name="txtName" Placeholder="Note name" />
+
+            <Editor x:Name="txtText" Grid.Row="0" Grid.Column="0" HeightRequest="50" FontSize="Small"
+                    VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+            </Editor>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

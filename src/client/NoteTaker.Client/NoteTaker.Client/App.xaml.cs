@@ -21,8 +21,12 @@ namespace NoteTaker.Client
             NoteTakerContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
 
             ServiceLocator.Register<NoteTakerContext>(Lifestyle.Singleton);
+
             ServiceLocator.Register<INotebooksRepository, NotebooksRepository>(Lifestyle.Singleton);
             ServiceLocator.Register<INotebooksService, NotebooksService>(Lifestyle.Singleton);
+
+            ServiceLocator.Register<INotesRepository, NotesRepository>(Lifestyle.Singleton);
+            ServiceLocator.Register<INotesService, NotesService>(Lifestyle.Singleton);
 
             ServiceLocator.Register<INotebooksAppService, NotebooksAppService>(Lifestyle.Singleton);
             ServiceLocator.Register<INotesAppService, NotesAppService>(Lifestyle.Singleton);
