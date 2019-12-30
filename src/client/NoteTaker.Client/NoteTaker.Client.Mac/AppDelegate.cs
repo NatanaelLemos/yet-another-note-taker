@@ -1,7 +1,5 @@
 ﻿using AppKit;
 using Foundation;
-using Xamarin.Forms;
-using Xamarin.Forms.Platform.MacOS;
 
 namespace NoteTaker.Client.Mac
 {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NoteTaker.Domain.Data;
@@ -25,13 +24,15 @@ namespace NoteTaker.Data.Repositories
 
         public Task<List<Note>> GetAll()
         {
-            return _ctx.Notes.ToListAsync();
+            return _ctx.Notes
+                .Where(n => n.Available == true)
+                .ToListAsync();
         }
 
         public Task<List<Note>> FindByNotebookId(Guid id)
         {
             return _ctx.Notes
-                .Where(n => n.NotebookId == id)
+                .Where(n => n.NotebookId == id && n.Available == true)
                 .ToListAsync();
         }
 

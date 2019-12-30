@@ -1,7 +1,6 @@
 ﻿using System;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
-using NoteTaker.Domain;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

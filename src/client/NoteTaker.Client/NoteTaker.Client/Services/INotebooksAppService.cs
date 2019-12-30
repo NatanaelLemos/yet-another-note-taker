@@ -1,8 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using NoteTaker.Domain;
+using NoteTaker.Client.Helpers;
 using NoteTaker.Domain.Dtos;
-using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Client.Services
 {
@@ -10,8 +10,13 @@ namespace NoteTaker.Client.Services
     {
         ObservableCollection<NotebookDto> DataSource { get; }
 
+        BindableObject<NotebookDto> Current { get; }
+
         Task FetchAll();
 
-        Task Create(NewNotebookDto notebook);
+        void NewNotebook();
+
+        Task LoadNotebook(Guid id);
+        Task Delete(Guid notebookId);
     }
 }

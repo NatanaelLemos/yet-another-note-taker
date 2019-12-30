@@ -5,10 +5,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="NoteTaker.Client.Views.NotebookEditorPage">
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Cancel" Clicked="btnCancel_OnClick" />
-        <ToolbarItem Text="Save" Clicked="btnSave_OnClick" />
-    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout x:Name="boxNotebook">
             <Entry x:Name="txtNotebook" Placeholder="Notebook name" />

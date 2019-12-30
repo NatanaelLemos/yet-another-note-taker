@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using NoteTaker.Client.Extensions;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
@@ -21,6 +20,7 @@ namespace NoteTaker.Client.Views
         {
             InitializeComponent();
             boxNote.SetDynamicWidth();
+
             _service = ServiceLocator.Get<INotesAppService>();
             _service.Current.Bind(nameof(NoteDetailDto.Name), txtName);
             _service.Current.Bind(nameof(NoteDetailDto.Text), txtText);

@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
-using System.Threading.Tasks;
-using NoteTaker.Client.Helpers;
-using NoteTaker.Domain;
-using NoteTaker.Domain.Dtos;
-using NoteTaker.Domain.Entities;
-using NoteTaker.Domain.Services;
-using System.Timers;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Timers;
+using NoteTaker.Client.Helpers;
+using NoteTaker.Domain.Dtos;
+using NoteTaker.Domain.Services;
 
 namespace NoteTaker.Client.Services
 {

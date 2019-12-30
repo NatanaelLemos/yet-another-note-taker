@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using NoteTaker.Domain.Dtos;
-using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Domain.Services
 {
@@ -11,9 +9,9 @@ namespace NoteTaker.Domain.Services
     {
         Task<ICollection<NotebookDto>> GetAll();
 
-        Task<NotebookDto> Create(NewNotebookDto notebook);
+        Task<NotebookDto> GetById(Guid notebookId);
 
-        Task<NotebookDto> Update(NotebookDto Notebook);
+        Task<NotebookDto> CreateOrUpdate(NotebookDto notebookDto);
 
         Task Delete(NotebookDto notebook);
     }

@@ -2,7 +2,6 @@
 using NoteTaker.Client.Extensions;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
-using NoteTaker.Domain;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -13,29 +12,37 @@ namespace NoteTaker.Client.Views
     public partial class NotebookEditorPage : ContentPage
     {
         private readonly INotebooksAppService _service;
+        private readonly Guid? _id;
 
         public NotebookEditorPage()
         {
             InitializeComponent();
-            _service = ServiceLocator.Get<INotebooksAppService>();
             boxNotebook.SetDynamicWidth();
+
+            _service = ServiceLocator.Get<INotebooksAppService>();
+            _service.Current.Bind(nameof(NotebookDto.Name), txtNotebook);
         }
 
-        protected override void OnAppearing()
+        public NotebookEditorPage(Guid id)
+            : this()
+        {
+            _id = id;
+        }
+
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
-            this.Title = "New notebook";
-        }
 
-        private void btnCancel_OnClick(object sender, EventArgs e)
-        {
-            PageNavigator.Back();
-        }
-
-        private void btnSave_OnClick(object sender, EventArgs e)
-        {
-            _service.Create(new NewNotebookDto { Name = txtNotebook.Text });
-            PageNavigator.Back();
+            if (_id == null || _id == Guid.Empty)
+            {
+                this.Title = "New notebook";
+                _service.NewNotebook();
+            }
+            else
+            {
+                await _service.LoadNotebook(_id.Value);
+                this.Title = _service.Current.Dto.Name;
+            }
         }
     }
 }

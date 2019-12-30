@@ -32,4 +32,3 @@ namespace NoteTaker.Client.Mac
         }
     }
 }
-

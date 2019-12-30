@@ -10,7 +10,7 @@
             <Entry x:Name="txtName" Placeholder="Note name" />
 
             <Editor x:Name="txtText" Grid.Row="0" Grid.Column="0" HeightRequest="50" FontSize="Small"
-                    VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" >
+                    VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             </Editor>
         </StackLayout>
     </ContentPage.Content>

@@ -7,18 +7,25 @@
              x:Class="NoteTaker.Client.Views.NotebooksPage"
              Title="Notebooks">
     <StackLayout VerticalOptions="FillAndExpand">
-        <Button Text="All notes" Clicked="btnAllNotes_OnClick" />
+        <Button Text="All notes" Clicked="btnAllNotes_OnClick" BackgroundColor="Transparent" />
         <ListView x:Name="lsvNotebooks">
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid Padding="10">
-                            <Label Text="{Binding Name}" d:Text="{Binding .}" FontSize="20" />
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding Name}" d:Text="{Binding .}" FontSize="20" Grid.Column="0"/>
+                            <Button Text="✏" Grid.Column="1" Clicked="btnEditNotebook_OnClick" BindingContext="{Binding Id}"/>
+                            <Button Text="X" Grid.Column="2" Clicked="btnRemoveNotebook_OnClick" BindingContext="{Binding Id}"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Text="New notebook" Clicked="btnNewNotebook_OnClick" />
+        <Button Text="New notebook" Clicked="btnNewNotebook_OnClick" BackgroundColor="Transparent" />
     </StackLayout>
 </ContentPage>

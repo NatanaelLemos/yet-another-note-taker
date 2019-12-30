@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
 using NoteTaker.Domain.Dtos;
@@ -43,6 +44,32 @@ namespace NoteTaker.Client.Views
         {
             lsvNotebooks.SelectedItem = null;
             PageNavigator.NavigateTo<NotesPage>();
+        }
+
+        private void btnEditNotebook_OnClick(object sender, EventArgs e)
+        {
+            var notebookId = (sender as Button)?.BindingContext as Guid?;
+            if (notebookId == null)
+            {
+                return;
+            }
+
+            PageNavigator.NavigateTo<NotebookEditorPage>(notebookId);
+        }
+
+        private async void btnRemoveNotebook_OnClick(object sender, EventArgs e)
+        {
+            var notebookId = (sender as Button)?.BindingContext as Guid?;
+            if (notebookId == null)
+            {
+                return;
+            }
+
+            var answer = await DisplayAlert("Remove", "Are you sure?", "Yes", "No");
+            if (answer)
+            {
+                await _service.Delete(notebookId.Value);
+            }
         }
     }
 }
