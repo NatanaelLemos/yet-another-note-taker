@@ -1,125 +1,73 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using NoteTaker.Client.State;
+using NoteTaker.Client.State.NotebookEvents;
+using NoteTaker.Client.State.NoteEvents;
 using NoteTaker.Domain.Dtos;
 using NoteTaker.Domain.Services;
-using System.Timers;
-using System.Collections.Generic;
-using NoteTaker.Client.Helpers;
-using System;
-using System.Linq;
 
 namespace NoteTaker.Client.Services
 {
     public class NotebooksAppService : INotebooksAppService
     {
-        private readonly INotebooksService _service;
-        private readonly Timer _updateTimer;
-        private readonly List<NotebookDto> _currentUpdates;
+        private readonly IEventBroker _eventBroker;
+        private readonly INotebooksService _notebooksService;
+        private readonly INotesService _notesService;
 
-        public NotebooksAppService(INotebooksService service)
+        public NotebooksAppService(IEventBroker eventBroker, INotebooksService notebooksService, INotesService notesService)
         {
-            _service = service;
-
-            _updateTimer = new Timer(1000);
-            _updateTimer.Elapsed += UpdateTimer_Elapsed;
-            _updateTimer.Start();
-
-            _currentUpdates = new List<NotebookDto>();
-
-            DataSource = new ObservableCollection<NotebookDto>();
-            Current = new BindableObject<NotebookDto>();
-            Current.OnDtoChanged += Current_OnDtoChanged;
+            _eventBroker = eventBroker;
+            _notebooksService = notebooksService;
+            _notesService = notesService;
         }
 
-        public ObservableCollection<NotebookDto> DataSource { get; private set; }
-
-        public BindableObject<NotebookDto> Current { get; private set; }
-
-        public async Task FetchAll()
+        public void StartListeners()
         {
-            var data = await _service.GetAll();
-            DataSource.Clear();
+            _eventBroker.Listen<CreateNotebookCommand>(CreateNotebookCommandHandler);
+            _eventBroker.Listen<UpdateNotebookCommand>(UpdateNotebookCommandHandler);
+            _eventBroker.Listen<DeleteNotebookCommand>(DeleteNotebookCommandHandler);
 
-            foreach (var item in data)
-            {
-                DataSource.Add(item);
-            }
+            _eventBroker.Listen<NotebookQuery, NotebookDto>(NotebookItemQueryHandler);
+            _eventBroker.Listen<NotebookQuery, ICollection<NotebookDto>>(NotebookListQueryHandler);
         }
 
-        public void NewNotebook()
+        public Task CreateNotebookCommandHandler(CreateNotebookCommand command)
         {
-            Current.UpdateObject(new NotebookDto());
+            return _notebooksService.Create(command.Dto);
         }
 
-        public async Task LoadNotebook(Guid notebookId)
+        public Task UpdateNotebookCommandHandler(UpdateNotebookCommand command)
         {
-            var notebook = await _service.GetById(notebookId);
-            Current.UpdateObject(notebook);
+            return _notebooksService.Update(command.Dto);
         }
 
-        public Task Delete(Guid notebookId)
+        public async Task DeleteNotebookCommandHandler(DeleteNotebookCommand command)
         {
-            var notebook = DataSource.FirstOrDefault(d => d.Id == notebookId);
+            await _notebooksService.Delete(command.Dto);
 
-            if(notebook == null)
-            {
-                return Task.CompletedTask;
-            }
+            var notes = await _notesService.FindByNotebookId(command.Dto.Id);
 
-            DataSource.Remove(notebook);
-            return _service.Delete(notebook);
+            await Task.WhenAll(
+                notes.Select(n => _eventBroker.Command(new DeleteNoteCommand(n))));
         }
 
-        private void Current_OnDtoChanged(NotebookDto dto)
+        public Task<NotebookDto> NotebookItemQueryHandler(NotebookQuery query)
         {
-            _currentUpdates.Add(dto);
-            UpdateDataSourceWithCurrent();
+            return _notebooksService.GetById(query.NotebookId);
         }
 
-        private async void UpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        public Task<ICollection<NotebookDto>> NotebookListQueryHandler(NotebookQuery query)
         {
-            if (!_currentUpdates.Any())
+            if (query.GetAll)
             {
-                return;
+                return _notebooksService.GetAll();
             }
-
-            _updateTimer.Stop();
-
-            try
+            else
             {
-                var response = await _service.CreateOrUpdate(_currentUpdates.LastOrDefault());
-                Current.Dto.Id = response.Id;
-
-                lock (_currentUpdates)
-                {
-                    _currentUpdates.Clear();
-                }
-            }
-            finally
-            {
-                _updateTimer.Start();
-            }
-        }
-
-        private void UpdateDataSourceWithCurrent()
-        {
-            if(Current.Dto.Id == Guid.Empty)
-            {
-                return;
-            }
-
-            var existing = DataSource.Where(d => d.Id == Current.Dto.Id).FirstOrDefault();
-
-            if (existing == null)
-            {
-                DataSource.Add(Current.Dto);
-                return;
-            }
-
-            if(existing.Name != Current.Dto.Name)
-            {
-                DataSource.Remove(existing);
-                DataSource.Add(Current.Dto);
+                return Task.FromResult((ICollection<NotebookDto>)new List<NotebookDto>());
             }
         }
     }

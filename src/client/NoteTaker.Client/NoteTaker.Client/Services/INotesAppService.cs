@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
-using NoteTaker.Client.Helpers;
+using NoteTaker.Client.State.NoteEvents;
 using NoteTaker.Domain.Dtos;
 
 namespace NoteTaker.Client.Services
 {
     public interface INotesAppService
     {
-        ObservableCollection<NoteListItemDto> DataSource { get; }
+        void StartListeners();
 
-        BindableObject<NoteDetailDto> Current { get; }
+        Task CreateNoteCommandHandler(CreateNoteCommand command);
 
-        Task FetchAll();
+        Task UpdateNoteCommandHandler(UpdateNoteCommand command);
 
-        Task FilterByNotebookId(Guid id);
+        Task DeleteNoteCommandHandler(DeleteNoteCommand command);
 
-        void NewNote(Guid notebookId);
-
-        Task LoadNote(Guid noteId);
+        Task<ICollection<NoteDto>> NoteListItemListQuery(NoteQuery query);
     }
 }

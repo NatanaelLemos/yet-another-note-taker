@@ -11,7 +11,9 @@ namespace NoteTaker.Domain.Services
 
         Task<NotebookDto> GetById(Guid notebookId);
 
-        Task<NotebookDto> CreateOrUpdate(NotebookDto notebookDto);
+        Task<NotebookDto> Create(NotebookDto dto);
+
+        Task<NotebookDto> Update(NotebookDto dto);
 
         Task Delete(NotebookDto notebook);
     }

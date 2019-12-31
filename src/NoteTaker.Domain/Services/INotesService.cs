@@ -7,12 +7,16 @@ namespace NoteTaker.Domain.Services
 {
     public interface INotesService
     {
-        Task<ICollection<NoteListItemDto>> GetAll();
+        Task<ICollection<NoteDto>> GetAll();
 
-        Task<ICollection<NoteListItemDto>> FindByNotebookId(Guid id);
+        Task<ICollection<NoteDto>> FindByNotebookId(Guid id);
 
-        Task<NoteDetailDto> GetById(Guid id);
+        Task<NoteDto> GetById(Guid id);
 
-        Task<NoteDetailDto> CreateOrUpdate(NoteDetailDto noteDetailDto);
+        Task<NoteDto> Create(NoteDto dto);
+
+        Task<NoteDto> Update(NoteDto dto);
+
+        Task Delete(NoteDto dto);
     }
 }

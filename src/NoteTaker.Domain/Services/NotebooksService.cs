@@ -37,29 +37,12 @@ namespace NoteTaker.Domain.Services
             }).ToList();
         }
 
-        public async Task<NotebookDto> CreateOrUpdate(NotebookDto dto)
-        {
-            if (dto.Id == Guid.Empty)
-            {
-                return await Create(dto);
-            }
-
-            var notebook = await _repository.GetById(dto.Id);
-
-            if (notebook == null)
-            {
-                return await Create(dto);
-            }
-
-            notebook.Name = dto.Name;
-            return await Update(notebook);
-        }
-
-        private async Task<NotebookDto> Create(NotebookDto notebook)
+        public async Task<NotebookDto> Create(NotebookDto notebook)
         {
             var entity = new Notebook
             {
-                Name = notebook?.Name
+                Id = notebook.Id,
+                Name = notebook.Name
             };
 
             await _repository.Create(entity);
@@ -72,9 +55,17 @@ namespace NoteTaker.Domain.Services
             };
         }
 
-        private async Task<NotebookDto> Update(Notebook notebook)
+        public async Task<NotebookDto> Update(NotebookDto notebook)
         {
-            await _repository.Update(notebook);
+            var entity = await _repository.GetById(notebook.Id);
+
+            if (entity == null)
+            {
+                return notebook;
+            }
+
+            entity.Name = notebook.Name;
+            await _repository.Update(entity);
             await _repository.Save();
 
             return new NotebookDto
@@ -86,15 +77,9 @@ namespace NoteTaker.Domain.Services
 
         public async Task Delete(NotebookDto notebook)
         {
-            var dbNotebook = await _repository.GetById(notebook.Id);
-            dbNotebook.Available = false;
-
-            foreach (var note in dbNotebook.Notes)
-            {
-                note.Available = false;
-            }
-
-            await _repository.Update(dbNotebook);
+            var entity = await _repository.GetById(notebook.Id);
+            entity.Available = false;
+            await _repository.Update(entity);
             await _repository.Save();
         }
     }

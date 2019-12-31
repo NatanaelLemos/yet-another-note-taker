@@ -5,6 +5,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="NoteTaker.Client.Views.NoteEditorPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Remove note" Clicked="btnRemoveNote_OnClick" />
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout x:Name="boxNote">
             <Entry x:Name="txtName" Placeholder="Note name" />

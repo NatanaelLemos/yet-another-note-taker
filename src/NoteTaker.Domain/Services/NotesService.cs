@@ -17,61 +17,47 @@ namespace NoteTaker.Domain.Services
             _repository = repository;
         }
 
-        public async Task<NoteDetailDto> GetById(Guid id)
+        public async Task<NoteDto> GetById(Guid id)
         {
-            var note = await _repository.GetById(id);
-            return new NoteDetailDto
+            var item = await _repository.GetById(id);
+            return new NoteDto
             {
-                Id = note.Id,
-                NotebookId = note.NotebookId,
-                Name = note.Name,
-                Text = note.Text
+                Id = item.Id,
+                Name = item.Name,
+                NotebookId = item.NotebookId,
+                Text = item.Text
             };
         }
 
-        public async Task<ICollection<NoteListItemDto>> GetAll()
+        public async Task<ICollection<NoteDto>> GetAll()
         {
-            var allNotes = await _repository.GetAll();
-            return allNotes.Select(n => new NoteListItemDto
+            var items = await _repository.GetAll();
+            return items.Select(item => new NoteDto
             {
-                Id = n.Id,
-                Name = n.Name
+                Id = item.Id,
+                Name = item.Name,
+                NotebookId = item.NotebookId,
+                Text = item.Text
             }).ToList();
         }
 
-        public async Task<ICollection<NoteListItemDto>> FindByNotebookId(Guid id)
+        public async Task<ICollection<NoteDto>> FindByNotebookId(Guid id)
         {
-            var notes = await _repository.FindByNotebookId(id);
-            return notes.Select(n => new NoteListItemDto
+            var items = await _repository.FindByNotebookId(id);
+            return items.Select(item => new NoteDto
             {
-                Id = n.Id,
-                Name = n.Name
+                Id = item.Id,
+                Name = item.Name,
+                NotebookId = item.NotebookId,
+                Text = item.Text
             }).ToList();
         }
 
-        public async Task<NoteDetailDto> CreateOrUpdate(NoteDetailDto noteDetailDto)
-        {
-            if (noteDetailDto.Id == Guid.Empty)
-            {
-                return await Create(noteDetailDto);
-            }
-
-            var note = await _repository.GetById(noteDetailDto.Id);
-
-            if (note == null)
-            {
-                return await Create(noteDetailDto);
-            }
-
-            note.Name = noteDetailDto.Name;
-            note.Text = noteDetailDto.Text;
-            return await Update(note);
-        }
-
-        private async Task<NoteDetailDto> Create(NoteDetailDto dto)
+        public async Task<NoteDto> Create(NoteDto dto)
         {
             var entity = new Note
             {
+                Id = dto.Id,
                 Name = dto.Name,
                 Text = dto.Text,
                 NotebookId = dto.NotebookId
@@ -80,27 +66,40 @@ namespace NoteTaker.Domain.Services
             await _repository.Create(entity);
             await _repository.Save();
 
-            return new NoteDetailDto
+            return new NoteDto
             {
                 Id = entity.Id,
-                Name = entity.Name,
-                Text = entity.Text,
-                NotebookId = entity.NotebookId
+                Name = dto.Name,
+                NotebookId = entity.NotebookId,
+                Text = entity.Text
             };
         }
 
-        private async Task<NoteDetailDto> Update(Note entity)
+        public async Task<NoteDto> Update(NoteDto dto)
         {
+            var entity = await _repository.GetById(dto.Id);
+            entity.Name = dto.Name;
+            entity.Text = dto.Text;
+
             await _repository.Update(entity);
             await _repository.Save();
 
-            return new NoteDetailDto
+            return new NoteDto
             {
                 Id = entity.Id,
                 Name = entity.Name,
-                Text = entity.Text,
-                NotebookId = entity.NotebookId
+                NotebookId = entity.NotebookId,
+                Text = entity.Text
             };
+        }
+
+        public async Task Delete(NoteDto dto)
+        {
+            var entity = await _repository.GetById(dto.Id);
+            entity.Available = false;
+
+            await _repository.Update(entity);
+            await _repository.Save();
         }
     }
 }

@@ -18,9 +18,9 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Text="{Binding Name}" d:Text="{Binding .}" FontSize="20" Grid.Column="0"/>
+                            <Label Text="{Binding Name}" FontSize="20" Grid.Column="0"/>
                             <Button Text="✏" Grid.Column="1" Clicked="btnEditNotebook_OnClick" BindingContext="{Binding Id}"/>
-                            <Button Text="X" Grid.Column="2" Clicked="btnRemoveNotebook_OnClick" BindingContext="{Binding Id}"/>
+                            <Button Text="➖" Grid.Column="2" Clicked="btnRemoveNotebook_OnClick" BindingContext="{Binding Id}"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

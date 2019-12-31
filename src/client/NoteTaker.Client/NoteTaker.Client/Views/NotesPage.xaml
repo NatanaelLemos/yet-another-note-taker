@@ -15,7 +15,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <Grid Padding="10">
-                            <Label Text="{Binding Name}" d:Text="{Binding .}" FontSize="20" />
+                            <Label Text="{Binding Name}" FontSize="20" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

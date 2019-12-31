@@ -1,6 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
+using NoteTaker.Client.State.NoteEvents;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -10,15 +15,38 @@ namespace NoteTaker.Client.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotesPage : ContentPage
     {
-        private readonly INotesAppService _service;
+        private readonly IEventBroker _eventBroker;
+        private ObservableCollection<NoteDto> _dataSource;
+
         private readonly NotebookDto _notebook;
 
         public NotesPage()
         {
             InitializeComponent();
-            _service = ServiceLocator.Get<INotesAppService>();
-            lsvNotes.ItemsSource = _service.DataSource;
+
+            _dataSource = new ObservableCollection<NoteDto>();
+            _eventBroker = ServiceLocator.Get<IEventBroker>();
+            lsvNotes.ItemsSource = _dataSource;
             lsvNotes.ItemTapped += LsvNotes_ItemTapped;
+
+            _eventBroker.Listen<CreateNoteCommand>(c =>
+            {
+                _dataSource.Add(c.Dto);
+                return Task.CompletedTask;
+            });
+
+            _eventBroker.Listen<UpdateNoteCommand>(c =>
+            {
+                RemoveItemFromDataSource(c.Dto);
+                _dataSource.Add(c.Dto);
+                return Task.CompletedTask;
+            });
+
+            _eventBroker.Listen<DeleteNoteCommand>(c =>
+            {
+                RemoveItemFromDataSource(c.Dto);
+                return Task.CompletedTask;
+            });
         }
 
         public NotesPage(NotebookDto notebook)
@@ -31,18 +59,38 @@ namespace NoteTaker.Client.Views
         {
             base.OnAppearing();
 
+            var query = new NoteQuery();
+
             if (_notebook == null)
             {
                 Title = "All notes";
-                await _service.FetchAll();
-
                 ToolbarItems.RemoveAt(0);
             }
             else
             {
+                query.NotebookId = _notebook.Id;
                 Title = _notebook.Name;
-                await _service.FilterByNotebookId(_notebook.Id);
             }
+
+            _dataSource.Clear();
+            var data = await _eventBroker.Query<NoteQuery, ICollection<NoteDto>>(query);
+
+            foreach (var item in data)
+            {
+                _dataSource.Add(item);
+            }
+        }
+
+        private void RemoveItemFromDataSource(NoteDto dto)
+        {
+            var itemToRemove = _dataSource.FirstOrDefault(d => d.Id == dto.Id);
+
+            if (itemToRemove == null)
+            {
+                return;
+            }
+
+            _dataSource.Remove(itemToRemove);
         }
 
         private void btnNewNote_OnClick(object sender, EventArgs e)
@@ -52,7 +100,7 @@ namespace NoteTaker.Client.Views
 
         private void LsvNotes_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            PageNavigator.NavigateTo<NoteEditorPage>(_notebook, e.Item as NoteListItemDto);
+            PageNavigator.NavigateTo<NoteEditorPage>(_notebook, e.Item as NoteDto);
         }
     }
 }
