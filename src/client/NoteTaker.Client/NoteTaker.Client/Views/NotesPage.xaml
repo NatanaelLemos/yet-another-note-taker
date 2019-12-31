@@ -15,7 +15,12 @@
                 <DataTemplate>
                     <ViewCell>
                         <Grid Padding="10">
-                            <Label Text="{Binding Name}" FontSize="20" />
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label Text="{Binding Name}" FontSize="20" Grid.Column="0"/>
+                            <Label Text="{Binding NotebookName, StringFormat='Notebook {0}'}" FontSize="10" Grid.Column="1"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

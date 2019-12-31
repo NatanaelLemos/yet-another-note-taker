@@ -8,6 +8,8 @@ namespace NoteTaker.Domain.Dtos
 
         public Guid NotebookId { get; set; }
 
+        public string NotebookName { get; set; }
+
         public string Name { get; set; }
 
         public string Text { get; set; }

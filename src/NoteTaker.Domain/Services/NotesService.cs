@@ -24,8 +24,10 @@ namespace NoteTaker.Domain.Services
             {
                 Id = item.Id,
                 Name = item.Name,
+                Text = item.Text,
+
                 NotebookId = item.NotebookId,
-                Text = item.Text
+                NotebookName = item.Notebook?.Name
             };
         }
 
@@ -36,8 +38,10 @@ namespace NoteTaker.Domain.Services
             {
                 Id = item.Id,
                 Name = item.Name,
+                Text = item.Text,
+
                 NotebookId = item.NotebookId,
-                Text = item.Text
+                NotebookName = item.Notebook?.Name
             }).ToList();
         }
 
@@ -48,8 +52,10 @@ namespace NoteTaker.Domain.Services
             {
                 Id = item.Id,
                 Name = item.Name,
+                Text = item.Text,
+
                 NotebookId = item.NotebookId,
-                Text = item.Text
+                NotebookName = item.Notebook?.Name
             }).ToList();
         }
 
@@ -70,8 +76,10 @@ namespace NoteTaker.Domain.Services
             {
                 Id = entity.Id,
                 Name = dto.Name,
+                Text = entity.Text,
+
                 NotebookId = entity.NotebookId,
-                Text = entity.Text
+                NotebookName = entity.Notebook?.Name
             };
         }
 
@@ -88,8 +96,10 @@ namespace NoteTaker.Domain.Services
             {
                 Id = entity.Id,
                 Name = entity.Name,
+                Text = entity.Text,
+
                 NotebookId = entity.NotebookId,
-                Text = entity.Text
+                NotebookName = entity.Notebook?.Name
             };
         }
 

@@ -55,7 +55,15 @@ namespace NoteTaker.Client.Views
 
             var title = new StringBuilder();
 
-            if (_notebook != null)
+            if (_notebook == null)
+            {
+                if(_dto != null)
+                {
+                    title.Append(_dto.NotebookName);
+                    title.Append(" / ");
+                }
+            }
+            else
             {
                 title.Append(_notebook.Name);
                 title.Append(" / ");
