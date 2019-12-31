@@ -1,5 +1,7 @@
 ﻿using AppKit;
 using Foundation;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.MacOS;
 
 namespace NoteTaker.Client.Mac
 {
@@ -10,18 +12,24 @@ namespace NoteTaker.Client.Mac
 
         public AppDelegate()
         {
-            var style = NSWindowStyle.Closable | NSWindowStyle.Resizable | NSWindowStyle.Titled | NSWindowStyle.TexturedBackground | NSWindowStyle.UnifiedTitleAndToolbar;
-            var rect = new CoreGraphics.CGRect(200, 200, 800, 600);
+            var style = NSWindowStyle.Closable
+                | NSWindowStyle.Resizable
+                | NSWindowStyle.Titled;
+            var rect = new CoreGraphics.CGRect(200, 200, 1024, 768);
+
             _window = new NSWindow(rect, style, NSBackingStore.Buffered, false);
             _window.Title = "NoteTaker";
+            _window.TitleVisibility = NSWindowTitleVisibility.Hidden;
         }
 
         public override NSWindow MainWindow => _window;
 
         public override void DidFinishLaunching(NSNotification notification)
         {
+            NSApplication.SharedApplication.SetAppearance(NSAppearance.GetAppearance(NSAppearance.NameDarkAqua));
+
             Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(new NoteTaker.Client.App());
             base.DidFinishLaunching(notification);
         }
 

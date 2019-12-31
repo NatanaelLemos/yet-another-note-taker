@@ -2,13 +2,14 @@ using System;
 using NoteTaker.Client.State;
 using Xunit;
 using FluentAssertions;
+using System.Threading.Tasks;
 
 namespace NoteTaker.Client.UnitTests
 {
     public class EventBrokerTests
     {
         [Fact]
-        public void ListenToCommandShouldCallCallback()
+        public async Task ListenToCommandShouldCallCallback()
         {
             var broker = new EventBroker();
 
@@ -17,15 +18,16 @@ namespace NoteTaker.Client.UnitTests
             broker.Listen<TestEvent>(t =>
             {
                 actualResult = t.Prop;
+                return Task.CompletedTask;
             });
 
-            broker.Command(new TestEvent { Prop = expectedResult });
+            await broker.Command(new TestEvent { Prop = expectedResult });
 
             actualResult.Should().Be(expectedResult);
         }
 
         [Fact]
-        public void ListToQueryShouldCallCallback()
+        public async Task ListToQueryShouldCallCallback()
         {
             var broker = new EventBroker();
 
@@ -33,10 +35,10 @@ namespace NoteTaker.Client.UnitTests
 
             broker.Listen<TestEvent, string>(t =>
             {
-                return expectedResult;
+                return Task.FromResult(expectedResult);
             });
 
-            var actualResult = broker.Query<TestEvent, string>(new TestEvent());
+            var actualResult = await broker.Query<TestEvent, string>(new TestEvent());
 
             actualResult.Should().Be(expectedResult);
         }

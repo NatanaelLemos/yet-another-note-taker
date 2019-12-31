@@ -14,8 +14,6 @@ namespace NoteTaker.Client.Mac
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            // Do any additional setup after loading the view.
         }
 
         public override NSObject RepresentedObject
