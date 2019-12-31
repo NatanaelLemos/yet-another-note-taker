@@ -35,15 +35,7 @@ namespace NoteTaker.Client.Views
 
             _eventBroker.Listen<UpdateNotebookCommand>(c =>
             {
-                var itemToUpdate = _dataSource.FirstOrDefault(d => d.Id == c.Dto.Id);
-
-                if(itemToUpdate == null || itemToUpdate.Name == c.Dto.Name)
-                {
-                    return Task.CompletedTask;
-                }
-
-                _dataSource.Remove(itemToUpdate);
-
+                RemoveItemFromDataSource(c.Dto);
                 _dataSource.Add(new NotebookDto
                 {
                     Id = c.Dto.Id,
@@ -55,14 +47,14 @@ namespace NoteTaker.Client.Views
 
             _eventBroker.Listen<DeleteNotebookCommand>(c =>
             {
-                var itemToRemove = _dataSource.FirstOrDefault(d => d.Id == c.Dto.Id);
-
-                if (itemToRemove != null)
-                {
-                    _dataSource.Remove(itemToRemove);
-                }
-
+                RemoveItemFromDataSource(c.Dto);
                 return Task.CompletedTask;
+            });
+
+            _dataSource.Add(new NotebookDto
+            {
+                Id = Guid.NewGuid(),
+                Name = "Test"
             });
         }
 
@@ -76,6 +68,16 @@ namespace NoteTaker.Client.Views
             foreach (var item in data)
             {
                 _dataSource.Add(item);
+            }
+        }
+
+        private void RemoveItemFromDataSource(NotebookDto dto)
+        {
+            var itemToRemove = _dataSource.FirstOrDefault(d => d.Id == dto.Id);
+
+            if (itemToRemove != null)
+            {
+                _dataSource.Remove(itemToRemove);
             }
         }
 

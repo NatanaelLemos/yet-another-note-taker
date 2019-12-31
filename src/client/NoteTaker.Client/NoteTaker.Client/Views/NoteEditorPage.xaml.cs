@@ -101,6 +101,11 @@ namespace NoteTaker.Client.Views
         {
             if (_dto.Id == Guid.Empty)
             {
+                if (string.IsNullOrEmpty(_dto.Name))
+                {
+                    return Task.CompletedTask;
+                }
+
                 _dto.Id = Guid.NewGuid();
                 return _eventBroker.Command(new CreateNoteCommand(_dto));
             }
@@ -123,6 +128,18 @@ namespace NoteTaker.Client.Views
                 await _eventBroker.Command(new DeleteNoteCommand(_dto));
                 PageNavigator.Back();
             }
+        }
+
+        private void btnUnchecked_OnClick(object sender, EventArgs e)
+        {
+            txtText.Text += "☐";
+            txtText.Focus();
+        }
+
+        private void btnChecked_OnClick(object sender, EventArgs e)
+        {
+            txtText.Text += "☑";
+            txtText.Focus();
         }
     }
 }

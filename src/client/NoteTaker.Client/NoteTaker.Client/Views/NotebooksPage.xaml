@@ -19,8 +19,8 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
                             <Label Text="{Binding Name}" FontSize="20" Grid.Column="0"/>
-                            <Button Text="✏" Grid.Column="1" Clicked="btnEditNotebook_OnClick" BindingContext="{Binding Id}"/>
-                            <Button Text="➖" Grid.Column="2" Clicked="btnRemoveNotebook_OnClick" BindingContext="{Binding Id}"/>
+                            <Button Text="+" Grid.Column="1" Clicked="btnEditNotebook_OnClick" BindingContext="{Binding Id}"/>
+                            <Button Text="-" Grid.Column="2" Clicked="btnRemoveNotebook_OnClick" BindingContext="{Binding Id}"/>
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
