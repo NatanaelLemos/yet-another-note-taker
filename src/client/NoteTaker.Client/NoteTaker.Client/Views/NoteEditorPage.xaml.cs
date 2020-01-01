@@ -14,8 +14,7 @@ namespace NoteTaker.Client.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NoteEditorPage : ContentPage
     {
-        private readonly IEventBroker _eventBroker;
-
+        private IEventBroker _eventBroker;
         private NotebookDto _notebook;
         private NoteDto _dto;
 
@@ -24,10 +23,15 @@ namespace NoteTaker.Client.Views
             InitializeComponent();
             boxNote.SetDynamicWidth();
 
-            _eventBroker = ServiceLocator.Get<IEventBroker>();
-
             txtName.TextChanged += TxtName_TextChanged;
             txtText.TextChanged += TxtText_TextChanged;
+
+            txtText.Focused += TxtText_Focused;
+        }
+
+        private void TxtText_Focused(object sender, FocusEventArgs e)
+        {
+            this.Title += "a";
         }
 
         public NoteEditorPage(NotebookDto notebook)
@@ -45,19 +49,21 @@ namespace NoteTaker.Client.Views
         {
             _notebook = notebook;
             _dto = dto;
-            txtName.Text = _dto.Name;
-            txtText.Text = _dto.Text;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            var title = new StringBuilder();
+            _eventBroker = ServiceLocator.Get<IEventBroker>();
 
+            txtName.Text = _dto.Name;
+            txtText.Text = _dto.Text;
+
+            var title = new StringBuilder();
             if (_notebook == null)
             {
-                if(_dto != null)
+                if(!string.IsNullOrEmpty(_dto?.NotebookName))
                 {
                     title.Append(_dto.NotebookName);
                     title.Append(" / ");
@@ -138,15 +144,14 @@ namespace NoteTaker.Client.Views
             }
         }
 
-        private void btnUnchecked_OnClick(object sender, EventArgs e)
+        private void btnCheckbox_OnClick(object sender, EventArgs e)
         {
             txtText.Text += "☐";
             txtText.Focus();
         }
 
         private void btnChecked_OnClick(object sender, EventArgs e)
-        {
-            txtText.Text += "☑";
+        {   txtText.Text += "☒";
             txtText.Focus();
         }
     }

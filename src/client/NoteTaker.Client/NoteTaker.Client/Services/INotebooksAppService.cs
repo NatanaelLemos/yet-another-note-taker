@@ -10,6 +10,7 @@ namespace NoteTaker.Client.Services
     public interface INotebooksAppService
     {
         void StartListeners();
+
         Task CreateNotebookCommandHandler(CreateNotebookCommand command);
         Task UpdateNotebookCommandHandler(UpdateNotebookCommand command);
         Task DeleteNotebookCommandHandler(DeleteNotebookCommand command);

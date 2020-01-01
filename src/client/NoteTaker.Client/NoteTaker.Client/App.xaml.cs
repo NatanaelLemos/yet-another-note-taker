@@ -16,10 +16,29 @@ namespace NoteTaker.Client
         public App()
         {
             InitializeComponent();
+            MainPage = new MainPage();
+        }
 
+        protected override void OnStart()
+        {
+            RegisterServices();
+        }
+
+        protected override void OnSleep()
+        {
+            ServiceLocator.Clear();
+            PageNavigator.ClearHistory();
+        }
+
+        protected override void OnResume()
+        {
+            RegisterServices();
+        }
+
+        private void RegisterServices()
+        {
             var localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             NoteTakerContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
-
             ServiceLocator.Register<NoteTakerContext>(Lifestyle.Singleton);
 
             ServiceLocator.Register<INotebooksRepository, NotebooksRepository>(Lifestyle.Singleton);
@@ -32,22 +51,8 @@ namespace NoteTaker.Client
             ServiceLocator.Register<INotebooksAppService, NotebooksAppService>(Lifestyle.Singleton);
             ServiceLocator.Register<INotesAppService, NotesAppService>(Lifestyle.Singleton);
 
-            MainPage = new MainPage();
-
             ServiceLocator.Get<INotebooksAppService>().StartListeners();
             ServiceLocator.Get<INotesAppService>().StartListeners();
-        }
-
-        protected override void OnStart()
-        {
-        }
-
-        protected override void OnSleep()
-        {
-        }
-
-        protected override void OnResume()
-        {
         }
     }
 }

@@ -15,19 +15,31 @@ namespace NoteTaker.Client.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotesPage : ContentPage
     {
-        private readonly IEventBroker _eventBroker;
-        private ObservableCollection<NoteDto> _dataSource;
-
         private readonly NotebookDto _notebook;
+
+        private IEventBroker _eventBroker;
+        private ObservableCollection<NoteDto> _dataSource;
 
         public NotesPage()
         {
             InitializeComponent();
 
             _dataSource = new ObservableCollection<NoteDto>();
-            _eventBroker = ServiceLocator.Get<IEventBroker>();
             lsvNotes.ItemsSource = _dataSource;
             lsvNotes.ItemTapped += LsvNotes_ItemTapped;
+        }
+
+        public NotesPage(NotebookDto notebook)
+            : this()
+        {
+            _notebook = notebook;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            _eventBroker = ServiceLocator.Get<IEventBroker>();
 
             _eventBroker.Listen<CreateNoteCommand>(c =>
             {
@@ -47,24 +59,16 @@ namespace NoteTaker.Client.Views
                 RemoveItemFromDataSource(c.Dto);
                 return Task.CompletedTask;
             });
-        }
-
-        public NotesPage(NotebookDto notebook)
-            : this()
-        {
-            _notebook = notebook;
-        }
-
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
 
             var query = new NoteQuery();
 
             if (_notebook == null)
             {
                 Title = "All notes";
-                ToolbarItems.RemoveAt(0);
+                if (ToolbarItems.Count() > 0)
+                {
+                    ToolbarItems.RemoveAt(0);
+                }
             }
             else
             {

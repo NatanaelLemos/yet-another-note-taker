@@ -7,26 +7,47 @@ namespace NoteTaker.Client.State
 {
     public class EventBroker : IEventBroker
     {
+        private bool _isDisposed = false;
         private readonly Dictionary<string, List<object>> _callbacks = new Dictionary<string, List<object>>();
 
         public void Listen<TEvent>(Func<TEvent, Task> callback)
         {
+            if (_isDisposed)
+            {
+                return;
+            }
+
             var key = GetKey<TEvent>();
             AddListener(key, callback);
         }
 
         public void Listen<TEvent, TResult>(Func<TEvent, Task<TResult>> callback)
         {
+            if (_isDisposed)
+            {
+                return;
+            }
+
             var key = GetKey<TEvent, TResult>();
             AddListener(key, callback);
         }
 
         public Task<TResult> Query<TEvent, TResult>(TEvent query)
         {
+            if (_isDisposed)
+            {
+                return default;
+            }
+
             var key = GetKey<TEvent, TResult>();
 
             foreach (var callback in _callbacks)
             {
+                if (_isDisposed)
+                {
+                    return default;
+                }
+
                 if (callback.Key != key)
                 {
                     continue;
@@ -46,12 +67,21 @@ namespace NoteTaker.Client.State
 
         public Task Command<TEvent>(TEvent command)
         {
-            var key = GetKey<TEvent>();
+            if (_isDisposed)
+            {
+                return Task.CompletedTask;
+            }
 
+            var key = GetKey<TEvent>();
             var tasks = new List<Task>();
 
             foreach (var callback in _callbacks)
             {
+                if (_isDisposed)
+                {
+                    return Task.CompletedTask;
+                }
+
                 if (callback.Key != key)
                 {
                     continue;
@@ -73,6 +103,15 @@ namespace NoteTaker.Client.State
             else
             {
                 return Task.CompletedTask;
+            }
+        }
+
+        public void Dispose()
+        {
+            _isDisposed = true;
+            lock(_callbacks)
+            {
+                _callbacks.Clear();
             }
         }
 

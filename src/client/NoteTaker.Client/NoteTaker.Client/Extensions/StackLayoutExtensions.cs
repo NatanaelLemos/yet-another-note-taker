@@ -8,7 +8,6 @@ namespace NoteTaker.Client.Extensions
         public static void SetDynamicWidth(this StackLayout stackLayout)
         {
             stackLayout.Padding = GetWidth(stackLayout);
-
             stackLayout.SizeChanged += StackLayout_SizeChanged;
         }
 

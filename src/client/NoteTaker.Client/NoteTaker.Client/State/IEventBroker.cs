@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace NoteTaker.Client.State
 {
-    public interface IEventBroker
+    public interface IEventBroker : IDisposable
     {
         void Listen<TEvent>(Func<TEvent, Task> callback);
 

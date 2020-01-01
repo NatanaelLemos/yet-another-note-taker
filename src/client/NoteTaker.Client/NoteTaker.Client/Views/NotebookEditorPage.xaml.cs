@@ -13,18 +13,15 @@ namespace NoteTaker.Client.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotebookEditorPage : ContentPage
     {
-        private readonly IEventBroker _eventBroker;
         private readonly Guid? _id;
 
+        private IEventBroker _eventBroker;
         private NotebookDto _dto;
 
         public NotebookEditorPage()
         {
             InitializeComponent();
             boxNotebook.SetDynamicWidth();
-
-            _eventBroker = ServiceLocator.Get<IEventBroker>();
-
             txtNotebook.TextChanged += TxtNotebook_TextChanged;
         }
 
@@ -37,6 +34,8 @@ namespace NoteTaker.Client.Views
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+
+            _eventBroker = ServiceLocator.Get<IEventBroker>();
 
             if (_id == null || _id == Guid.Empty)
             {

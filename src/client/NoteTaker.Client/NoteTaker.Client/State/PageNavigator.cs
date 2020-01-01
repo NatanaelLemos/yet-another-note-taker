@@ -1,40 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
+using System.Linq;
 
 namespace NoteTaker.Client.State
 {
-    public class PageNavigator
+    public static class PageNavigator
     {
-        private static readonly Lazy<PageNavigator> s_instance = new Lazy<PageNavigator>(() => new PageNavigator());
-
-        private static PageNavigator Instance => s_instance.Value;
-
-        private MasterDetailPage listener;
-        private LinkedList<(Type pageType, object[] args)> history = new LinkedList<(Type, object[])>();
-
-        private PageNavigator()
-        {
-        }
+        private static MasterDetailPage s_listener;
+        private static LinkedList<(Type pageType, object[] args)> s_history = new LinkedList<(Type, object[])>();
 
         public static void AddListener(MasterDetailPage listener)
         {
-            Instance.listener = listener;
+            s_listener = listener;
 
             if (listener.Detail == null)
             {
                 return;
             }
 
-            Instance.history.Clear();
+            s_history.Clear();
 
             if (listener.Detail is NavigationPage navListener)
             {
-                Instance.history.AddLast((navListener.CurrentPage.GetType(), null));
+                s_history.AddLast((navListener.CurrentPage.GetType(), null));
             }
             else
             {
-                Instance.history.AddLast((listener.Detail.GetType(), null));
+                s_history.AddLast((listener.Detail.GetType(), null));
             }
         }
 
@@ -43,27 +36,32 @@ namespace NoteTaker.Client.State
         {
             var pageType = typeof(TPage);
             NavigateTo(pageType, args);
+            s_history.AddLast((pageType, args));
         }
 
-        public static void NavigateTo(Type pageType, object[] args)
+        public static void ClearHistory()
+        {
+            s_history.Clear();
+        }
+
+        private static void NavigateTo(Type pageType, object[] args)
         {
             var pageInstance = (Page)Activator.CreateInstance(pageType, args);
 
-            if (Instance.listener != null)
+            if (s_listener != null)
             {
-                Instance.listener.Detail = new NavigationPage(pageInstance);
-                Instance.listener.IsPresented = false;
+                s_listener.Detail = new NavigationPage(pageInstance);
+                s_listener.IsPresented = false;
             }
-
-            Instance.history.AddLast((pageType, args));
         }
 
         public static void Back()
         {
-            if (Instance.history.Count > 1)
+            if (s_history.Count > 1)
             {
-                Instance.history.RemoveLast();
-                NavigateTo(Instance.history.Last.Value.pageType, Instance.history.Last.Value.args);
+                var hist = s_history.Select(h => h.pageType.Name).ToList();
+                s_history.RemoveLast();
+                NavigateTo(s_history.Last.Value.pageType, s_history.Last.Value.args);
             }
         }
     }

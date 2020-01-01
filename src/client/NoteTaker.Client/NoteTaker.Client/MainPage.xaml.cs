@@ -13,5 +13,11 @@ namespace NoteTaker.Client
             MasterBehavior = MasterBehavior.Popover;
             PageNavigator.AddListener(this);
         }
+
+        protected override bool OnBackButtonPressed()
+        {
+            PageNavigator.Back();
+            return true;
+        }
     }
 }

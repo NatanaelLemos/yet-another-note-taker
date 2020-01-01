@@ -16,16 +16,23 @@ namespace NoteTaker.Client.Views
     public partial class NotebooksPage : ContentPage
     {
         private readonly ObservableCollection<NotebookDto> _dataSource;
-        private readonly IEventBroker _eventBroker;
+
+        private IEventBroker _eventBroker;
 
         public NotebooksPage()
         {
             InitializeComponent();
 
             _dataSource = new ObservableCollection<NotebookDto>();
-            _eventBroker = ServiceLocator.Get<IEventBroker>();
             lsvNotebooks.ItemsSource = _dataSource;
             lsvNotebooks.ItemTapped += LsvNotebooks_ItemTapped;
+        }
+
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+
+            _eventBroker = ServiceLocator.Get<IEventBroker>();
 
             _eventBroker.Listen<CreateNotebookCommand>(c =>
             {
@@ -50,17 +57,6 @@ namespace NoteTaker.Client.Views
                 RemoveItemFromDataSource(c.Dto);
                 return Task.CompletedTask;
             });
-
-            _dataSource.Add(new NotebookDto
-            {
-                Id = Guid.NewGuid(),
-                Name = "Test"
-            });
-        }
-
-        protected override async void OnAppearing()
-        {
-            base.OnAppearing();
 
             _dataSource.Clear();
             var data = await _eventBroker.Query<NotebookQuery, ICollection<NotebookDto>>(new NotebookQuery());

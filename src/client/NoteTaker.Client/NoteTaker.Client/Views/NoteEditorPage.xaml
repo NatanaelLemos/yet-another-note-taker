@@ -15,8 +15,13 @@
             <Editor x:Name="txtText" Grid.Row="0" Grid.Column="0" HeightRequest="50" FontSize="Small"
                     VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
             </Editor>
-            <Button Text="☐" Clicked="btnUnchecked_OnClick"/>
-            <Button Text="☑" Clicked="btnChecked_OnClick"/>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Text="☐" Clicked="btnCheckbox_OnClick"/>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
