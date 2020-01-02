@@ -20,7 +20,8 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Text="☐" Clicked="btnCheckbox_OnClick"/>
+                <Button Grid.Column="0" Text="☐" Clicked="btnCheckboxUnchecked_OnClick"/>
+                <Button Grid.Column="1" Text="☒" Clicked="btnCheckboxChecked_OnClick"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

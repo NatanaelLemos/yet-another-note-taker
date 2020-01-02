@@ -9,6 +9,10 @@ NotebooksPage {
     background-color: #fff;
 }
 
+    NotebooksPage Grid {
+        padding: 10;
+    }
+
     NotebooksPage .btnAllNotes,
     NotebooksPage .btnNewNote {
         background-color: #fff;
@@ -36,12 +40,13 @@ NotebooksPage {
         background-color: #F32121;
     }
 
-NoteEditorPage Grid {
-    background-color: #fff;
+NoteEditorPage Button {
+    font-size: 14;
+    background-color: #2196F3;
+    color: #fff;
 }
 
-NoteEditorPage Button {
-    width: 40;
-    height: 40;
+Entry,
+Editor {
     background-color: #fff;
 }

@@ -63,7 +63,7 @@ namespace NoteTaker.Client.Views
             var title = new StringBuilder();
             if (_notebook == null)
             {
-                if(!string.IsNullOrEmpty(_dto?.NotebookName))
+                if (!string.IsNullOrEmpty(_dto?.NotebookName))
                 {
                     title.Append(_dto.NotebookName);
                     title.Append(" / ");
@@ -144,14 +144,15 @@ namespace NoteTaker.Client.Views
             }
         }
 
-        private void btnCheckbox_OnClick(object sender, EventArgs e)
+        private void btnCheckboxUnchecked_OnClick(object sender, EventArgs e)
         {
             txtText.Text += "☐";
             txtText.Focus();
         }
 
-        private void btnChecked_OnClick(object sender, EventArgs e)
-        {   txtText.Text += "☒";
+        private void btnCheckboxChecked_OnClick(object sender, EventArgs e)
+        {
+            txtText.Text += "☒";
             txtText.Focus();
         }
     }
