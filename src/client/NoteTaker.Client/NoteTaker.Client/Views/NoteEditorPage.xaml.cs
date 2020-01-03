@@ -2,12 +2,12 @@
 using System.Text;
 using System.Threading.Tasks;
 using NoteTaker.Client.Extensions;
-using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.NoteEvents;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Timers;
 
 namespace NoteTaker.Client.Views
 {
@@ -17,21 +17,16 @@ namespace NoteTaker.Client.Views
         private IEventBroker _eventBroker;
         private NotebookDto _notebook;
         private NoteDto _dto;
+        private QuillEditor _textEditor;
+        private Timer _updateTimer;
 
         public NoteEditorPage()
         {
             InitializeComponent();
             boxNote.SetDynamicWidth();
 
-            txtName.TextChanged += TxtName_TextChanged;
-            txtText.TextChanged += TxtText_TextChanged;
-
-            txtText.Focused += TxtText_Focused;
-        }
-
-        private void TxtText_Focused(object sender, FocusEventArgs e)
-        {
-            this.Title += "a";
+            _updateTimer = new Timer(1000);
+            _updateTimer.Elapsed += UpdateTimer_Elapsed;
         }
 
         public NoteEditorPage(NotebookDto notebook)
@@ -54,12 +49,33 @@ namespace NoteTaker.Client.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-
             _eventBroker = ServiceLocator.Get<IEventBroker>();
 
             txtName.Text = _dto.Name;
-            txtText.Text = _dto.Text;
+            SetTitle();
 
+            if (_dto.Id == Guid.Empty)
+            {
+                txtName.Focus();
+            }
+            else
+            {
+                webEditor.Focus();
+            }
+
+            var height = Application.Current.MainPage.Height;
+            _textEditor = new QuillEditor(webEditor, "NoteEditor", height - 150, _dto.Text);
+            _updateTimer.Start();
+        }
+
+        protected override void OnDisappearing()
+        {
+            _updateTimer.Stop();
+            base.OnDisappearing();
+        }
+
+        private void SetTitle()
+        {
             var title = new StringBuilder();
             if (_notebook == null)
             {
@@ -78,55 +94,13 @@ namespace NoteTaker.Client.Views
             if (_dto.Id == Guid.Empty)
             {
                 title.Append("New note");
-                txtName.Focus();
             }
             else
             {
                 title.Append(_dto.Name);
-                txtText.Focus();
             }
 
             Title = title.ToString();
-        }
-
-        private async void TxtName_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(e.NewTextValue))
-            {
-                return;
-            }
-
-            _dto.Name = e.NewTextValue;
-            await UpdateDto();
-        }
-
-        private async void TxtText_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(e.NewTextValue))
-            {
-                return;
-            }
-
-            _dto.Text = e.NewTextValue;
-            await UpdateDto();
-        }
-
-        private Task UpdateDto()
-        {
-            if (_dto.Id == Guid.Empty)
-            {
-                if (string.IsNullOrEmpty(_dto.Name))
-                {
-                    return Task.CompletedTask;
-                }
-
-                _dto.Id = Guid.NewGuid();
-                return _eventBroker.Command(new CreateNoteCommand(_dto));
-            }
-            else
-            {
-                return _eventBroker.Command(new UpdateNoteCommand(_dto));
-            }
         }
 
         private async void btnRemoveNote_OnClick(object sender, EventArgs e)
@@ -144,16 +118,48 @@ namespace NoteTaker.Client.Views
             }
         }
 
-        private void btnCheckboxUnchecked_OnClick(object sender, EventArgs e)
+        private void UpdateTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
-            txtText.Text += "☐";
-            txtText.Focus();
+            _updateTimer.Stop();
+
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                try
+                {
+                    var quill = await _textEditor.GetContent();
+                    await UpdateDto(txtName.Text, quill);
+                }
+                finally
+                {
+                    _updateTimer.Start();
+                }
+            });
         }
 
-        private void btnCheckboxChecked_OnClick(object sender, EventArgs e)
+        private Task UpdateDto(string name, string text)
         {
-            txtText.Text += "☒";
-            txtText.Focus();
+            if (string.IsNullOrEmpty(name))
+            {
+                return Task.CompletedTask;
+            }
+
+            if (_dto.Name == name && _dto.Text == text)
+            {
+                return Task.CompletedTask;
+            }
+
+            _dto.Name = name;
+            _dto.Text = text;
+
+            if (_dto.Id == Guid.Empty)
+            {
+                _dto.Id = Guid.NewGuid();
+                return _eventBroker.Command(new CreateNoteCommand(_dto));
+            }
+            else
+            {
+                return _eventBroker.Command(new UpdateNoteCommand(_dto));
+            }
         }
     }
 }

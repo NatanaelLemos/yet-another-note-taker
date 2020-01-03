@@ -11,18 +11,7 @@
     <ContentPage.Content>
         <StackLayout x:Name="boxNote">
             <Entry x:Name="txtName" Placeholder="Note name" />
-
-            <Editor x:Name="txtText" Grid.Row="0" Grid.Column="0" HeightRequest="50" FontSize="Small"
-                    VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
-            </Editor>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Text="☐" Clicked="btnCheckboxUnchecked_OnClick"/>
-                <Button Grid.Column="1" Text="☒" Clicked="btnCheckboxChecked_OnClick"/>
-            </Grid>
+            <WebView x:Name="webEditor" HeightRequest="500"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
