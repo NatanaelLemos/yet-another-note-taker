@@ -12,7 +12,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid StyleClass="NotebooksPageGrid">
+                        <Grid StyleClass="NotebooksGrid">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -26,6 +26,13 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <Button Text="New notebook" Clicked="btnNewNotebook_OnClick" StyleClass="btnNewNote"/>
+        <Grid StyleClass="NewNotebookGrid">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button Text="New notebook" Grid.Column="0" Clicked="btnNewNotebook_OnClick" StyleClass="btnNewNotebook"/>
+            <Button Text="⚙" Grid.Column="1" StyleClass="btnSettings"/>
+        </Grid>
     </StackLayout>
 </ContentPage>

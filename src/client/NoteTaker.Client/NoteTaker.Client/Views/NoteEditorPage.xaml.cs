@@ -27,6 +27,8 @@ namespace NoteTaker.Client.Views
 
             _updateTimer = new Timer(1000);
             _updateTimer.Elapsed += UpdateTimer_Elapsed;
+
+            SizeChanged += NoteEditorPage_SizeChanged;
         }
 
         public NoteEditorPage(NotebookDto notebook)
@@ -72,6 +74,14 @@ namespace NoteTaker.Client.Views
         {
             _updateTimer.Stop();
             base.OnDisappearing();
+        }
+
+        private void NoteEditorPage_SizeChanged(object sender, EventArgs e)
+        {
+            if (_textEditor != null)
+            {
+                _textEditor.Height = Application.Current.MainPage.Height - 150;
+            }
         }
 
         private void SetTitle()

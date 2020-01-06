@@ -15,7 +15,6 @@ namespace NoteTaker.Client.Views
         private WebView _container;
         private string _title;
         private string _body;
-        private double _height;
         private string _lastContent;
 
         public QuillEditor(WebView container, string title = "Editor", double height = 500, string body = "")
@@ -26,11 +25,16 @@ namespace NoteTaker.Client.Views
                 ? string.Empty
                 : body.Replace("\\n", "<br />");
 
-            _height = height - 120;
-
             _container.Source = new HtmlWebViewSource { Html = Html };
-            _container.HeightRequest = height;
+
+            Height = height;
             _lastContent = body;
+        }
+
+        public double Height
+        {
+            get => _container.HeightRequest;
+            set => _container.HeightRequest = value;
         }
 
         public async Task<string> GetContent()
@@ -40,10 +44,15 @@ namespace NoteTaker.Client.Views
                 try
                 {
                     _lastContent = await _container.EvaluateJavaScriptAsync("document.querySelector('.ql-editor').innerHTML");
-                    _lastContent = DecodeEncodedNonAsciiCharacters(_lastContent);
+
+                    if (!string.IsNullOrEmpty(_lastContent))
+                    {
+                        _lastContent = DecodeEncodedNonAsciiCharacters(_lastContent);
+                    }
                 }
                 catch (NullReferenceException)
                 {
+                    _container = null;
                 }
             }
 
@@ -63,7 +72,6 @@ namespace NoteTaker.Client.Views
                     var result = reader.ReadToEnd();
                     return result
                         .Replace("{{title}}", _title)
-                        .Replace("{{height}}", _height.ToString("N0"))
                         .Replace("{{body}}", _body);
                 }
             }

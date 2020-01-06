@@ -9,36 +9,40 @@ NotebooksPage {
     background-color: #fff;
 }
 
-    NotebooksPage Grid {
-        padding: 10;
-    }
+.NotebooksGrid {
+    padding: 10;
+}
 
-    NotebooksPage .btnAllNotes,
-    NotebooksPage .btnNewNote {
-        background-color: #fff;
-        color: #333;
-        height: 45;
-    }
-
-    NotebooksPage Grid Label {
+    .NotebooksGrid Label {
         color: #333;
     }
 
-    NotebooksPage Grid .btnEditNote,
-    NotebooksPage Grid .btnRemoveNote {
+    .NotebooksGrid .btnEditNote,
+    .NotebooksGrid .btnRemoveNote {
         color: #fff;
         height: 40;
         width: 40;
         font-size: 12;
     }
 
-    NotebooksPage Grid .btnEditNote {
+    .NotebooksGrid .btnEditNote {
         background-color: #2196F3;
     }
 
-    NotebooksPage Grid .btnRemoveNote {
+    .NotebooksGrid .btnRemoveNote {
         background-color: #F32121;
     }
+
+.NewNotebookGrid{
+    height: 100;
+}
+
+NotebooksPage .btnAllNotes,
+NotebooksPage .btnNewNotebook,
+NotebooksPage .btnSettings {
+    background-color: #fff;
+    color: #333;
+}
 
 NoteEditorPage Button {
     font-size: 14;
