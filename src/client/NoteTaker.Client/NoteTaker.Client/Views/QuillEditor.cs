@@ -97,7 +97,10 @@ namespace NoteTaker.Client.Views
         {
             _container = container;
             _title = title;
-            _text = text.Replace("\\n", "<br />");
+            _text = string.IsNullOrEmpty(text)
+                ? string.Empty
+                : text.Replace("\\n", "<br />");
+
             _height = height - 120;
 
             _container.Source = new HtmlWebViewSource { Html = Html };
