@@ -23,7 +23,7 @@ namespace NoteTaker.Client.Views
         public NoteEditorPage()
         {
             InitializeComponent();
-            boxNote.SetDynamicWidth();
+            boxName.SetDynamicWidth();
 
             _updateTimer = new Timer(1000);
             _updateTimer.Elapsed += UpdateTimer_Elapsed;
@@ -66,7 +66,7 @@ namespace NoteTaker.Client.Views
             }
 
             var height = Application.Current.MainPage.Height;
-            _textEditor = new QuillEditor(webEditor, "NoteEditor", height - 150, _dto.Text);
+            _textEditor = new QuillEditor(webEditor, "NoteEditor", height - 130, _dto.Text);
             _updateTimer.Start();
         }
 
@@ -80,7 +80,7 @@ namespace NoteTaker.Client.Views
         {
             if (_textEditor != null)
             {
-                _textEditor.Height = Application.Current.MainPage.Height - 150;
+                _textEditor.Height = Application.Current.MainPage.Height - 130;
             }
         }
 

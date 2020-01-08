@@ -10,7 +10,9 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout x:Name="boxNote">
-            <Entry x:Name="txtName" Placeholder="Note name" />
+            <ContentView x:Name="boxName">
+                <Entry x:Name="txtName" Placeholder="Note name"/>
+            </ContentView>
             <WebView x:Name="webEditor" HeightRequest="500"/>
         </StackLayout>
     </ContentPage.Content>

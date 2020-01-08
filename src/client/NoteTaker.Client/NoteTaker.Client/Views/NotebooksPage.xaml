@@ -32,7 +32,7 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Text="New notebook" Grid.Column="0" Clicked="btnNewNotebook_OnClick" StyleClass="btnNewNotebook"/>
-            <Button Text="⚙" Grid.Column="1" StyleClass="btnSettings"/>
+            <Button Text="⚙" Grid.Column="1" StyleClass="btnSettings" Clicked="btnSettings_OnClick"/>
         </Grid>
     </StackLayout>
 </ContentPage>

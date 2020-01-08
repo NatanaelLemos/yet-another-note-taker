@@ -10,7 +10,7 @@ namespace NoteTaker.Data
 {
     public class NoteTakerContext : DbContext
     {
-        public static string DatabasePath;
+        public static string DatabasePath = "notetaker.db";
 
         public NoteTakerContext()
         {
@@ -19,6 +19,7 @@ namespace NoteTaker.Data
 
         public DbSet<Notebook> Notebooks { get; set; }
         public DbSet<Note> Notes { get; set; }
+        public DbSet<Settings> Settings { get; set; }
 
         public override int SaveChanges()
         {
@@ -66,6 +67,7 @@ namespace NoteTaker.Data
         {
             new NotebookMapper(modelBuilder.Entity<Notebook>());
             new NoteMapper(modelBuilder.Entity<Note>());
+            new SettingsMapper(modelBuilder.Entity<Settings>());
         }
 
         private void UpdateEntities()

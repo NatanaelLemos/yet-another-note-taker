@@ -9,60 +9,76 @@
     <meta name="viewport" content="width=device-width">
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
     <style>
         html,
         body {
-            height: 100%;
-            width: 100%;
             margin: 0;
             padding: 0;
+            background-color: #fff;
         }
 
         button,
         .ql-color,
         .ql-background,
         .ql-align {
-            width: 35px !important;
-            height: 35px !important;
-            margin: 5px !important;
+            width: 28px !important;
+            height: 28px !important;
+            margin: 3px 4px 3px 4px !important;
+            padding: 0 !important;
+            color: #333;
         }
+
+            button :hover,
+            .ql-color :hover,
+            .ql-background :hover,
+            .ql-align :hover {
+                background-color: rgb(219, 219, 224);
+            }
+
+            button :active,
+            .ql-color :active,
+            .ql-background :active,
+            .ql-align :active {
+                background-color: rgb(219, 219, 224);
+            }
 
         #toolbar-container {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            background-color: #fff;
+            background-color: #f3f3f8;
             z-index: 999999;
+            padding: 2px;
         }
 
         #editor-container {
-            margin-top: 70px;
+            margin-top: 40px;
+            border: none;
         }
 
-        @media all and (max-width: 1270px) {
+        @media all and (max-width: 1045px) {
             #editor-container {
-                margin-top: 115px;
+                margin-top: 80px;
             }
         }
 
-        @media all and (max-width: 670px) {
+        @media all and (max-width: 540px) {
             #editor-container {
-                margin-top: 160px;
+                margin-top: 112px;
             }
         }
 
-        @media all and (max-width: 480px) {
+        @media all and (max-width: 371px) {
             #editor-container {
-                margin-top: 250px;
+                margin-top: 130px;
             }
         }
 
-        @media all and (max-width: 335px) {
+        @media all and (max-width: 348px) {
             #editor-container {
-                margin-top: 280px;
+                margin-top: 162px;
             }
         }
     </style>
@@ -111,8 +127,6 @@
         </span>
         <span class="ql-formats">
             <select class="ql-align"></select>
-        </span>
-        <span class="ql-formats">
             <button class="ql-link"></button>
             <button class="ql-image"></button>
         </span>

@@ -122,5 +122,10 @@ namespace NoteTaker.Client.Views
                         _dataSource.FirstOrDefault(d => d.Id == notebookId)));
             }
         }
+
+        private void btnSettings_OnClick(object sender, EventArgs e)
+        {
+            PageNavigator.NavigateTo<SettingsPage>();
+        }
     }
 }
