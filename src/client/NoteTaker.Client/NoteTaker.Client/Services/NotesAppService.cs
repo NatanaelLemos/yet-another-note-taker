@@ -1,12 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using System.Threading.Tasks;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.NoteEvents;
 using NoteTaker.Domain.Dtos;
 using NoteTaker.Domain.Services;
+using System.Timers;
 
 namespace NoteTaker.Client.Services
 {
@@ -15,10 +15,18 @@ namespace NoteTaker.Client.Services
         private readonly IEventBroker _eventBroker;
         private readonly INotesService _service;
 
+        private readonly Queue<UpdateNoteCommand> _updateQueue;
+        private readonly Timer _updateTimer;
+
         public NotesAppService(IEventBroker eventBroker, INotesService service)
         {
             _eventBroker = eventBroker;
             _service = service;
+            _updateQueue = new Queue<UpdateNoteCommand>();
+
+            _updateTimer = new Timer(500);
+            _updateTimer.Elapsed += _updateTimer_Elapsed;
+            _updateTimer.Start();
         }
 
         public void StartListeners()
@@ -37,7 +45,8 @@ namespace NoteTaker.Client.Services
 
         public Task UpdateNoteCommandHandler(UpdateNoteCommand command)
         {
-            return _service.Update(command.Dto);
+            _updateQueue.Enqueue(command);
+            return Task.CompletedTask;
         }
 
         public Task DeleteNoteCommandHandler(DeleteNoteCommand command)
@@ -58,6 +67,24 @@ namespace NoteTaker.Client.Services
             }
 
             return Task.FromResult((ICollection<NoteDto>)new List<NoteDto>());
+        }
+
+        private async void _updateTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            _updateTimer.Stop();
+
+            try
+            {
+                while (_updateQueue.Count() > 0)
+                {
+                    var nextInLine = _updateQueue.Dequeue();
+                    await _service.Update(nextInLine.Dto);
+                }
+            }
+            finally
+            {
+                _updateTimer.Start();
+            }
         }
     }
 }

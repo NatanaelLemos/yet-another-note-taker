@@ -20,6 +20,7 @@ namespace NoteTaker.Client
         public App()
         {
             InitializeComponent();
+            MainPage = new MainPage();
         }
 
         protected override async void OnStart()

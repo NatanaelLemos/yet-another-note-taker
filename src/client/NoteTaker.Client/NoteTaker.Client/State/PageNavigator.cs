@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Xamarin.Forms;
-using System.Linq;
 
 namespace NoteTaker.Client.State
 {
@@ -34,6 +33,11 @@ namespace NoteTaker.Client.State
         public static void NavigateTo<TPage>(params object[] args)
             where TPage : ContentPage
         {
+            while (s_history.Count > 20)
+            {
+                s_history.RemoveFirst();
+            }
+
             var pageType = typeof(TPage);
             NavigateTo(pageType, args);
             s_history.AddLast((pageType, args));
@@ -59,9 +63,9 @@ namespace NoteTaker.Client.State
         {
             if (s_history.Count > 1)
             {
-                var hist = s_history.Select(h => h.pageType.Name).ToList();
                 s_history.RemoveLast();
-                NavigateTo(s_history.Last.Value.pageType, s_history.Last.Value.args);
+                var last = s_history.Last.Value;
+                NavigateTo(last.pageType, last.args);
             }
         }
     }
