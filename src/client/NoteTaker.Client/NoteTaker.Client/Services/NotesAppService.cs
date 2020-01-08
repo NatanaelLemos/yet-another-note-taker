@@ -15,14 +15,14 @@ namespace NoteTaker.Client.Services
         private readonly IEventBroker _eventBroker;
         private readonly INotesService _service;
 
-        private readonly Queue<UpdateNoteCommand> _updateQueue;
+        private readonly Queue<Task> _taskQueue;
         private readonly Timer _updateTimer;
 
         public NotesAppService(IEventBroker eventBroker, INotesService service)
         {
             _eventBroker = eventBroker;
             _service = service;
-            _updateQueue = new Queue<UpdateNoteCommand>();
+            _taskQueue = new Queue<Task>();
 
             _updateTimer = new Timer(500);
             _updateTimer.Elapsed += _updateTimer_Elapsed;
@@ -40,18 +40,20 @@ namespace NoteTaker.Client.Services
 
         public Task CreateNoteCommandHandler(CreateNoteCommand command)
         {
-            return _service.Create(command.Dto);
+            _taskQueue.Enqueue(_service.Create(command.Dto));
+            return Task.CompletedTask;
         }
 
         public Task UpdateNoteCommandHandler(UpdateNoteCommand command)
         {
-            _updateQueue.Enqueue(command);
+            _taskQueue.Enqueue(_service.Update(command.Dto));
             return Task.CompletedTask;
         }
 
         public Task DeleteNoteCommandHandler(DeleteNoteCommand command)
         {
-            return _service.Delete(command.Dto);
+            _taskQueue.Enqueue(_service.Delete(command.Dto));
+            return Task.CompletedTask;
         }
 
         public Task<ICollection<NoteDto>> NoteListItemListQuery(NoteQuery query)
@@ -75,10 +77,10 @@ namespace NoteTaker.Client.Services
 
             try
             {
-                while (_updateQueue.Count() > 0)
+                while (_taskQueue.Count() > 0)
                 {
-                    var nextInLine = _updateQueue.Dequeue();
-                    await _service.Update(nextInLine.Dto);
+                    var nextInLine = _taskQueue.Dequeue();
+                    await nextInLine;
                 }
             }
             finally

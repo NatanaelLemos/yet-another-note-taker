@@ -53,6 +53,7 @@ NoteEditorPage Button {
 Entry,
 Editor {
     background-color: #303042;
+    -xf-placeholder-color: #838393;
 }
 
 Label {
