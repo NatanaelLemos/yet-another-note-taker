@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.NotebookEvents;
@@ -11,13 +8,14 @@ using NoteTaker.Domain.Services;
 
 namespace NoteTaker.Client.Services
 {
-    public class NotebooksAppService : INotebooksAppService
+    public class NotebooksAppService : TimedAppServiceBase, INotebooksAppService
     {
         private readonly IEventBroker _eventBroker;
         private readonly INotebooksService _notebooksService;
         private readonly INotesService _notesService;
 
         public NotebooksAppService(IEventBroker eventBroker, INotebooksService notebooksService, INotesService notesService)
+            : base(500)
         {
             _eventBroker = eventBroker;
             _notebooksService = notebooksService;
@@ -36,22 +34,25 @@ namespace NoteTaker.Client.Services
 
         public Task CreateNotebookCommandHandler(CreateNotebookCommand command)
         {
-            return _notebooksService.Create(command.Dto);
+            Enqueue(_notebooksService.Create(command.Dto));
+            return Task.CompletedTask;
         }
 
         public Task UpdateNotebookCommandHandler(UpdateNotebookCommand command)
         {
-            return _notebooksService.Update(command.Dto);
+            Enqueue(_notebooksService.Update(command.Dto));
+            return Task.CompletedTask;
         }
 
         public async Task DeleteNotebookCommandHandler(DeleteNotebookCommand command)
         {
-            await _notebooksService.Delete(command.Dto);
+            Enqueue(_notebooksService.Delete(command.Dto));
 
             var notes = await _notesService.FindByNotebookId(command.Dto.Id);
-
-            await Task.WhenAll(
-                notes.Select(n => _eventBroker.Command(new DeleteNoteCommand(n))));
+            foreach (var note in notes)
+            {
+                Enqueue(_eventBroker.Command(new DeleteNoteCommand(note)));
+            }
         }
 
         public Task<NotebookDto> NotebookItemQueryHandler(NotebookQuery query)
