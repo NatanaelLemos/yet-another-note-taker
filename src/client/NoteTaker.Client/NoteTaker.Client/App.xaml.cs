@@ -1,10 +1,14 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
+using NoteTaker.Client.State.SettingsEvents;
+using NoteTaker.Client.Views;
 using NoteTaker.Data;
 using NoteTaker.Data.Repositories;
 using NoteTaker.Domain.Data;
+using NoteTaker.Domain.Entities;
 using NoteTaker.Domain.Services;
 using SimpleInjector;
 using Xamarin.Forms;
@@ -16,12 +20,12 @@ namespace NoteTaker.Client
         public App()
         {
             InitializeComponent();
-            MainPage = new MainPage();
         }
 
-        protected override void OnStart()
+        protected override async void OnStart()
         {
             RegisterServices();
+            await LoadTheme();
         }
 
         protected override void OnSleep()
@@ -30,9 +34,10 @@ namespace NoteTaker.Client
             PageNavigator.ClearHistory();
         }
 
-        protected override void OnResume()
+        protected override async void OnResume()
         {
             RegisterServices();
+            await LoadTheme();
         }
 
         private void RegisterServices()
@@ -57,6 +62,38 @@ namespace NoteTaker.Client
             ServiceLocator.Get<INotebooksAppService>().StartListeners();
             ServiceLocator.Get<INotesAppService>().StartListeners();
             ServiceLocator.Get<ISettingsAppService>().StartListeners();
+        }
+
+        private async Task LoadTheme()
+        {
+            var eventBroker = ServiceLocator.Get<IEventBroker>();
+            eventBroker.Listen<CreateOrUpdateSettingsCommand>(c =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    if (c.Settings.DarkMode)
+                    {
+                        Themes.SetDarkTheme(this);
+                    }
+                    else
+                    {
+                        Themes.SetLightTheme(this);
+                    }
+                });
+
+                return Task.CompletedTask;
+            });
+
+            var settings = await eventBroker.Query<SettingsQuery, Settings>(new SettingsQuery());
+
+            if (settings.DarkMode)
+            {
+                Themes.SetDarkTheme(this);
+            }
+            else
+            {
+                Themes.SetLightTheme(this);
+            }
         }
     }
 }

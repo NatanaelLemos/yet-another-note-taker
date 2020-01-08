@@ -1,0 +1,56 @@
+﻿NavigationPage {
+    background-color: #333;
+    -xf-bar-background-color: #2196F3;
+    -xf-bar-text-color: #fff;
+    color: #333;
+}
+
+NotebooksPage {
+    background-color: #fff;
+}
+
+.NotebooksGrid {
+    padding: 10;
+}
+
+    .NotebooksGrid Label {
+        color: #333;
+    }
+
+    .NotebooksGrid .btnEditNote,
+    .NotebooksGrid .btnRemoveNote {
+        color: #fff;
+        height: 40;
+        width: 40;
+        font-size: 12;
+    }
+
+    .NotebooksGrid .btnEditNote {
+        background-color: #2196F3;
+    }
+
+    .NotebooksGrid .btnRemoveNote {
+        background-color: #F32121;
+    }
+
+.NewNotebookGrid {
+    height: 100;
+}
+
+NotebooksPage .btnAllNotes,
+NotebooksPage .btnNewNotebook,
+NotebooksPage .btnSettings {
+    background-color: #fff;
+    color: #333;
+}
+
+NoteEditorPage Button {
+    font-size: 14;
+    background-color: #2196F3;
+    color: #fff;
+}
+
+Entry,
+Editor {
+    background-color: #f3f3f8;
+}
