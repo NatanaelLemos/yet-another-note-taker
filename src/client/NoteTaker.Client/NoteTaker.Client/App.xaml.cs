@@ -45,6 +45,7 @@ namespace NoteTaker.Client
         {
             var localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             NoteTakerContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
+
             ServiceLocator.Register<NoteTakerContext>(Lifestyle.Singleton);
             ServiceLocator.Register<IEventBroker, EventBroker>(Lifestyle.Singleton);
 
