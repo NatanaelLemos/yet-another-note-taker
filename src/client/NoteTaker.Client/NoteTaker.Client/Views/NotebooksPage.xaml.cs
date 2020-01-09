@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.NotebookEvents;
 using NoteTaker.Domain.Dtos;
@@ -36,18 +35,20 @@ namespace NoteTaker.Client.Views
 
             _eventBroker.Listen<CreateNotebookCommand>(c =>
             {
-                _dataSource.Add(c.Dto);
+                _dataSource.Insert(0, c.Dto);
                 return Task.CompletedTask;
             });
 
             _eventBroker.Listen<UpdateNotebookCommand>(c =>
             {
                 RemoveItemFromDataSource(c.Dto);
-                _dataSource.Add(new NotebookDto
-                {
-                    Id = c.Dto.Id,
-                    Name = c.Dto.Name
-                });
+                _dataSource.Insert(
+                    0,
+                    new NotebookDto
+                    {
+                        Id = c.Dto.Id,
+                        Name = c.Dto.Name
+                    });
 
                 return Task.CompletedTask;
             });

@@ -7,7 +7,7 @@
              x:Class="NoteTaker.Client.Views.NotebooksPage"
              Title="Notebooks">
     <StackLayout VerticalOptions="FillAndExpand">
-        <Button Text="All notes" Clicked="btnAllNotes_OnClick" StyleClass="btnAllNotes"/>
+        <Button Text="All notes" Clicked="btnAllNotes_OnClick" StyleClass="btnAllNotes" />
         <ListView x:Name="lsvNotebooks">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -18,9 +18,9 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <Label Text="{Binding Name}" FontSize="20" Grid.Column="0"/>
-                            <Button Text="✏" Grid.Column="1" Clicked="btnEditNotebook_OnClick" BindingContext="{Binding Id}" StyleClass="btnEditNote"/>
-                            <Button Text="➖" Grid.Column="2" Clicked="btnRemoveNotebook_OnClick" BindingContext="{Binding Id}"  StyleClass="btnRemoveNote"/>
+                            <Label Text="{Binding Name}" FontSize="20" Grid.Column="0" />
+                            <Button Text="✏" Grid.Column="1" Clicked="btnEditNotebook_OnClick" BindingContext="{Binding Id}" StyleClass="btnEditNote" />
+                            <Button Text="➖" Grid.Column="2" Clicked="btnRemoveNotebook_OnClick" BindingContext="{Binding Id}"  StyleClass="btnRemoveNote" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
@@ -31,8 +31,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Text="New notebook" Grid.Column="0" Clicked="btnNewNotebook_OnClick" StyleClass="btnNewNotebook"/>
-            <Button Text="⚙" Grid.Column="1" StyleClass="btnSettings" Clicked="btnSettings_OnClick"/>
+            <Button Text="New notebook" Grid.Column="0" Clicked="btnNewNotebook_OnClick" StyleClass="btnNewNotebook" />
+            <Button Text="⚙" Grid.Column="1" StyleClass="btnSettings" Clicked="btnSettings_OnClick" />
         </Grid>
     </StackLayout>
 </ContentPage>

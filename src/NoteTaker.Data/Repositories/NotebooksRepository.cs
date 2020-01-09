@@ -27,6 +27,7 @@ namespace NoteTaker.Data.Repositories
         {
             return _ctx.Notebooks
                 .Where(n => n.Available == true)
+                .OrderByDescending(n => n.UpdatedOn)
                 .ToListAsync();
         }
 

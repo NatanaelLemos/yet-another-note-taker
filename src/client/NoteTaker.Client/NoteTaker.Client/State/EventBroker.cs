@@ -87,7 +87,7 @@ namespace NoteTaker.Client.State
                     continue;
                 }
 
-                foreach(var listener in callback.Value)
+                foreach (var listener in callback.Value)
                 {
                     if (listener is Func<TEvent, Task> task)
                     {
@@ -109,7 +109,7 @@ namespace NoteTaker.Client.State
         public void Dispose()
         {
             _isDisposed = true;
-            lock(_callbacks)
+            lock (_callbacks)
             {
                 _callbacks.Clear();
             }

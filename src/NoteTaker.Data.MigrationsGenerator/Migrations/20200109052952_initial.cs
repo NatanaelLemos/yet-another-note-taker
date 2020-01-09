@@ -1,9 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace NoteTaker.Data.Migrations
+namespace NoteTaker.Data.Migrations.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,8 +13,8 @@ namespace NoteTaker.Data.Migrations
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Available = table.Column<bool>(nullable: false),
-                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
-                    UpdatedOn = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedOn = table.Column<long>(nullable: false),
+                    UpdatedOn = table.Column<long>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false)
                 },
                 constraints: table =>
@@ -23,13 +23,28 @@ namespace NoteTaker.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Settings",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false),
+                    Available = table.Column<bool>(nullable: false),
+                    CreatedOn = table.Column<long>(nullable: false),
+                    UpdatedOn = table.Column<long>(nullable: false),
+                    DarkMode = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Settings", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Notes",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
                     Available = table.Column<bool>(nullable: false),
-                    CreatedOn = table.Column<DateTimeOffset>(nullable: false),
-                    UpdatedOn = table.Column<DateTimeOffset>(nullable: false),
+                    CreatedOn = table.Column<long>(nullable: false),
+                    UpdatedOn = table.Column<long>(nullable: false),
                     Name = table.Column<string>(maxLength: 255, nullable: false),
                     Text = table.Column<string>(nullable: true),
                     NotebookId = table.Column<Guid>(nullable: false)
@@ -55,6 +70,9 @@ namespace NoteTaker.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Notes");
+
+            migrationBuilder.DropTable(
+                name: "Settings");
 
             migrationBuilder.DropTable(
                 name: "Notebooks");

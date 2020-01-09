@@ -13,8 +13,8 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Switch x:Name="swtDarkMode" Grid.Column="0"/>
-                <Label Text="Dark mode" Grid.Column="1"/>
+                <Switch x:Name="swtDarkMode" Grid.Column="0" />
+                <Label Text="Dark mode" Grid.Column="1" />
             </Grid>
         </StackLayout>
     </ContentPage.Content>

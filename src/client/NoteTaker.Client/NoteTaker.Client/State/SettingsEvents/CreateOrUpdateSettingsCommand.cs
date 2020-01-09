@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using NoteTaker.Domain.Entities;
+﻿using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Client.State.SettingsEvents
 {

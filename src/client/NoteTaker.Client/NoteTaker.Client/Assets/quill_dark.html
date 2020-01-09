@@ -15,7 +15,16 @@
         body {
             margin: 0;
             padding: 0;
-            background-color: #fff;
+            background-color: #404052;
+            color: #e9e9e9;
+        }
+
+        .ql-snow .ql-stroke {
+            stroke: #f3f3f3;
+        }
+
+        .ql-snow .ql-fill {
+            fill: #f3f3f3;
         }
 
         button,
@@ -26,21 +35,21 @@
             height: 28px !important;
             margin: 3px 4px 3px 4px !important;
             padding: 0 !important;
-            color: #333;
+            color: #f3f3f3 !important;
         }
 
             button :hover,
             .ql-color :hover,
             .ql-background :hover,
             .ql-align :hover {
-                background-color: rgb(219, 219, 224);
+                background-color: #292933;
             }
 
             button :active,
             .ql-color :active,
             .ql-background :active,
             .ql-align :active {
-                background-color: rgb(219, 219, 224);
+                background-color: #292933;
             }
 
         #toolbar-container {
@@ -48,10 +57,16 @@
             top: 0;
             left: 0;
             right: 0;
-            background-color: #f3f3f8;
+            background-color: #303042;
+            color: #f3f3f3;
+            border: 1px solid #333;
             z-index: 999999;
             padding: 2px;
         }
+
+            #toolbar-container span {
+                color: #f3f3f3;
+            }
 
         #editor-container {
             margin-top: 40px;
@@ -155,5 +170,4 @@
         document.querySelector('.ql-editor').innerHTML = "{{body}}";
     </script>
 </body>
-
 </html>

@@ -6,11 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NoteTaker.Data;
 
-namespace NoteTaker.Data.Migrations
+namespace NoteTaker.Data.Migrations.Migrations
 {
     [DbContext(typeof(NoteTakerContext))]
-    [Migration("20191229050810_Initial")]
-    partial class Initial
+    [Migration("20200109052952_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,8 @@ namespace NoteTaker.Data.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("CreatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -41,8 +41,8 @@ namespace NoteTaker.Data.Migrations
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("UpdatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("UpdatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -60,20 +60,43 @@ namespace NoteTaker.Data.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("CreatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(255);
 
-                    b.Property<DateTimeOffset>("UpdatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("UpdatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.ToTable("Notebooks");
+                });
+
+            modelBuilder.Entity("NoteTaker.Domain.Entities.Settings", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("Available")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("CreatedOn")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<bool>("DarkMode")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("UpdatedOn")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Settings");
                 });
 
             modelBuilder.Entity("NoteTaker.Domain.Entities.Note", b =>

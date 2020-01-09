@@ -1,9 +1,7 @@
 ﻿using System;
 using NoteTaker.Client.Extensions;
-using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.NotebookEvents;
-using NoteTaker.Client.State.NoteEvents;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -52,6 +50,8 @@ namespace NoteTaker.Client.Views
                 Title = _dto.Name;
                 txtNotebook.Text = _dto.Name;
             }
+
+            txtNotebook.Focus();
         }
 
         private async void TxtNotebook_TextChanged(object sender, TextChangedEventArgs e)

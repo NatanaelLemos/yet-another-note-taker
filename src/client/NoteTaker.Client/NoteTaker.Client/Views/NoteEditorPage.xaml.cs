@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using NoteTaker.Client.Extensions;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.NoteEvents;
+using NoteTaker.Client.State.SettingsEvents;
 using NoteTaker.Domain.Dtos;
+using NoteTaker.Domain.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using System.Timers;
 
 namespace NoteTaker.Client.Views
 {
@@ -48,7 +50,7 @@ namespace NoteTaker.Client.Views
             _dto = dto;
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             _eventBroker = ServiceLocator.Get<IEventBroker>();
@@ -66,7 +68,9 @@ namespace NoteTaker.Client.Views
             }
 
             var height = Application.Current.MainPage.Height;
-            _textEditor = new QuillEditor(webEditor, "NoteEditor", height - 130, _dto.Text);
+
+            var settings = await _eventBroker.Query<SettingsQuery, Settings>(new SettingsQuery());
+            _textEditor = new QuillEditor(webEditor, "NoteEditor", height - 130, _dto.Text, settings.DarkMode);
             _updateTimer.Start();
         }
 

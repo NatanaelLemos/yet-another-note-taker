@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -15,15 +13,17 @@ namespace NoteTaker.Client.Views
         private WebView _container;
         private string _title;
         private string _body;
+        private bool _darkTheme;
         private string _lastContent;
 
-        public QuillEditor(WebView container, string title = "Editor", double height = 500, string body = "")
+        public QuillEditor(WebView container, string title = "Editor", double height = 500, string body = "", bool darkTheme = false)
         {
             _container = container;
             _title = title;
             _body = string.IsNullOrEmpty(body)
                 ? string.Empty
                 : body.Replace("\\n", "<br />");
+            _darkTheme = darkTheme;
 
             _container.Source = new HtmlWebViewSource { Html = Html };
 
@@ -64,7 +64,9 @@ namespace NoteTaker.Client.Views
             get
             {
                 var assembly = Assembly.GetExecutingAssembly();
-                var resourceName = "NoteTaker.Client.Assets.quill.html";
+                var resourceName = _darkTheme
+                    ? "NoteTaker.Client.Assets.quill_dark.html"
+                    : "NoteTaker.Client.Assets.quill_light.html";
 
                 using (var stream = assembly.GetManifestResourceStream(resourceName))
                 using (var reader = new StreamReader(stream))

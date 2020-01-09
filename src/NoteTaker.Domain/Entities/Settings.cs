@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NoteTaker.Domain.Entities
+﻿namespace NoteTaker.Domain.Entities
 {
     public class Settings : EntityBase
     {

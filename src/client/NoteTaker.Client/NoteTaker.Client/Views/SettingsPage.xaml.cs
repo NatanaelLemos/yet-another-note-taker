@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using NoteTaker.Client.Extensions;
+﻿using NoteTaker.Client.Extensions;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.SettingsEvents;
 using NoteTaker.Domain.Entities;

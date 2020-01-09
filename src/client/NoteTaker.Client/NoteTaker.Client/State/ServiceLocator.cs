@@ -1,5 +1,4 @@
-﻿using System;
-using SimpleInjector;
+﻿using SimpleInjector;
 
 namespace NoteTaker.Client.State
 {

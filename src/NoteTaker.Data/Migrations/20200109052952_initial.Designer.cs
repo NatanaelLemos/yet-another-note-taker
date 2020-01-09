@@ -9,8 +9,8 @@ using NoteTaker.Data;
 namespace NoteTaker.Data.Migrations.Migrations
 {
     [DbContext(typeof(NoteTakerContext))]
-    [Migration("20200108075019_SettingsTable")]
-    partial class SettingsTable
+    [Migration("20200109052952_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,8 @@ namespace NoteTaker.Data.Migrations.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("CreatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -41,8 +41,8 @@ namespace NoteTaker.Data.Migrations.Migrations
                     b.Property<string>("Text")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTimeOffset>("UpdatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("UpdatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -60,16 +60,16 @@ namespace NoteTaker.Data.Migrations.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("CreatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT")
                         .HasMaxLength(255);
 
-                    b.Property<DateTimeOffset>("UpdatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("UpdatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
@@ -85,14 +85,14 @@ namespace NoteTaker.Data.Migrations.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("CreatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("CreatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.Property<bool>("DarkMode")
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTimeOffset>("UpdatedOn")
-                        .HasColumnType("TEXT");
+                    b.Property<long>("UpdatedOn")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
