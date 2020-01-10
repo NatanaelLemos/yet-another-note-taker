@@ -9,27 +9,14 @@ namespace NoteTaker.Client.State
         public static void Register<TService>()
             where TService : class
         {
-            _container.Register<TService>();
-        }
-
-        public static void Register<TService>(Lifestyle lifestyle)
-            where TService : class
-        {
-            _container.Register<TService>(lifestyle);
+            _container.Register<TService>(Lifestyle.Singleton);
         }
 
         public static void Register<TService, TImplementation>()
             where TService : class
             where TImplementation : class, TService
         {
-            _container.Register<TService, TImplementation>();
-        }
-
-        public static void Register<TService, TImplementation>(Lifestyle lifestyle)
-            where TService : class
-            where TImplementation : class, TService
-        {
-            _container.Register<TService, TImplementation>(lifestyle);
+            _container.Register<TService, TImplementation>(Lifestyle.Singleton);
         }
 
         public static TService Get<TService>() where TService : class

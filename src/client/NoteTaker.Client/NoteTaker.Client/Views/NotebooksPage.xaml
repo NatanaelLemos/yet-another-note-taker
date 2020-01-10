@@ -31,8 +31,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Text="New notebook" Grid.Column="0" Clicked="btnNewNotebook_OnClick" StyleClass="btnNewNotebook" />
-            <Button Text="⚙" Grid.Column="1" StyleClass="btnSettings" Clicked="btnSettings_OnClick" />
+            <Button Text="New notebook" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Clicked="btnNewNotebook_OnClick" />
+            <Button Text="Sync" Grid.Row="1" Grid.Column="0" Clicked="btnSync_OnClick" />
+            <Button Text="⚙" Grid.Row="1"  Grid.Column="1" StyleClass="btnSettings" Clicked="btnSettings_OnClick" />
         </Grid>
     </StackLayout>
 </ContentPage>

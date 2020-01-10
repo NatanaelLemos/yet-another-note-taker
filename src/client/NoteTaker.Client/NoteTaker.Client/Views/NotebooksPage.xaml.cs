@@ -124,6 +124,11 @@ namespace NoteTaker.Client.Views
             }
         }
 
+        private void btnSync_OnClick(object sender, EventArgs e)
+        {
+            PageNavigator.NavigateTo<SyncPage>();
+        }
+
         private void btnSettings_OnClick(object sender, EventArgs e)
         {
             PageNavigator.NavigateTo<SettingsPage>();
