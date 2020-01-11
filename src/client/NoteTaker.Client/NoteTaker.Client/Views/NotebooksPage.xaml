@@ -7,7 +7,7 @@
              x:Class="NoteTaker.Client.Views.NotebooksPage"
              Title="Notebooks">
     <StackLayout VerticalOptions="FillAndExpand">
-        <Button Text="All notes" Clicked="btnAllNotes_OnClick" StyleClass="btnAllNotes" />
+        <Button Text="All notes" Clicked="btnAllNotes_OnClick" StyleClass="btnAllNotes" HeightRequest="50" />
         <ListView x:Name="lsvNotebooks">
             <ListView.ItemTemplate>
                 <DataTemplate>
@@ -31,9 +31,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <Button Text="New notebook" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Clicked="btnNewNotebook_OnClick" />
-            <Button Text="Sync" Grid.Row="1" Grid.Column="0" Clicked="btnSync_OnClick" />
-            <Button Text="⚙" Grid.Row="1"  Grid.Column="1" StyleClass="btnSettings" Clicked="btnSettings_OnClick" />
+            <Button Text="New notebook" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Clicked="btnNewNotebook_OnClick" HeightRequest="50" />
+            <Button Text="Sync" Grid.Row="1" Grid.Column="0" Clicked="btnSync_OnClick" HeightRequest="50" />
+            <Button Text="⚙" Grid.Row="1"  Grid.Column="1" StyleClass="btnSettings" Clicked="btnSettings_OnClick" HeightRequest="50" />
         </Grid>
     </StackLayout>
 </ContentPage>

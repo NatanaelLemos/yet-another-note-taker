@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -11,11 +12,21 @@ namespace NoteTaker.Client.Views
     {
         public static void SetLightTheme(App app)
         {
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                return;
+            }
+
             SetTheme(app, "NoteTaker.Client.Assets.styles_light.css");
         }
 
         public static void SetDarkTheme(App app)
         {
+            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            {
+                return;
+            }
+
             SetTheme(app, "NoteTaker.Client.Assets.styles_dark.css");
         }
 

@@ -18,7 +18,10 @@ namespace NoteTaker.Client.Views
             InitializeComponent();
             boxSync.SetDynamicWidth();
 
-            this.SizeChanged += SyncPage_SizeChanged;
+            if (Environment.OSVersion.Platform != PlatformID.Unix)
+            {
+                this.SizeChanged += SyncPage_SizeChanged;
+            }
         }
 
         protected override void OnAppearing()

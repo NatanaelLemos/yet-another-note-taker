@@ -64,7 +64,10 @@ namespace NoteTaker.Client.Views
             }
             else
             {
-                webEditor.Focus();
+                if (Environment.OSVersion.Platform != PlatformID.Unix)
+                {
+                    webEditor.Focus();
+                }
             }
 
             var height = Application.Current.MainPage.Height;

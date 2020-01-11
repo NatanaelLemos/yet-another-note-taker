@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -14,6 +13,9 @@ namespace NoteTaker.Client.Services
     {
         private readonly IEventBroker _eventBroker;
 
+        private const int _port = 6660;
+        private Socket _socket;
+
         public SocketAppService(IEventBroker eventBroker)
             : base(500)
         {
@@ -23,33 +25,47 @@ namespace NoteTaker.Client.Services
         public void StartListeners()
         {
             _eventBroker.Listen<StartListeningCommand>(StartListeningCommandHandler);
+            _eventBroker.Listen<StopListeningCommand>(StopListeningCommandHandler);
+        }
+
+        private Task StopListeningCommandHandler(StopListeningCommand command)
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                if (_socket == null)
+                {
+                    return;
+                }
+
+                _socket.Disconnect(false);
+                _socket.Dispose();
+                _socket = null;
+            });
         }
 
         private Task StartListeningCommandHandler(StartListeningCommand command)
         {
             return Task.Factory.StartNew(async () =>
             {
-                var port = 6660;
                 var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
                 var ipAddress = ipHostInfo.AddressList.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork);
-                var localEndPoint = new IPEndPoint(ipAddress, port);
+                var localEndPoint = new IPEndPoint(ipAddress, _port);
 
                 // Create a TCP/IP socket.
-                var listener = new Socket(ipAddress.AddressFamily,
-                    SocketType.Stream, ProtocolType.Tcp);
+                _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
                 // Bind the socket to the local endpoint and listen for incoming connections.
                 try
                 {
-                    listener.Bind(localEndPoint);
-                    listener.Listen(100);
+                    _socket.Bind(localEndPoint);
+                    _socket.Listen(100);
 
                     while (true)
                     {
-                        await _eventBroker.Command(new SocketStartedListeningCommand(ipAddress.ToString(), port));
-                        var handler = listener.Accept();
+                        await _eventBroker.Command(new SocketStartedListeningCommand(ipAddress.ToString(), _port));
+                        var handler = _socket.Accept();
                         var data = "";
-                        byte[] bytes = new Byte[1024];
+                        byte[] bytes = new byte[1024];
 
                         // An incoming connection needs to be processed.
                         while (true)

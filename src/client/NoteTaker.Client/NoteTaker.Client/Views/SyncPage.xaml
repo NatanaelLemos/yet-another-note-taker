@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="NoteTaker.Client.Views.SyncPage">
+             x:Class="NoteTaker.Client.Views.SyncPage"
+             Title="Sync">
     <ContentPage.Content>
         <StackLayout x:Name="boxSync">
             <Button Text="Start listening" Clicked="btnStartListening_OnClick"/>
