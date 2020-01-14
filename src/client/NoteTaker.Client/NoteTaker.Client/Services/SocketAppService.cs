@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -6,15 +7,18 @@ using System.Text;
 using System.Threading.Tasks;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.SocketEvents;
+using Sockets.Plugin;
+using Sockets.Plugin.Abstractions;
 
 namespace NoteTaker.Client.Services
 {
+    //https://github.com/rdavisau/sockets-for-pcl
     public class SocketAppService : TimedAppServiceBase, ISocketAppService
     {
         private readonly IEventBroker _eventBroker;
 
-        private const int _port = 6660;
-        private Socket _socket;
+        private const int _listenPort = 6660;
+        private TcpSocketListener _listener;
 
         public SocketAppService(IEventBroker eventBroker)
             : base(500)
@@ -28,76 +32,71 @@ namespace NoteTaker.Client.Services
             _eventBroker.Listen<StopListeningCommand>(StopListeningCommandHandler);
         }
 
-        private Task StopListeningCommandHandler(StopListeningCommand command)
+        private async Task StartListeningCommandHandler(StartListeningCommand command)
         {
-            return Task.Factory.StartNew(() =>
+            if (_listener != null)
             {
-                if (_socket == null)
-                {
-                    return;
-                }
+                return;
+            }
 
-                _socket.Disconnect(false);
-                _socket.Dispose();
-                _socket = null;
-            });
+            _listener = new TcpSocketListener();
+            _listener.ConnectionReceived += Listener_ConnectionReceived;
+
+            var ipAddress = GetIpAddress();
+            await _listener.StartListeningAsync(_listenPort);
+            await _eventBroker.Command(new SocketStartedListeningCommand(ipAddress, _listenPort));
         }
 
-        private Task StartListeningCommandHandler(StartListeningCommand command)
+        private async Task StopListeningCommandHandler(StopListeningCommand command)
         {
-            return Task.Factory.StartNew(async () =>
+            if (_listener == null)
             {
-                var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-                var ipAddress = ipHostInfo.AddressList.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork);
-                var localEndPoint = new IPEndPoint(ipAddress, _port);
+                return;
+            }
 
-                // Create a TCP/IP socket.
-                _socket = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+            await _listener.StopListeningAsync();
+            _listener.Dispose();
+            _listener = null;
 
-                // Bind the socket to the local endpoint and listen for incoming connections.
-                try
+            var ipAddress = GetIpAddress();
+            await _eventBroker.Command(new SocketStoppedListeningCommand(ipAddress, _listenPort));
+        }
+
+        private async void Listener_ConnectionReceived(object sender, TcpSocketListenerConnectEventArgs e)
+        {
+            await _eventBroker.Command(new ClientConnectedCommand(e.SocketClient.RemoteAddress, e.SocketClient.RemotePort));
+
+            var bytesRead = -1;
+            var read = new LinkedList<byte>();
+
+            while (bytesRead != 0 && _listener != null)
+            {
+                var buffer = new byte[1];
+                bytesRead = await e.SocketClient.ReadStream.ReadAsync(buffer, 0, 1);
+
+                if (bytesRead <= 0)
                 {
-                    _socket.Bind(localEndPoint);
-                    _socket.Listen(100);
-
-                    while (true)
-                    {
-                        await _eventBroker.Command(new SocketStartedListeningCommand(ipAddress.ToString(), _port));
-                        var handler = _socket.Accept();
-                        var data = "";
-                        byte[] bytes = new byte[1024];
-
-                        // An incoming connection needs to be processed.
-                        while (true)
-                        {
-                            int bytesRec = handler.Receive(bytes);
-                            data += Encoding.ASCII.GetString(bytes, 0, bytesRec);
-                            if (data.IndexOf("<EOF>") > -1)
-                            {
-                                break;
-                            }
-                        }
-
-                        // Show the data on the console.
-                        Console.WriteLine("Text received : {0}", data);
-
-                        // Echo the data back to the client.
-                        byte[] msg = Encoding.ASCII.GetBytes(data);
-
-                        handler.Send(msg);
-                        handler.Shutdown(SocketShutdown.Both);
-                        handler.Close();
-                    }
-
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine(e.ToString());
+                    continue;
                 }
 
-                Console.WriteLine("\nPress ENTER to continue...");
-                Console.Read();
-            });
+                if (buffer[0] == '\0')
+                {
+                    var message = Encoding.UTF8.GetString(read.ToArray());
+                    await _eventBroker.Command(new SocketMessageReceivedCommand(message));
+                    read.Clear();
+                }
+                else
+                {
+                    read.AddLast(buffer[0]);
+                }
+            }
+        }
+
+        private string GetIpAddress()
+        {
+            var ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
+            var ipAddress = ipHostInfo.AddressList.FirstOrDefault(a => a.AddressFamily == AddressFamily.InterNetwork);
+            return ipAddress.ToString();
         }
     }
 }

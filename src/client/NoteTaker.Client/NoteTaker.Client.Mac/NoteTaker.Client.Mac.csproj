@@ -158,6 +158,12 @@
     <Reference Include="Microsoft.EntityFrameworkCore.Sqlite">
       <HintPath>..\..\..\..\packages\Microsoft.EntityFrameworkCore.Sqlite.Core.3.1.0\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Sqlite.dll</HintPath>
     </Reference>
+    <Reference Include="Sockets.Plugin.Abstractions">
+      <HintPath>..\..\..\..\packages\rda.SocketsForPCL.2.0.2\lib\Xamarin.Mac\Sockets.Plugin.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="Sockets.Plugin">
+      <HintPath>..\..\..\..\packages\rda.SocketsForPCL.2.0.2\lib\Xamarin.Mac\Sockets.Plugin.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />

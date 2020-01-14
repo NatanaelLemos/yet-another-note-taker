@@ -39,6 +39,15 @@ namespace NoteTaker.Client.Views
                 return Task.CompletedTask;
             });
 
+            _eventBroker.Listen<SocketStoppedListeningCommand>(c =>
+            {
+                Device.BeginInvokeOnMainThread(() =>
+                {
+                    lblStatus.Text = $"Server stopped on {c.IP} : {c.Port}\n{lblStatus.Text}";
+                });
+                return Task.CompletedTask;
+            });
+
             _eventBroker.Listen<ClientConnectedCommand>(c =>
             {
                 Device.BeginInvokeOnMainThread(() =>
