@@ -12,7 +12,7 @@ namespace NoteTaker.Client.Views
     {
         public static void SetLightTheme(App app)
         {
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX)
             {
                 return;
             }
@@ -22,7 +22,7 @@ namespace NoteTaker.Client.Views
 
         public static void SetDarkTheme(App app)
         {
-            if (Environment.OSVersion.Platform == PlatformID.Unix)
+            if (Environment.OSVersion.Platform == PlatformID.MacOSX)
             {
                 return;
             }

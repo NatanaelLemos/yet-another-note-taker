@@ -29,12 +29,6 @@ namespace NoteTaker.Client
             await LoadTheme();
         }
 
-        protected override void OnSleep()
-        {
-            ServiceLocator.Clear();
-            PageNavigator.ClearHistory();
-        }
-
         protected override async void OnResume()
         {
             RegisterServices();

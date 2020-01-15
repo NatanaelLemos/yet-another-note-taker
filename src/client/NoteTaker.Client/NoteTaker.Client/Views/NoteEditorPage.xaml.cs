@@ -64,7 +64,7 @@ namespace NoteTaker.Client.Views
             }
             else
             {
-                if (Environment.OSVersion.Platform != PlatformID.Unix)
+                if (Environment.OSVersion.Platform != PlatformID.MacOSX)
                 {
                     webEditor.Focus();
                 }

@@ -4,30 +4,39 @@ namespace NoteTaker.Client.State
 {
     public static class ServiceLocator
     {
-        private static Container _container = new Container();
+        private static Container _container;
 
         public static void Register<TService>()
             where TService : class
         {
-            _container.Register<TService>(Lifestyle.Singleton);
+            GetContainer().Register<TService>(Lifestyle.Singleton);
         }
 
         public static void Register<TService, TImplementation>()
             where TService : class
             where TImplementation : class, TService
         {
-            _container.Register<TService, TImplementation>(Lifestyle.Singleton);
+            GetContainer().Register<TService, TImplementation>(Lifestyle.Singleton);
         }
 
         public static TService Get<TService>() where TService : class
         {
-            return _container.GetInstance<TService>();
+            return GetContainer().GetInstance<TService>();
         }
 
         public static void Clear()
         {
-            _container.Dispose();
-            _container = new Container();
+        }
+
+        private static Container GetContainer()
+        {
+            if (_container == null)
+            {
+                _container = new Container();
+                //_container.Options.AllowOverridingRegistrations = true;
+            }
+
+            return _container;
         }
     }
 }
