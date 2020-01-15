@@ -7,29 +7,32 @@ using System.Text;
 using System.Threading.Tasks;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.SocketEvents;
+using NoteTaker.Domain.Services;
 using Sockets.Plugin;
 using Sockets.Plugin.Abstractions;
 
 namespace NoteTaker.Client.Services
 {
     //https://github.com/rdavisau/sockets-for-pcl
-    public class SocketAppService : TimedAppServiceBase, ISocketAppService
+    public class SocketListenerAppService : ISocketListenerAppService
     {
         private readonly IEventBroker _eventBroker;
+        private readonly ISyncService _syncService;
 
         private const int _listenPort = 6660;
         private TcpSocketListener _listener;
 
-        public SocketAppService(IEventBroker eventBroker)
-            : base(500)
+        public SocketListenerAppService(IEventBroker eventBroker, ISyncService syncService)
         {
             _eventBroker = eventBroker;
+            _syncService = syncService;
         }
 
         public void StartListeners()
         {
             _eventBroker.Listen<StartListeningCommand>(StartListeningCommandHandler);
             _eventBroker.Listen<StopListeningCommand>(StopListeningCommandHandler);
+            _eventBroker.Listen<SocketMessageReceivedCommand>(SocketMessageReceivedCommandHandler);
         }
 
         private async Task StartListeningCommandHandler(StartListeningCommand command)
@@ -90,6 +93,11 @@ namespace NoteTaker.Client.Services
                     read.AddLast(buffer[0]);
                 }
             }
+        }
+
+        private Task SocketMessageReceivedCommandHandler(SocketMessageReceivedCommand command)
+        {
+            return _syncService.UpdateMessages(command.Message);
         }
 
         private string GetIpAddress()

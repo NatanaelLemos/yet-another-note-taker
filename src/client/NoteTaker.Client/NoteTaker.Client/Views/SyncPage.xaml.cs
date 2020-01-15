@@ -77,9 +77,9 @@ namespace NoteTaker.Client.Views
             await _eventBroker.Command(new StartListeningCommand());
         }
 
-        private void btnSendData_OnClick(object sender, EventArgs e)
+        private async void btnSendData_OnClick(object sender, EventArgs e)
         {
-
+            await _eventBroker.Command(new SendDataToSocketCommand(txtServer.Text, Convert.ToInt32(txtPort.Text)));
         }
     }
 }

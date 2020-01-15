@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NoteTaker.Client.Services
 {
-    public interface ISocketAppService
+    public interface ISocketSenderAppService
     {
         void StartListeners();
     }
