@@ -1,56 +1,65 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using NoteTaker.Domain.Data;
+using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Domain.Services
 {
     public class SyncService : ISyncService
     {
         private readonly INotebooksRepository _notebooksRepository;
-        private readonly INotesRepository _notesRepository;
 
-        public SyncService(INotebooksRepository notebooksRepository, INotesRepository notesRepository)
+        public SyncService(INotebooksRepository notebooksRepository)
         {
             _notebooksRepository = notebooksRepository;
-            _notesRepository = notesRepository;
         }
 
         public async Task<string> GetMessages()
         {
-            var notebooksTask = _notebooksRepository.GetAll();
-            var notesTask = _notesRepository.GetAll();
-
-            await Task.WhenAll(notebooksTask, notesTask);
-            var (notebooks, notes) = (await notebooksTask, await notesTask);
-
-            var messages = new StringBuilder();
-            messages.Append("\n****notebook****\n");
+            //Remove circular reference
+            var notebooks = await _notebooksRepository.GetAll();
+            var cleanedNotebooks = new List<Notebook>();
 
             foreach (var notebook in notebooks)
             {
-                notebook.Notes = null;
+                var cleanedNotebook = new Notebook
+                {
+                    Available = notebook.Available,
+                    CreatedOn = notebook.CreatedOn,
+                    Id = notebook.Id,
+                    Name = notebook.Name,
+                    UpdatedOn = notebook.UpdatedOn
+                };
 
-                messages.Append(JsonConvert.SerializeObject(notebook));
-                messages.Append("\n****notebook****\n");
+                foreach (var note in notebook.Notes)
+                {
+                    cleanedNotebook.Notes.Add(new Note
+                    {
+                        Available = note.Available,
+                        CreatedOn = note.CreatedOn,
+                        Id = note.Id,
+                        Name = note.Name,
+                        NotebookId = note.NotebookId,
+                        Text = note.Text,
+                        UpdatedOn = note.UpdatedOn
+                    });
+                }
+
+                cleanedNotebooks.Add(cleanedNotebook);
             }
 
-            messages.Append("****note****\n");
-
-            foreach (var note in notes)
-            {
-                note.Notebook = null;
-
-                messages.Append(JsonConvert.SerializeObject(note));
-                messages.Append("\n****note****\n");
-            }
-
-            return messages.ToString();
+            return JsonConvert.SerializeObject(cleanedNotebooks);
         }
 
         public Task UpdateMessages(string message)
         {
-            var lines = message.Split("\n****notebook****\n".ToCharArray());
+            message = message.Trim();
+
+            var notebooks = JsonConvert.DeserializeObject<List<Notebook>>(message);
 
             return Task.CompletedTask;
         }
