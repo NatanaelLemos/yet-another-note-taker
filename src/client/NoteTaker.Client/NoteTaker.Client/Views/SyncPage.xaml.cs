@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using NoteTaker.Client.Extensions;
+using NoteTaker.Client.Helpers;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.SocketEvents;
 using Xamarin.Forms;
@@ -18,7 +19,7 @@ namespace NoteTaker.Client.Views
             InitializeComponent();
             boxSync.SetDynamicWidth();
 
-            if (Environment.OSVersion.Platform != PlatformID.MacOSX)
+            if (EnvironmentHelpers.EnvironmentName != EnvironmentName.Mac)
             {
                 this.SizeChanged += SyncPage_SizeChanged;
             }
