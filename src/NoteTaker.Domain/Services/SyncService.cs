@@ -29,6 +29,8 @@ namespace NoteTaker.Domain.Services
 
             foreach (var notebook in notebooks)
             {
+                notebook.Notes = null;
+
                 messages.Append(JsonConvert.SerializeObject(notebook));
                 messages.Append("\n****notebook****\n");
             }
@@ -37,6 +39,8 @@ namespace NoteTaker.Domain.Services
 
             foreach (var note in notes)
             {
+                note.Notebook = null;
+
                 messages.Append(JsonConvert.SerializeObject(note));
                 messages.Append("\n****note****\n");
             }
