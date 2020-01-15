@@ -3,6 +3,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 using NoteTaker.Client.Extensions;
+using NoteTaker.Client.Helpers;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.NoteEvents;
 using NoteTaker.Client.State.SettingsEvents;
@@ -64,7 +65,7 @@ namespace NoteTaker.Client.Views
             }
             else
             {
-                if (Environment.OSVersion.Platform != PlatformID.MacOSX)
+                if (EnvironmentHelpers.EnvironmentName != EnvironmentName.Mac)
                 {
                     webEditor.Focus();
                 }

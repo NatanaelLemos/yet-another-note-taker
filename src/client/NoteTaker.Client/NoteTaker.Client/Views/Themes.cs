@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using NoteTaker.Client.Helpers;
 using NoteTaker.Client.State;
 using Xamarin.Forms.StyleSheets;
 
@@ -12,7 +12,7 @@ namespace NoteTaker.Client.Views
     {
         public static void SetLightTheme(App app)
         {
-            if (Environment.OSVersion.Platform == PlatformID.MacOSX)
+            if (EnvironmentHelpers.EnvironmentName == EnvironmentName.Mac)
             {
                 return;
             }
@@ -22,7 +22,7 @@ namespace NoteTaker.Client.Views
 
         public static void SetDarkTheme(App app)
         {
-            if (Environment.OSVersion.Platform == PlatformID.MacOSX)
+            if (EnvironmentHelpers.EnvironmentName == EnvironmentName.Mac)
             {
                 return;
             }

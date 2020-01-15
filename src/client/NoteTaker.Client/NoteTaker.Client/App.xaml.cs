@@ -10,7 +10,6 @@ using NoteTaker.Data.Repositories;
 using NoteTaker.Domain.Data;
 using NoteTaker.Domain.Entities;
 using NoteTaker.Domain.Services;
-using SimpleInjector;
 using Xamarin.Forms;
 
 namespace NoteTaker.Client
@@ -25,15 +24,27 @@ namespace NoteTaker.Client
 
         protected override async void OnStart()
         {
+            base.OnStart();
+
             RegisterServices();
             await LoadTheme();
         }
 
-        protected override async void OnResume()
-        {
-            RegisterServices();
-            await LoadTheme();
-        }
+        //protected override void OnSleep()
+        //{
+        //    base.OnSleep();
+
+        //    ServiceLocator.Clear();
+        //    PageNavigator.ClearHistory();
+        //}
+
+        //protected override async void OnResume()
+        //{
+        //    base.OnResume();
+
+        //    RegisterServices();
+        //    await LoadTheme();
+        //}
 
         private void RegisterServices()
         {

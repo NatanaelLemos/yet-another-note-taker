@@ -52,7 +52,6 @@ namespace NoteTaker.Client.Views
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-
                 });
                 return Task.CompletedTask;
             });

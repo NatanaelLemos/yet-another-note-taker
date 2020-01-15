@@ -1,5 +1,4 @@
-﻿using System;
-namespace NoteTaker.Client.State.SocketEvents
+﻿namespace NoteTaker.Client.State.SocketEvents
 {
     public class SendDataToSocketCommand
     {
