@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using NoteTaker.Client.Services.Socket;
 using NoteTaker.Client.State;
 using NoteTaker.Client.State.SocketEvents;
 using NoteTaker.Domain.Services;
@@ -13,11 +14,13 @@ namespace NoteTaker.Client.Services
     {
         private readonly IEventBroker _eventBroker;
         private readonly ISyncService _syncService;
+        private readonly ISocketMessenger _socketMessenger;
 
-        public SocketSenderAppService(IEventBroker eventBroker, ISyncService syncService)
+        public SocketSenderAppService(IEventBroker eventBroker, ISyncService syncService, ISocketMessenger socketMessenger)
         {
             _eventBroker = eventBroker;
             _syncService = syncService;
+            _socketMessenger = socketMessenger;
         }
 
         public void StartListeners()
@@ -31,30 +34,8 @@ namespace NoteTaker.Client.Services
             {
                 await client.ConnectAsync(command.IP, command.Port);
 
-                var fullMessage = await _syncService.GetMessages();
-                var messageParts = new LinkedList<StringBuilder>();
-                messageParts.AddLast(new StringBuilder());
-
-                foreach (var c in fullMessage)
-                {
-                    messageParts.Last.Value.Append(c);
-
-                    if (messageParts.Last.Value.Length > 500)
-                    {
-                        messageParts.AddLast(new StringBuilder());
-                    }
-                }
-
-                foreach (var messagePart in messageParts)
-                {
-                    var bytes = Encoding.UTF8.GetBytes(messagePart.ToString());
-                    await client.WriteStream.WriteAsync(bytes, 0, bytes.Length);
-                }
-
-                var ender = Encoding.UTF8.GetBytes("\0");
-                await client.WriteStream.WriteAsync(ender, 0, ender.Length);
-
-                await client.WriteStream.FlushAsync();
+                await _socketMessenger.SendMessage(client, new SocketMessage(SocketHeaders.RequestLastMessage));
+                var response = await _socketMessenger.GetMessage(client);
                 await client.DisconnectAsync();
             }
         }

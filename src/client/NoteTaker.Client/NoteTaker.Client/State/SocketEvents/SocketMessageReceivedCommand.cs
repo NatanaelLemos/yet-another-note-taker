@@ -1,12 +1,14 @@
-﻿namespace NoteTaker.Client.State.SocketEvents
+﻿using NoteTaker.Client.Services.Socket;
+
+namespace NoteTaker.Client.State.SocketEvents
 {
     public class SocketMessageReceivedCommand
     {
-        public SocketMessageReceivedCommand(string message)
+        public SocketMessageReceivedCommand(SocketMessage message)
         {
             Message = message;
         }
 
-        public string Message { get; }
+        public SocketMessage Message { get; }
     }
 }
