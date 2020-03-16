@@ -35,13 +35,13 @@ namespace NoteTaker.Data
         }
 
         public override Task<int> SaveChangesAsync(
-            bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+            bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             UpdateEntities();
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
             UpdateEntities();
             return base.SaveChangesAsync(cancellationToken);

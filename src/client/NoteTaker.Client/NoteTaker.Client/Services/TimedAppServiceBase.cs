@@ -29,11 +29,13 @@ namespace NoteTaker.Client.Services
 
             try
             {
-                while (_taskQueue.Count() > 0)
+                if (!_taskQueue.Any())
                 {
-                    var nextInLine = _taskQueue.Dequeue();
-                    await nextInLine;
+                    return;
                 }
+
+                var nextInLine = _taskQueue.Dequeue();
+                await nextInLine;
             }
             finally
             {

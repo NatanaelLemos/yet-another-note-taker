@@ -66,10 +66,12 @@ namespace NoteTaker.Client
             ServiceLocator.Register<ISettingsService, SettingsService>();
             ServiceLocator.Register<ISettingsAppService, SettingsAppService>();
 
-            ServiceLocator.Register<ISyncService, SyncService>();
+            ServiceLocator.Register<ISyncAppService, SyncAppService>();
+
             ServiceLocator.Get<INotebooksAppService>().StartListeners();
             ServiceLocator.Get<INotesAppService>().StartListeners();
             ServiceLocator.Get<ISettingsAppService>().StartListeners();
+            ServiceLocator.Get<ISyncAppService>().StartListeners();
         }
 
         private async Task LoadTheme()
