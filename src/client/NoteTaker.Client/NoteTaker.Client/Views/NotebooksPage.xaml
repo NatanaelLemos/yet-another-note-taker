@@ -32,7 +32,6 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <Button Text="New notebook" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Clicked="btnNewNotebook_OnClick" HeightRequest="50" />
-            <Button Text="Sync" Grid.Row="1" Grid.Column="0" Clicked="btnSync_OnClick" HeightRequest="50" />
             <Button Text="⚙" Grid.Row="1"  Grid.Column="1" StyleClass="btnSettings" Clicked="btnSettings_OnClick" HeightRequest="50" />
         </Grid>
     </StackLayout>
