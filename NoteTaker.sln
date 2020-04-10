@@ -32,11 +32,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoteTaker.Client", "src\cli
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoteTaker.Data", "src\NoteTaker.Data\NoteTaker.Data.csproj", "{A6E663A3-E270-4A01-9BC5-FA8DB8176634}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteTaker.Data.Migrations", "src\NoteTaker.Data.MigrationsGenerator\NoteTaker.Data.Migrations.csproj", "{F4B0D32D-5EF2-44CF-A50F-9FE8FD1E060D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoteTaker.Data.Migrations", "src\NoteTaker.Data.MigrationsGenerator\NoteTaker.Data.Migrations.csproj", "{F4B0D32D-5EF2-44CF-A50F-9FE8FD1E060D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteTaker.Client.Mac", "src\client\NoteTaker.Client\NoteTaker.Client.Mac\NoteTaker.Client.Mac.csproj", "{2DA47331-7A18-4790-B75C-986E628B94D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NoteTaker.Client.UnitTests", "tests\NoteTaker.Client.UnitTests\NoteTaker.Client.UnitTests.csproj", "{6F557F40-8334-46B6-A776-FEF6A36B94F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoteTaker.Client.UnitTests", "tests\NoteTaker.Client.UnitTests\NoteTaker.Client.UnitTests.csproj", "{6F557F40-8334-46B6-A776-FEF6A36B94F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

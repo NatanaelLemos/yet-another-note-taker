@@ -41,24 +41,17 @@ namespace NoteTaker.Client.State
 
             var key = GetKey<TEvent, TResult>();
 
-            foreach (var callback in _callbacks)
+            if (!_callbacks.TryGetValue(key, out var listeners))
             {
-                if (_isDisposed)
-                {
-                    return default;
-                }
+                return default;
+            }
 
-                if (callback.Key != key)
-                {
-                    continue;
-                }
 
-                foreach (var listener in callback.Value)
+            foreach (var listener in listeners)
+            {
+                if ((!_isDisposed) && (listener is Func<TEvent, Task<TResult>> func))
                 {
-                    if (listener is Func<TEvent, Task<TResult>> func)
-                    {
-                        return func(query);
-                    }
+                    return func(query);
                 }
             }
 
@@ -75,24 +68,16 @@ namespace NoteTaker.Client.State
             var key = GetKey<TEvent>();
             var tasks = new List<Task>();
 
-            foreach (var callback in _callbacks)
+            if (!_callbacks.TryGetValue(key, out var listeners))
             {
-                if (_isDisposed)
-                {
-                    return Task.CompletedTask;
-                }
+                return Task.CompletedTask;
+            }
 
-                if (callback.Key != key)
+            foreach (var listener in listeners)
+            {
+                if ((!_isDisposed) && (listener is Func<TEvent, Task> task))
                 {
-                    continue;
-                }
-
-                foreach (var listener in callback.Value)
-                {
-                    if (listener is Func<TEvent, Task> task)
-                    {
-                        tasks.Add(task(command));
-                    }
+                    tasks.Add(task(command));
                 }
             }
 

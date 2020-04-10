@@ -33,7 +33,6 @@ namespace NoteTaker.Client.State
             if (_container == null)
             {
                 _container = new Container();
-                //_container.Options.AllowOverridingRegistrations = true;
             }
 
             return _container;
