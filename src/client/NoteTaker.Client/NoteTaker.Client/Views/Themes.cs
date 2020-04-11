@@ -5,6 +5,7 @@ using System.Reflection;
 using NoteTaker.Client.Helpers;
 using NoteTaker.Client.State;
 using Xamarin.Forms.StyleSheets;
+using NoteTaker.Client.Navigation;
 
 namespace NoteTaker.Client.Views
 {

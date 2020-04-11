@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using NoteTaker.Client.State;
+using NoteTaker.Client.Navigation;
 using NoteTaker.Client.State.NotebookEvents;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;

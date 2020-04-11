@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
-using NoteTaker.Client.State;
+using NoteTaker.Client.Navigation;
+using NoteTaker.Client.Views;
 using Xamarin.Forms;
 
 namespace NoteTaker.Client
@@ -12,6 +13,7 @@ namespace NoteTaker.Client
             InitializeComponent();
             MasterBehavior = MasterBehavior.Popover;
             PageNavigator.AddListener(this);
+            PageNavigator.AddLoginPage<LoginPage>();
         }
 
         protected override bool OnBackButtonPressed()

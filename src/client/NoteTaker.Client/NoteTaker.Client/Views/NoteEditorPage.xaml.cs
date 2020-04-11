@@ -11,6 +11,7 @@ using NoteTaker.Domain.Dtos;
 using NoteTaker.Domain.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using NoteTaker.Client.Navigation;
 
 namespace NoteTaker.Client.Views
 {

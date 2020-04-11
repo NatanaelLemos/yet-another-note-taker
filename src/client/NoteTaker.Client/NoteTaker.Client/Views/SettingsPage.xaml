@@ -8,14 +8,8 @@
              x:Class="NoteTaker.Client.Views.SettingsPage">
     <ContentPage.Content>
         <StackLayout x:Name="boxSettings">
-            <Grid StyleClass="NotebooksGrid">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Switch x:Name="swtDarkMode" Grid.Column="0" />
-                <Label Text="Dark mode" Grid.Column="1" />
-            </Grid>
+            <Label Text="Dark mode" />
+            <Switch x:Name="swtDarkMode" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
