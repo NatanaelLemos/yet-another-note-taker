@@ -3,9 +3,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using NoteTaker.Client.Helpers;
-using NoteTaker.Client.State;
-using Xamarin.Forms.StyleSheets;
 using NoteTaker.Client.Navigation;
+using Xamarin.Forms.StyleSheets;
 
 namespace NoteTaker.Client.Views
 {

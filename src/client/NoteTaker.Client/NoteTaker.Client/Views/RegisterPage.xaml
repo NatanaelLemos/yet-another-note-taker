@@ -1,15 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage
-    x:Class="NoteTaker.Client.Views.LoginPage"
+    x:Class="NoteTaker.Client.Views.RegisterPage"
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="Login"
     mc:Ignorable="d">
     <ContentPage.Content>
         <StackLayout
-            x:Name="boxLogin"
+            x:Name="boxRegister"
             Orientation="Vertical"
             VerticalOptions="Center">
             <Frame BackgroundColor="#f3f3f8" HasShadow="False">
@@ -22,20 +21,24 @@
                         x:Name="txtPassword"
                         IsPassword="True"
                         Placeholder="Password" />
+                    <Entry
+                        x:Name="txtRepeatPassword"
+                        IsPassword="True"
+                        Placeholder="Password" />
                 </StackLayout>
             </Frame>
             <Button
                 Margin="0,30,0,0"
-                Clicked="btnLogin_OnClick"
+                Clicked="btnRegister_OnClick"
                 FontAttributes="Bold"
                 HorizontalOptions="FillAndExpand"
                 StyleClass="btnGreen"
-                Text="Login" />
+                Text="Register" />
             <Button
-                Clicked="btnRegister_OnClick"
+                Clicked="btnBackToLogin_OnClick"
                 HorizontalOptions="FillAndExpand"
                 StyleClass="btnDefault"
-                Text="Register" />
+                Text="Back to login" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

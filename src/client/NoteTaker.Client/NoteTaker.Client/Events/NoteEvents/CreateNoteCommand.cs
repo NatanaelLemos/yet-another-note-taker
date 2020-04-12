@@ -1,10 +1,10 @@
 ﻿using NoteTaker.Domain.Dtos;
 
-namespace NoteTaker.Client.State.NoteEvents
+namespace NoteTaker.Client.Events.NoteEvents
 {
-    public class UpdateNoteCommand
+    public class CreateNoteCommand
     {
-        public UpdateNoteCommand(NoteDto noteDetail)
+        public CreateNoteCommand(NoteDto noteDetail)
         {
             Dto = noteDetail;
         }

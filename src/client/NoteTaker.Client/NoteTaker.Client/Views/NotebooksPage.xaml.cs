@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using NoteTaker.Client.State;
+using NoteTaker.Client.Events;
+using NoteTaker.Client.Events.NotebookEvents;
 using NoteTaker.Client.Navigation;
-using NoteTaker.Client.State.NotebookEvents;
+using NoteTaker.Client.State;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -63,7 +64,7 @@ namespace NoteTaker.Client.Views
             _dataSource.Clear();
             var data = await _eventBroker.Query<NotebookQuery, ICollection<NotebookDto>>(new NotebookQuery());
 
-            foreach (var item in data)
+            foreach (var item in data ?? new List<NotebookDto>())
             {
                 _dataSource.Add(item);
             }

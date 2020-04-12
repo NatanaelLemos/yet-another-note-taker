@@ -1,6 +1,6 @@
 ﻿using NoteTaker.Domain.Dtos;
 
-namespace NoteTaker.Client.State.NotebookEvents
+namespace NoteTaker.Client.Events.NotebookEvents
 {
     public class UpdateNotebookCommand
     {

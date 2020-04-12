@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using NoteTaker.Client.Events;
+using NoteTaker.Client.Events.SettingsEvents;
 using NoteTaker.Client.Services;
 using NoteTaker.Client.State;
-using NoteTaker.Client.State.SettingsEvents;
 using NoteTaker.Client.Views;
 using NoteTaker.Data;
 using NoteTaker.Data.Repositories;
@@ -66,9 +67,12 @@ namespace NoteTaker.Client
             ServiceLocator.Register<ISettingsService, SettingsService>();
             ServiceLocator.Register<ISettingsAppService, SettingsAppService>();
 
+            ServiceLocator.Register<IAuthAppService, AuthAppService>();
+
             ServiceLocator.Get<INotebooksAppService>().StartListeners();
             ServiceLocator.Get<INotesAppService>().StartListeners();
             ServiceLocator.Get<ISettingsAppService>().StartListeners();
+            ServiceLocator.Get<IAuthAppService>().StartListeners();
         }
 
         private async Task LoadTheme()
@@ -93,7 +97,7 @@ namespace NoteTaker.Client
 
             var settings = await eventBroker.Query<SettingsQuery, Settings>(new SettingsQuery());
 
-            if (settings.DarkMode)
+            if (settings?.DarkMode ?? false)
             {
                 Themes.SetDarkTheme(this);
             }

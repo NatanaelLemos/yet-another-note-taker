@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using NoteTaker.Client.State.NoteEvents;
+using NoteTaker.Client.Events.NoteEvents;
 using NoteTaker.Domain.Dtos;
 
 namespace NoteTaker.Client.Services

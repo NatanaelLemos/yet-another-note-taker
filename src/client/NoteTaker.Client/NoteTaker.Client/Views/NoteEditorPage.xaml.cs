@@ -2,16 +2,17 @@
 using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
+using NoteTaker.Client.Events;
+using NoteTaker.Client.Events.NoteEvents;
+using NoteTaker.Client.Events.SettingsEvents;
 using NoteTaker.Client.Extensions;
 using NoteTaker.Client.Helpers;
+using NoteTaker.Client.Navigation;
 using NoteTaker.Client.State;
-using NoteTaker.Client.State.NoteEvents;
-using NoteTaker.Client.State.SettingsEvents;
 using NoteTaker.Domain.Dtos;
 using NoteTaker.Domain.Entities;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using NoteTaker.Client.Navigation;
 
 namespace NoteTaker.Client.Views
 {

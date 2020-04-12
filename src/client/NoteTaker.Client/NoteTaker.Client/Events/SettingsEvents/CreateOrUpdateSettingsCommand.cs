@@ -1,6 +1,6 @@
 ﻿using NoteTaker.Domain.Entities;
 
-namespace NoteTaker.Client.State.SettingsEvents
+namespace NoteTaker.Client.Events.SettingsEvents
 {
     public class CreateOrUpdateSettingsCommand
     {

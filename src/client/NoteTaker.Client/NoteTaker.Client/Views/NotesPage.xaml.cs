@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using NoteTaker.Client.Events;
+using NoteTaker.Client.Events.NoteEvents;
+using NoteTaker.Client.Navigation;
 using NoteTaker.Client.State;
-using NoteTaker.Client.State.NoteEvents;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using NoteTaker.Client.Navigation;
 
 namespace NoteTaker.Client.Views
 {

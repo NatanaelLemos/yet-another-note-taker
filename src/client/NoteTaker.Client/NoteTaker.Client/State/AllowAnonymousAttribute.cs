@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace NoteTaker.Client.Navigation
+namespace NoteTaker.Client.State
 {
     public class AllowAnonymousAttribute : Attribute
     {

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using NoteTaker.Client.State.SettingsEvents;
+using NoteTaker.Client.Events.SettingsEvents;
 using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Client.Services

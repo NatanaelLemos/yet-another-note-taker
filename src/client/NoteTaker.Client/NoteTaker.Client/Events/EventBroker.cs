@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NoteTaker.Client.State;
 
-namespace NoteTaker.Client.State
+namespace NoteTaker.Client.Events
 {
     public class EventBroker : IEventBroker
     {
@@ -36,20 +37,24 @@ namespace NoteTaker.Client.State
         {
             if (_isDisposed)
             {
-                return default;
+                return Task.FromResult(default(TResult));
+            }
+
+            if (!UserState.IsAuthenticated(typeof(TEvent)))
+            {
+                return Task.FromResult(default(TResult));
             }
 
             var key = GetKey<TEvent, TResult>();
 
             if (!_callbacks.TryGetValue(key, out var listeners))
             {
-                return default;
+                return Task.FromResult(default(TResult));
             }
-
 
             foreach (var listener in listeners)
             {
-                if ((!_isDisposed) && (listener is Func<TEvent, Task<TResult>> func))
+                if (listener is Func<TEvent, Task<TResult>> func)
                 {
                     return func(query);
                 }
@@ -65,6 +70,11 @@ namespace NoteTaker.Client.State
                 return Task.CompletedTask;
             }
 
+            if (!UserState.IsAuthenticated(typeof(TEvent)))
+            {
+                return Task.CompletedTask;
+            }
+
             var key = GetKey<TEvent>();
             var tasks = new List<Task>();
 
@@ -75,7 +85,7 @@ namespace NoteTaker.Client.State
 
             foreach (var listener in listeners)
             {
-                if ((!_isDisposed) && (listener is Func<TEvent, Task> task))
+                if (listener is Func<TEvent, Task> task)
                 {
                     tasks.Add(task(command));
                 }
@@ -85,10 +95,8 @@ namespace NoteTaker.Client.State
             {
                 return Task.WhenAll(tasks);
             }
-            else
-            {
-                return Task.CompletedTask;
-            }
+
+            return Task.CompletedTask;
         }
 
         public void Dispose()

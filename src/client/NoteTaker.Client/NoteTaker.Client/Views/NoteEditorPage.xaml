@@ -11,7 +11,7 @@
     <ContentPage.Content>
         <StackLayout x:Name="boxNote">
             <ContentView x:Name="boxName">
-                <Entry x:Name="txtName" Placeholder="Note name" />
+                <Entry x:Name="txtName" Placeholder="Note name" MaxLength="100"/>
             </ContentView>
             <WebView x:Name="webEditor" HeightRequest="500" />
         </StackLayout>

@@ -1,6 +1,6 @@
 ﻿using NoteTaker.Domain.Dtos;
 
-namespace NoteTaker.Client.State.NoteEvents
+namespace NoteTaker.Client.Events.NoteEvents
 {
     public class DeleteNoteCommand
     {

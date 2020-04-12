@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace NoteTaker.Client.State
+namespace NoteTaker.Client.Events
 {
     public interface IEventBroker : IDisposable
     {

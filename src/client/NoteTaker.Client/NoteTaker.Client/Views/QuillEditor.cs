@@ -4,6 +4,7 @@ using System.IO;
 using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NoteTaker.Client.Helpers;
 using Xamarin.Forms;
 
 namespace NoteTaker.Client.Views
@@ -63,19 +64,13 @@ namespace NoteTaker.Client.Views
         {
             get
             {
-                var assembly = Assembly.GetExecutingAssembly();
                 var resourceName = _darkTheme
                     ? "NoteTaker.Client.Assets.quill_dark.html"
                     : "NoteTaker.Client.Assets.quill_light.html";
-
-                using (var stream = assembly.GetManifestResourceStream(resourceName))
-                using (var reader = new StreamReader(stream))
-                {
-                    var result = reader.ReadToEnd();
-                    return result
+                var themeFile = FileHelpers.ReadAsString(resourceName);
+                return themeFile
                         .Replace("{{title}}", _title)
                         .Replace("{{body}}", _body);
-                }
             }
         }
 

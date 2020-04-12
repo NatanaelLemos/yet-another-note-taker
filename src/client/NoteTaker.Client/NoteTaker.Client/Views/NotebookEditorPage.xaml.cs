@@ -1,7 +1,8 @@
 ﻿using System;
+using NoteTaker.Client.Events;
+using NoteTaker.Client.Events.NotebookEvents;
 using NoteTaker.Client.Extensions;
 using NoteTaker.Client.State;
-using NoteTaker.Client.State.NotebookEvents;
 using NoteTaker.Domain.Dtos;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NoteTaker.Client.Extensions;
 using NoteTaker.Client.Navigation;
+using NoteTaker.Client.State;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,9 +16,29 @@ namespace NoteTaker.Client.Views
             InitializeComponent();
         }
 
-        private void btnTest_OnClick(object sender, EventArgs e)
+        protected override void OnAppearing()
         {
-            PageNavigator.NavigateTo<LoginPage>();
+            base.OnAppearing();
+
+            if (UserState.IsAuthenticated())
+            {
+                PageNavigator.NavigateTo<NotesPage>();
+            }
+            else
+            {
+                boxLogin.SetDynamicWidth();
+                BackgroundImageSource = ImageSource.FromResource("NoteTaker.Client.Assets.loginbg.jpg");
+            }
+        }
+
+        private void btnLogin_OnClick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnRegister_OnClick(object sender, EventArgs e)
+        {
+            PageNavigator.NavigateTo<RegisterPage>();
         }
     }
 }

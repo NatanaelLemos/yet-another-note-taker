@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
+using NoteTaker.Client.State;
 using Xamarin.Forms;
 
 namespace NoteTaker.Client.Navigation
@@ -91,9 +91,12 @@ namespace NoteTaker.Client.Navigation
 
         private bool IsAuthenticated(Type pageType)
         {
-            var anonymousAttr = pageType.CustomAttributes.FirstOrDefault(a => a.AttributeType == typeof(AllowAnonymousAttribute));
+            if (UserState.IsAuthenticated(pageType))
+            {
+                return true;
+            }
 
-            if (anonymousAttr == null && _loginPage != null)
+            if (_loginPage != null)
             {
                 if (_listener != null)
                 {

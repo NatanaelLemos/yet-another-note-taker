@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace NoteTaker.Client.State.NoteEvents
+namespace NoteTaker.Client.Events.NotebookEvents
 {
-    public class NoteQuery
+    public class NotebookQuery
     {
         public bool GetAll => NotebookId == Guid.Empty;
 
