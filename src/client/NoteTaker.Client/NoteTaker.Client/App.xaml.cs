@@ -9,7 +9,6 @@ using NoteTaker.Client.Views;
 using NoteTaker.Data;
 using NoteTaker.Data.Repositories;
 using NoteTaker.Domain.Data;
-using NoteTaker.Domain.Entities;
 using NoteTaker.Domain.Services;
 using Xamarin.Forms;
 
@@ -52,6 +51,12 @@ namespace NoteTaker.Client
             var localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             NoteTakerContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
 
+            //TODO: clean this up before prod!
+            if (File.Exists(NoteTakerContext.DatabasePath))
+            {
+                File.Delete(NoteTakerContext.DatabasePath);
+            }
+
             ServiceLocator.Register<NoteTakerContext>();
             ServiceLocator.Register<IEventBroker, EventBroker>();
 
@@ -68,6 +73,8 @@ namespace NoteTaker.Client
             ServiceLocator.Register<ISettingsAppService, SettingsAppService>();
 
             ServiceLocator.Register<IAuthAppService, AuthAppService>();
+            ServiceLocator.Register<IAuthService, AuthService>();
+            ServiceLocator.Register<IAuthRepository, AuthRepository>();
 
             ServiceLocator.Get<INotebooksAppService>().StartListeners();
             ServiceLocator.Get<INotesAppService>().StartListeners();
@@ -75,7 +82,7 @@ namespace NoteTaker.Client
             ServiceLocator.Get<IAuthAppService>().StartListeners();
         }
 
-        private async Task LoadTheme()
+        private Task LoadTheme()
         {
             var eventBroker = ServiceLocator.Get<IEventBroker>();
             eventBroker.Listen<CreateOrUpdateSettingsCommand>(c =>
@@ -95,16 +102,19 @@ namespace NoteTaker.Client
                 return Task.CompletedTask;
             });
 
-            var settings = await eventBroker.Query<SettingsQuery, Settings>(new SettingsQuery());
+            //var settings = await eventBroker.Query<SettingsQuery, Settings>(new SettingsQuery());
 
-            if (settings?.DarkMode ?? false)
-            {
-                Themes.SetDarkTheme(this);
-            }
-            else
-            {
-                Themes.SetLightTheme(this);
-            }
+            //if (settings?.DarkMode ?? false)
+            //{
+            //    Themes.SetDarkTheme(this);
+            //}
+            //else
+            //{
+            //    Themes.SetLightTheme(this);
+            //}
+
+            Themes.SetLightTheme(this);
+            return Task.CompletedTask;
         }
     }
 }

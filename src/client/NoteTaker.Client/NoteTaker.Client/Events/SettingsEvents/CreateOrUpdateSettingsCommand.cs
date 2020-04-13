@@ -1,14 +1,17 @@
-﻿using NoteTaker.Domain.Entities;
+﻿using System;
+using NoteTaker.Domain.Dtos;
 
 namespace NoteTaker.Client.Events.SettingsEvents
 {
     public class CreateOrUpdateSettingsCommand
     {
-        public CreateOrUpdateSettingsCommand(Settings settings)
+        public CreateOrUpdateSettingsCommand(Guid userId, SettingsDto settings)
         {
+            UserId = userId;
             Settings = settings;
         }
 
-        public Settings Settings { get; }
+        public Guid UserId { get; set; }
+        public SettingsDto Settings { get; }
     }
 }

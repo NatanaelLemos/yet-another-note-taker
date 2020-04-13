@@ -18,6 +18,11 @@ namespace NoteTaker.Data.Mappers
                 .HasMany(n => n.Notes)
                 .WithOne(no => no.Notebook)
                 .HasForeignKey(no => no.NotebookId);
+
+            modelBuilder
+                .HasOne(n => n.User)
+                .WithMany(u => u.Notebooks)
+                .HasForeignKey(n => n.UserId);
         }
     }
 }

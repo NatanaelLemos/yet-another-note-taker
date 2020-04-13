@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using NoteTaker.Domain.Data;
@@ -15,9 +15,16 @@ namespace NoteTaker.Data.Repositories
             _ctx = ctx;
         }
 
+        public Task<Settings> GetByUserId(Guid userId)
+        {
+            return _ctx.Settings
+                .AsNoTracking()
+                .FirstOrDefaultAsync(s => s.UserId == userId);
+        }
+
         public async Task CreateOrUpdate(Settings settings)
         {
-            var dbSettings = await Get();
+            var dbSettings = await GetByUserId(settings.UserId);
 
             if (dbSettings == null)
             {
@@ -27,12 +34,6 @@ namespace NoteTaker.Data.Repositories
             {
                 _ctx.Update(settings);
             }
-        }
-
-        public async Task<Settings> Get()
-        {
-            var dbSettings = await _ctx.Settings.ToListAsync();
-            return dbSettings.FirstOrDefault();
         }
 
         public Task Save()

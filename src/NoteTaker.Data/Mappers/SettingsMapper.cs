@@ -12,6 +12,10 @@ namespace NoteTaker.Data.Mappers
             modelBuilder
                 .Property(n => n.DarkMode)
                 .IsRequired(true);
+
+            modelBuilder
+                .HasOne(s => s.User)
+                .WithOne(u => u.Settings);
         }
     }
 }

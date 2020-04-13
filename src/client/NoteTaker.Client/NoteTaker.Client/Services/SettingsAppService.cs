@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using NoteTaker.Client.Events;
 using NoteTaker.Client.Events.SettingsEvents;
-using NoteTaker.Domain.Entities;
+using NoteTaker.Domain.Dtos;
 using NoteTaker.Domain.Services;
 
 namespace NoteTaker.Client.Services
@@ -11,7 +11,7 @@ namespace NoteTaker.Client.Services
         private readonly IEventBroker _eventBroker;
         private readonly ISettingsService _settingsService;
 
-        private Settings _cache;
+        private SettingsDto _cache;
 
         public SettingsAppService(IEventBroker eventBroker, ISettingsService settingsService)
         {
@@ -22,20 +22,20 @@ namespace NoteTaker.Client.Services
         public void StartListeners()
         {
             _eventBroker.Listen<CreateOrUpdateSettingsCommand>(CreateOrUpdateSettingsCommandHandler);
-            _eventBroker.Listen<SettingsQuery, Settings>(SettingsQuery);
+            _eventBroker.Listen<SettingsQuery, SettingsDto>(SettingsQuery);
         }
 
         public Task CreateOrUpdateSettingsCommandHandler(CreateOrUpdateSettingsCommand command)
         {
             _cache = command.Settings;
-            return _settingsService.CreateOrUpdateSettings(command.Settings);
+            return _settingsService.CreateOrUpdateSettings(command.UserId, command.Settings);
         }
 
-        public async Task<Settings> SettingsQuery(SettingsQuery query)
+        public async Task<SettingsDto> SettingsQuery(SettingsQuery query)
         {
             if (_cache == null)
             {
-                _cache = await _settingsService.Get();
+                _cache = await _settingsService.GetByUserId(query.UserId);
             }
 
             return _cache;

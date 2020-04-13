@@ -33,7 +33,6 @@ namespace NoteTaker.Client.Views
 
         private void btnLogin_OnClick(object sender, EventArgs e)
         {
-
         }
 
         private void btnRegister_OnClick(object sender, EventArgs e)

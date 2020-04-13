@@ -21,6 +21,7 @@ namespace NoteTaker.Data
         public DbSet<Notebook> Notebooks { get; set; }
         public DbSet<Note> Notes { get; set; }
         public DbSet<Settings> Settings { get; set; }
+        public DbSet<User> Users { get; set; }
 
         public override int SaveChanges()
         {
@@ -82,6 +83,7 @@ namespace NoteTaker.Data
             new NotebookMapper(modelBuilder.Entity<Notebook>());
             new NoteMapper(modelBuilder.Entity<Note>());
             new SettingsMapper(modelBuilder.Entity<Settings>());
+            new UserMapper(modelBuilder.Entity<User>());
         }
 
         private void UpdateEntities()

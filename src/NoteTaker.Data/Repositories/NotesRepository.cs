@@ -19,7 +19,9 @@ namespace NoteTaker.Data.Repositories
 
         public Task<Note> GetById(Guid id)
         {
-            return _ctx.Notes.FirstOrDefaultAsync(n => n.Id == id);
+            return _ctx.Notes
+                .AsNoTracking()
+                .FirstOrDefaultAsync(n => n.Id == id);
         }
 
         public Task<List<Note>> GetAll()
@@ -27,6 +29,7 @@ namespace NoteTaker.Data.Repositories
             return _ctx.Notes
                 .Where(n => n.Available == true)
                 .OrderByDescending(n => n.UpdatedOn)
+                .AsNoTracking()
                 .ToListAsync();
         }
 
@@ -35,6 +38,7 @@ namespace NoteTaker.Data.Repositories
             return _ctx.Notes
                 .Where(n => n.NotebookId == id && n.Available == true)
                 .OrderByDescending(n => n.UpdatedOn)
+                .AsNoTracking()
                 .ToListAsync();
         }
 

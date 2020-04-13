@@ -1,5 +1,5 @@
-﻿using NoteTaker.Client.Events;
-using NoteTaker.Client.Events.SettingsEvents;
+﻿using System.Threading.Tasks;
+using NoteTaker.Client.Events;
 using NoteTaker.Client.Extensions;
 using NoteTaker.Client.State;
 using NoteTaker.Domain.Entities;
@@ -25,9 +25,10 @@ namespace NoteTaker.Client.Views
             base.OnAppearing();
 
             _eventBroker = ServiceLocator.Get<IEventBroker>();
-            _settings = await _eventBroker.Query<SettingsQuery, Settings>(new SettingsQuery());
-            swtDarkMode.IsToggled = _settings.DarkMode;
+            //_settings = await _eventBroker.Query<SettingsQuery, Settings>(new SettingsQuery());
+            //swtDarkMode.IsToggled = _settings.DarkMode;
             swtDarkMode.PropertyChanged += SwtDarkMode_PropertyChanged;
+            await Task.CompletedTask;
         }
 
         private async void SwtDarkMode_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -39,8 +40,9 @@ namespace NoteTaker.Client.Views
 
             swtDarkMode.PropertyChanged -= SwtDarkMode_PropertyChanged;
             _settings.DarkMode = swtDarkMode.IsToggled;
-            await _eventBroker.Command(new CreateOrUpdateSettingsCommand(_settings));
+            //await _eventBroker.Command(new CreateOrUpdateSettingsCommand(_settings));
             swtDarkMode.PropertyChanged += SwtDarkMode_PropertyChanged;
+            await Task.CompletedTask;
         }
     }
 }

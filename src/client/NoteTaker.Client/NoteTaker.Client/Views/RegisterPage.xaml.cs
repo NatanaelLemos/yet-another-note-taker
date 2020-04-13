@@ -2,6 +2,7 @@
 using NoteTaker.Client.Events;
 using NoteTaker.Client.Events.AuthEvents;
 using NoteTaker.Client.Extensions;
+using NoteTaker.Client.Helpers;
 using NoteTaker.Client.Navigation;
 using NoteTaker.Client.State;
 using Xamarin.Forms;
@@ -32,15 +33,9 @@ namespace NoteTaker.Client.Views
 
         private async void btnRegister_OnClick(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            if (!ValidationHelpers.IsValidEmail(txtEmail.Text))
             {
                 await DisplayAlert("Invalid email", "The provided email is not valid.", "Ok");
-                return;
-            }
-
-            if (string.IsNullOrWhiteSpace(txtPassword.Text))
-            {
-                await DisplayAlert("Invalid password", "The provided password is not valid.", "Ok");
                 return;
             }
 
@@ -57,6 +52,7 @@ namespace NoteTaker.Client.Views
             }
 
             await _eventBroker.Command(new CreateUserCommand(txtEmail.Text, txtPassword.Text));
+            PageNavigator.NavigateTo<LoginPage>();
         }
 
         private void btnBackToLogin_OnClick(object sender, EventArgs e)

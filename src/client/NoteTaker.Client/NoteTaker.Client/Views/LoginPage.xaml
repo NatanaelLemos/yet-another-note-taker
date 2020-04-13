@@ -22,20 +22,20 @@
                         x:Name="txtPassword"
                         IsPassword="True"
                         Placeholder="Password" />
+                    <Button
+                        Margin="0,30,0,0"
+                        Clicked="btnLogin_OnClick"
+                        FontAttributes="Bold"
+                        HorizontalOptions="FillAndExpand"
+                        StyleClass="btnGreen"
+                        Text="Login" />
+                    <Button
+                        Clicked="btnRegister_OnClick"
+                        HorizontalOptions="FillAndExpand"
+                        StyleClass="btnDefault"
+                        Text="Register" />
                 </StackLayout>
             </Frame>
-            <Button
-                Margin="0,30,0,0"
-                Clicked="btnLogin_OnClick"
-                FontAttributes="Bold"
-                HorizontalOptions="FillAndExpand"
-                StyleClass="btnGreen"
-                Text="Login" />
-            <Button
-                Clicked="btnRegister_OnClick"
-                HorizontalOptions="FillAndExpand"
-                StyleClass="btnDefault"
-                Text="Register" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using NoteTaker.Client.Events.SettingsEvents;
-using NoteTaker.Domain.Entities;
+using NoteTaker.Domain.Dtos;
 
 namespace NoteTaker.Client.Services
 {
@@ -10,6 +10,6 @@ namespace NoteTaker.Client.Services
 
         Task CreateOrUpdateSettingsCommandHandler(CreateOrUpdateSettingsCommand command);
 
-        Task<Settings> SettingsQuery(SettingsQuery query);
+        Task<SettingsDto> SettingsQuery(SettingsQuery query);
     }
 }

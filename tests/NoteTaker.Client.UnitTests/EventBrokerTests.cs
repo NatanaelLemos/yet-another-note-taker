@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using NoteTaker.Client.Events;
-using NoteTaker.Client.State;
 using Xunit;
 
 namespace NoteTaker.Client.UnitTests

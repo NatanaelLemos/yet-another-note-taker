@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using NoteTaker.Domain.Data;
+using NoteTaker.Domain.Dtos;
 using NoteTaker.Domain.Entities;
 
 namespace NoteTaker.Domain.Services
@@ -13,21 +15,25 @@ namespace NoteTaker.Domain.Services
             _repository = repository;
         }
 
-        public async Task<Settings> Get()
+        public async Task<SettingsDto> GetByUserId(Guid userId)
         {
-            var settings = await _repository.Get();
+            var settings = await _repository.GetByUserId(userId);
 
-            if (settings == null)
+            return new SettingsDto
             {
-                return new Settings();
-            }
-
-            return settings;
+                Id = settings?.Id ?? Guid.NewGuid(),
+                DarkMode = settings?.DarkMode ?? false
+            };
         }
 
-        public async Task CreateOrUpdateSettings(Settings settings)
+        public async Task CreateOrUpdateSettings(Guid userId, SettingsDto settings)
         {
-            await _repository.CreateOrUpdate(settings);
+            await _repository.CreateOrUpdate(new Settings
+            {
+                Id = settings.Id == Guid.Empty ? Guid.NewGuid() : settings.Id,
+                DarkMode = settings.DarkMode,
+                UserId = userId
+            });
             await _repository.Save();
         }
     }
