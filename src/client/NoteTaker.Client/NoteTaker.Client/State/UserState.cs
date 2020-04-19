@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
+using NoteTaker.Domain.Dtos;
 
 namespace NoteTaker.Client.State
 {
     public static class UserState
     {
-        public static bool UserIsAuthenticated { get; set; } = false;
-
         public static bool IsAuthenticated()
         {
-            return UserIsAuthenticated;
+            return UserStateImpl.Instance.CurrentUser != null;
         }
 
         public static bool IsAuthenticated(Type pageType)
@@ -22,5 +21,12 @@ namespace NoteTaker.Client.State
 
             return false;
         }
+
+        public static UserDto CurrentUser
+        {
+            set => UserStateImpl.Instance.CurrentUser = value;
+        }
+
+        public static Guid UserId => UserStateImpl.Instance.CurrentUser?.Id ?? Guid.Empty;
     }
 }

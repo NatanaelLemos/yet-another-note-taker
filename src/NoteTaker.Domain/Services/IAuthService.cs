@@ -5,6 +5,8 @@ namespace NoteTaker.Domain.Services
 {
     public interface IAuthService
     {
-        Task CreateUser(UserDto userDto);
+        Task<UserDto> GetByEmail(string email);
+        Task<UserDto> GetByEmailAndPassword(string email, string password);
+        Task CreateUser(NewUserDto userDto);
     }
 }

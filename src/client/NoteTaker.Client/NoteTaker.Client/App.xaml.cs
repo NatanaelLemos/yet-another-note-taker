@@ -51,12 +51,6 @@ namespace NoteTaker.Client
             var localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             NoteTakerContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
 
-            //TODO: clean this up before prod!
-            if (File.Exists(NoteTakerContext.DatabasePath))
-            {
-                File.Delete(NoteTakerContext.DatabasePath);
-            }
-
             ServiceLocator.Register<NoteTakerContext>();
             ServiceLocator.Register<IEventBroker, EventBroker>();
 

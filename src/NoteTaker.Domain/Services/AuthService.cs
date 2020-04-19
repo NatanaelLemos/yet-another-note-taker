@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using NoteTaker.Domain.Data;
 using NoteTaker.Domain.Dtos;
 using NoteTaker.Domain.Entities;
+using NoteTaker.Domain.Helpers;
 
 namespace NoteTaker.Domain.Services
 {
@@ -31,7 +32,23 @@ namespace NoteTaker.Domain.Services
             };
         }
 
-        public async Task CreateUser(UserDto userDto)
+        public async Task<UserDto> GetByEmailAndPassword(string email, string password)
+        {
+            var existingUser = await _authRepository.GetByEmail(email);
+
+            if (existingUser == null || !EncryptionHelpers.Hash(password).Equals(existingUser.Password))
+            {
+                return null;
+            }
+
+            return new UserDto
+            {
+                Id = existingUser.Id,
+                Email = existingUser.Email
+            };
+        }
+
+        public async Task CreateUser(NewUserDto userDto)
         {
             var dbUser = await GetByEmail(userDto.Email);
             if (dbUser != null)
@@ -42,7 +59,7 @@ namespace NoteTaker.Domain.Services
             var user = new User
             {
                 Email = userDto.Email,
-                Password = userDto.Password
+                Password = EncryptionHelpers.Hash(userDto.Password)
             };
 
             await _authRepository.Create(user);

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using NoteTaker.Client.Events;
+using NoteTaker.Client.Events.AuthEvents;
 using NoteTaker.Client.Extensions;
 using NoteTaker.Client.Navigation;
 using NoteTaker.Client.State;
@@ -11,6 +14,8 @@ namespace NoteTaker.Client.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class LoginPage : ContentPage
     {
+        private IEventBroker _eventBroker;
+
         public LoginPage()
         {
             InitializeComponent();
@@ -19,6 +24,10 @@ namespace NoteTaker.Client.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
+
+            _eventBroker = ServiceLocator.Get<IEventBroker>();
+            _eventBroker.Listen<UserLoggedInCommand>(userLoggedInCommandHandler);
+            _eventBroker.Listen<LoginErrorCommand>(loginErrorCommandHandler);
 
             if (UserState.IsAuthenticated())
             {
@@ -31,8 +40,20 @@ namespace NoteTaker.Client.Views
             }
         }
 
-        private void btnLogin_OnClick(object sender, EventArgs e)
+        private Task userLoggedInCommandHandler(UserLoggedInCommand arg)
         {
+            PageNavigator.NavigateTo<NotesPage>();
+            return Task.CompletedTask;
+        }
+
+        private Task loginErrorCommandHandler(LoginErrorCommand arg)
+        {
+            return DisplayAlert("Invalid user", "User not registered.", "Ok");
+        }
+
+        private async void btnLogin_OnClick(object sender, EventArgs e)
+        {
+            await _eventBroker.Command(new LoginCommand(txtEmail.Text, txtPassword.Text));
         }
 
         private void btnRegister_OnClick(object sender, EventArgs e)
