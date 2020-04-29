@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="YetAnotherNoteTaker.Views.NotebooksSidebarPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Notebooks"
+    mc:Ignorable="d">
+    <StackLayout VerticalOptions="FillAndExpand">
+        <Button
+            x:Name="btnAllNotes"
+            Clicked="btnAllNotes_OnClick"
+            HeightRequest="50"
+            StyleClass="btnAllNotes"
+            Text="All notes" />
+        <ListView x:Name="lsvNotebooks">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Grid StyleClass="NotebooksGrid">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                FontSize="20"
+                                Text="{Binding Name}" />
+                            <Button
+                                Grid.Column="1"
+                                BindingContext="{Binding Id}"
+                                Clicked="btnEditNotebook_OnClick"
+                                StyleClass="btnEditNote"
+                                Text="✏" />
+                            <Button
+                                Grid.Column="2"
+                                BindingContext="{Binding Id}"
+                                Clicked="btnRemoveNotebook_OnClick"
+                                StyleClass="btnRemoveNote"
+                                Text="➖" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <Grid x:Name="gridActions" StyleClass="notebooksSidebarGridActions">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Row="0"
+                Grid.Column="0"
+                Grid.ColumnSpan="1"
+                Clicked="btnNewNotebook_OnClick"
+                HeightRequest="20"
+                Text="New notebook" />
+            <Button
+                Grid.Row="0"
+                Grid.Column="1"
+                Clicked="btnSettings_OnClick"
+                HeightRequest="20"
+                StyleClass="btnSettings"
+                Text="⚙" />
+        </Grid>
+    </StackLayout>
+</ContentPage>

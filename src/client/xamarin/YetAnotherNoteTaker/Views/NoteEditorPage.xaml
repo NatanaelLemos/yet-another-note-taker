@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="YetAnotherNoteTaker.Views.NoteEditorPage"
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Clicked="btnRemoveNote_OnClick" Text="Remove note" />
+        <ToolbarItem Clicked="btnSave_OnClick" Text="Save" />
+        <ToolbarItem Clicked="btnCancel_OnClick" Text="Cancel" />
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout x:Name="boxNote">
+            <ContentView x:Name="boxName">
+                <Entry
+                    x:Name="txtName"
+                    MaxLength="100"
+                    Placeholder="Note name" />
+            </ContentView>
+            <WebView x:Name="webEditor" HeightRequest="500" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

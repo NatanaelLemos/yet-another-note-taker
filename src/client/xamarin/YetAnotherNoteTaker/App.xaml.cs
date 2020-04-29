@@ -1,0 +1,66 @@
+﻿using System;
+using System.IO;
+using Xamarin.Forms;
+using YetAnotherNoteTaker.Client.Common.Data;
+using YetAnotherNoteTaker.Client.Common.Services;
+using YetAnotherNoteTaker.Events;
+using YetAnotherNoteTaker.Events.AuthEvents;
+using YetAnotherNoteTaker.Events.NotebookEvents;
+using YetAnotherNoteTaker.Events.NoteEvents;
+using YetAnotherNoteTaker.State;
+using YetAnotherNoteTaker.Views;
+using YetAnotherNoteTaker.Xamarin.Data;
+using YetAnotherNoteTaker.Xamarin.Data.Data;
+
+namespace YetAnotherNoteTaker
+{
+    public partial class App : Application
+    {
+        public App()
+        {
+            InitializeComponent();
+        }
+
+        protected override void OnStart()
+        {
+            RegisterServices();
+            StartListeners();
+            Themes.SetDarkTheme(this);
+        }
+
+        protected override void OnSleep()
+        {
+        }
+
+        protected override void OnResume()
+        {
+        }
+
+        private void RegisterServices()
+        {
+            var localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+            XamarinClientContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
+
+            ServiceLocator.Register<IEventBroker, EventBroker>();
+
+            ServiceLocator.Register<IAuthRepository, XamarinAuthRepository>();
+            ServiceLocator.Register<IAuthService, AuthService>();
+            ServiceLocator.Register<AuthEventsListener>();
+
+            ServiceLocator.Register<INotebooksRepository, XamarinNotebooksRepository>();
+            ServiceLocator.Register<INotebooksService, NotebooksService>();
+            ServiceLocator.Register<NotebookEventsListener>();
+
+            ServiceLocator.Register<INotesRepository, XamarinNotesRepository>();
+            ServiceLocator.Register<INotesService, NotesService>();
+            ServiceLocator.Register<NoteEventsListener>();
+        }
+
+        private void StartListeners()
+        {
+            ServiceLocator.Get<AuthEventsListener>().Start();
+            ServiceLocator.Get<NotebookEventsListener>().Start();
+            ServiceLocator.Get<NoteEventsListener>().Start();
+        }
+    }
+}
