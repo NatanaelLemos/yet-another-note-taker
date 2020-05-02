@@ -36,8 +36,8 @@ namespace YetAnotherNoteTaker.Events.NotebookEvents
         private async Task EditNotebookCommandHandler(EditNotebookCommand arg)
         {
             var task = arg.Id == Guid.Empty
-                ? _service.Create(new NotebookDto { Name = arg.Name })
-                : _service.Update(new NotebookDto { Id = arg.Id, Name = arg.Name });
+                ? _service.Create(UserState.UserId, new NotebookDto { Name = arg.Name })
+                : _service.Update(UserState.UserId, new NotebookDto { Id = arg.Id, Name = arg.Name });
 
             var result = await task;
             await _eventBroker.Notify(new EditNotebookResult(result));

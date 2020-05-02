@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YetAnotherNoteTaker.Client.Common.Dtos;
 using YetAnotherNoteTaker.Events;
 using YetAnotherNoteTaker.Events.NoteEvents;
+using YetAnotherNoteTaker.Events.SettingsEvents;
 using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views
@@ -51,8 +48,14 @@ namespace YetAnotherNoteTaker.Views
 
         private void InitializeEditor(string body)
         {
-            var height = Application.Current.MainPage.Height - 130;
-            _textEditor = new QuillEditor(webEditor, height, body, true);
+            _eventBroker.Subscribe<SettingsQueryResult>(arg =>
+            {
+                var height = Application.Current.MainPage.Height - 130;
+                _textEditor = new QuillEditor(webEditor, height, body, arg.Settings.IsDarkMode);
+                return Task.CompletedTask;
+            });
+
+            _eventBroker.Notify(new SettingsQuery());
         }
 
         private async void btnRemoveNote_OnClick(object sender, EventArgs e)
@@ -71,7 +74,7 @@ namespace YetAnotherNoteTaker.Views
                     txtName.Text,
                     body));
 
-            if(_notebook == null)
+            if (_notebook == null)
             {
                 PageNavigator.NavigateTo<NotesPage>();
             }

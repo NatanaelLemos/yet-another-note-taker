@@ -10,8 +10,8 @@ namespace YetAnotherNoteTaker.Client.Common.Services
     {
         Task<List<NoteDto>> GetAll(Guid userId);
         Task<List<NoteDto>> GetByNotebookId(Guid userId, Guid notebookId);
-        Task<NoteDto> Create(NoteDto noteDto);
-        Task<NoteDto> Update(NoteDto noteDto);
+        Task<NoteDto> Create(Guid userId, NoteDto noteDto);
+        Task<NoteDto> Update(Guid userId, NoteDto noteDto);
         Task Delete(Guid noteId);
     }
 }

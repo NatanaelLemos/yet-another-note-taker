@@ -24,14 +24,14 @@ namespace YetAnotherNoteTaker.Client.Common.Services
             return Task.FromResult(
                 _db.Where(d => d.NotebookId == notebookId).ToList());
         }
-        public Task<NoteDto> Create(NoteDto noteDto)
+        public Task<NoteDto> Create(Guid userId, NoteDto noteDto)
         {
             noteDto.Id = Guid.NewGuid();
             _db.Add(noteDto);
             return Task.FromResult(noteDto);
         }
 
-        public Task<NoteDto> Update(NoteDto noteDto)
+        public Task<NoteDto> Update(Guid userId, NoteDto noteDto)
         {
             var dbItem = _db.FirstOrDefault(d => d.Id == noteDto.Id);
             if(dbItem != null)

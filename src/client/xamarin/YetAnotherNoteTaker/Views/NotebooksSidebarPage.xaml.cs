@@ -32,7 +32,6 @@ namespace YetAnotherNoteTaker.Views
             _eventBroker = ServiceLocator.Get<IEventBroker>();
             _eventBroker.Subscribe<ListNotebooksResult>(ListNotebooksResultHandler);
 
-
             btnAllNotes.IsVisible = false;
             gridActions.IsVisible = false;
         }
@@ -96,7 +95,7 @@ namespace YetAnotherNoteTaker.Views
 
         private void btnSettings_OnClick(object sender, EventArgs e)
         {
-
+            PageNavigator.NavigateTo<SettingsPage>();
         }
     }
 }

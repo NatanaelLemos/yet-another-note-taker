@@ -44,21 +44,25 @@ namespace YetAnotherNoteTaker.Events.NoteEvents
         {
             if (arg.NoteId == Guid.Empty)
             {
-                await _service.Create(new NoteDto
-                {
-                    NotebookId = arg.NotebookId,
-                    Name = arg.Name,
-                    Body = arg.Body
-                });
+                await _service.Create(
+                    UserState.UserId,
+                    new NoteDto
+                    {
+                        NotebookId = arg.NotebookId,
+                        Name = arg.Name,
+                        Body = arg.Body
+                    });
             }
             else
             {
-                await _service.Update(new NoteDto
-                {
-                    Id = arg.NoteId,
-                    Name = arg.Name,
-                    Body = arg.Body
-                });
+                await _service.Update(
+                    UserState.UserId,
+                    new NoteDto
+                    {
+                        Id = arg.NoteId,
+                        Name = arg.Name,
+                        Body = arg.Body
+                    });
             }
 
             await _eventBroker.Notify(new ListNotesCommand(arg.NotebookId));

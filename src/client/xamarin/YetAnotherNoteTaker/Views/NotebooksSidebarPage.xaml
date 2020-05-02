@@ -32,13 +32,13 @@
                                 Grid.Column="1"
                                 BindingContext="{Binding Id}"
                                 Clicked="btnEditNotebook_OnClick"
-                                StyleClass="btnEditNote"
+                                StyleClass="btnBlue"
                                 Text="✏" />
                             <Button
                                 Grid.Column="2"
                                 BindingContext="{Binding Id}"
                                 Clicked="btnRemoveNotebook_OnClick"
-                                StyleClass="btnRemoveNote"
+                                StyleClass="btnRed"
                                 Text="➖" />
                         </Grid>
                     </ViewCell>

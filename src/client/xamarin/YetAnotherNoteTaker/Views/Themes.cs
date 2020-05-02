@@ -1,48 +1,84 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using Xamarin.Forms.StyleSheets;
+using YetAnotherNoteTaker.Helpers;
 using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views
 {
     public static class Themes
     {
-        public static void SetLightTheme(App app)
-        {
-            SetTheme(app, "YetAnotherNoteTaker.Assets.styles_light.css");
-        }
+        private const string TemplatePath = "YetAnotherNoteTaker.Assets.style_template.css";
 
-        public static void SetDarkTheme(App app)
+        public static void ApplyLightTheme(App app)
         {
-            SetTheme(app, "YetAnotherNoteTaker.Assets.styles_dark.css");
-        }
-
-        private static void SetTheme(App app, string resourceName)
-        {
-            var assembly = Assembly.GetExecutingAssembly();
-
-            using (var stream = assembly.GetManifestResourceStream(resourceName))
-            using (var reader = new StreamReader(stream))
+            if (EnvironmentHelpers.EnvironmentName == EnvironmentName.Mac)
             {
-                var props = app.Resources.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
-                var stylesheetsProp = props.FirstOrDefault(s => s.Name.ToLower().Equals("stylesheets"));
-                if (stylesheetsProp != null)
-                {
-                    var stylesheets = stylesheetsProp.GetValue(app.Resources);
-                    if (stylesheets != null)
-                    {
-                        ((IList<StyleSheet>)stylesheets).Clear();
-                    }
-                }
-                app.Resources.Add(StyleSheet.FromReader(reader));
+                return;
             }
+
+            ApplyTheme(app, new LightTheme());
+        }
+
+        public static void ApplyDarkTheme(App app)
+        {
+            if (EnvironmentHelpers.EnvironmentName == EnvironmentName.Mac)
+            {
+                return;
+            }
+
+            ApplyTheme(app, new DarkTheme());
+        }
+
+        private static void ApplyTheme(App app, ThemeStyle style)
+        {
+            var props = app.Resources.GetType().GetProperties(BindingFlags.NonPublic | BindingFlags.Instance);
+            var stylesheetsProp = props.FirstOrDefault(s => s.Name.ToLower().Equals("stylesheets"));
+            if (stylesheetsProp != null)
+            {
+                var stylesheets = stylesheetsProp.GetValue(app.Resources);
+                if (stylesheets != null)
+                {
+                    ((IList<StyleSheet>)stylesheets).Clear();
+                }
+            }
+
+            var template = FileHelpers.ReadAsString(TemplatePath);
+            template = style.ReplaceVariables(template);
+            app.Resources.Add(StyleSheet.FromString(template));
 
             PageNavigator.ClearHistory();
             app.MainPage = new MainPage();
+        }
+
+        private interface ThemeStyle
+        {
+            string ReplaceVariables(string template);
+        }
+
+        private class LightTheme : ThemeStyle
+        {
+            public string ReplaceVariables(string template)
+            {
+                return template
+                    .Replace("{{background-color}}", "#f3f3f8")
+                    .Replace("{{accent-color}}", "#d7d7e3")
+                    .Replace("{{color}}", "#333")
+                    .Replace("{{placeholder-color}}", "#80808a");
+            }
+        }
+
+        private class DarkTheme : ThemeStyle
+        {
+            public string ReplaceVariables(string template)
+            {
+                return template
+                    .Replace("{{background-color}}", "#404052")
+                    .Replace("{{accent-color}}", "#303042")
+                    .Replace("{{color}}", "#f3f3f3")
+                    .Replace("{{placeholder-color}}", "#838393");
+            }
         }
     }
 }

@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YetAnotherNoteTaker.Events;
 using YetAnotherNoteTaker.Events.AuthEvents;
-using YetAnotherNoteTaker.Events.NotebookEvents;
-using YetAnotherNoteTaker.Events.NoteEvents;
+using YetAnotherNoteTaker.Events.SettingsEvents;
 using YetAnotherNoteTaker.Extensions;
 using YetAnotherNoteTaker.Helpers;
 using YetAnotherNoteTaker.State;
@@ -43,9 +41,7 @@ namespace YetAnotherNoteTaker.Views
             try
             {
                 await _eventBroker.Notify(new LoginCommand(txtEmail.Text, txtPassword.Text));
-
-                PageNavigator.NavigateTo<NotesPage>();
-                await _eventBroker.Notify(new ListNotebooksCommand());
+                await _eventBroker.Notify(new SettingsRefreshQuery());
             }
             catch (Exception ex)
             {

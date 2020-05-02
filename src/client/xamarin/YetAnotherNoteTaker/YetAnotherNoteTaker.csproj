@@ -13,11 +13,13 @@
   <ItemGroup>
     <None Remove="Assets\loginbg.jpg" />
     <None Remove="Assets\quill_dark.html" />
+    <None Remove="Assets\quill_light.html" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Assets\loginbg.jpg" />
     <EmbeddedResource Include="Assets\quill_dark.html" />
+    <EmbeddedResource Include="Assets\quill_light.html" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +53,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\RegisterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SettingsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

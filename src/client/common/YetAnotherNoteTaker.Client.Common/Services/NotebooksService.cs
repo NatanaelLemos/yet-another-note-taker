@@ -21,14 +21,14 @@ namespace YetAnotherNoteTaker.Client.Common.Services
             return Task.FromResult(_allNotebooks);
         }
 
-        public Task<NotebookDto> Create(NotebookDto notebookDto)
+        public Task<NotebookDto> Create(Guid userId, NotebookDto notebookDto)
         {
             notebookDto.Id = Guid.NewGuid();
             _allNotebooks.Add(notebookDto);
             return Task.FromResult(notebookDto);
         }
 
-        public Task<NotebookDto> Update(NotebookDto notebookDto)
+        public Task<NotebookDto> Update(Guid userId, NotebookDto notebookDto)
         {
             var dbItem = _allNotebooks.FirstOrDefault(n => n.Id == notebookDto.Id);
             if(dbItem != null)

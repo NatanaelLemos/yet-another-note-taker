@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using YetAnotherNoteTaker.Client.Common.Data;
 using YetAnotherNoteTaker.Client.Common.Services;
@@ -7,6 +8,7 @@ using YetAnotherNoteTaker.Events;
 using YetAnotherNoteTaker.Events.AuthEvents;
 using YetAnotherNoteTaker.Events.NotebookEvents;
 using YetAnotherNoteTaker.Events.NoteEvents;
+using YetAnotherNoteTaker.Events.SettingsEvents;
 using YetAnotherNoteTaker.State;
 using YetAnotherNoteTaker.Views;
 using YetAnotherNoteTaker.Xamarin.Data;
@@ -25,7 +27,7 @@ namespace YetAnotherNoteTaker
         {
             RegisterServices();
             StartListeners();
-            Themes.SetDarkTheme(this);
+            ApplyTheme();
         }
 
         protected override void OnSleep()
@@ -54,6 +56,10 @@ namespace YetAnotherNoteTaker
             ServiceLocator.Register<INotesRepository, XamarinNotesRepository>();
             ServiceLocator.Register<INotesService, NotesService>();
             ServiceLocator.Register<NoteEventsListener>();
+
+            ServiceLocator.Register<ISettingsRepository, XamarinSettingsRepository>();
+            ServiceLocator.Register<ISettingsService, SettingsService>();
+            ServiceLocator.Register<SettingsEventsListener>();
         }
 
         private void StartListeners()
@@ -61,6 +67,26 @@ namespace YetAnotherNoteTaker
             ServiceLocator.Get<AuthEventsListener>().Start();
             ServiceLocator.Get<NotebookEventsListener>().Start();
             ServiceLocator.Get<NoteEventsListener>().Start();
+            ServiceLocator.Get<SettingsEventsListener>().Start();
+        }
+
+        private void ApplyTheme()
+        {
+            Themes.ApplyLightTheme(this);
+            var eventBroker = ServiceLocator.Get<IEventBroker>();
+            eventBroker.Subscribe<SettingsRefreshResult>(arg =>
+            {
+                if (arg.Settings.IsDarkMode)
+                {
+                    Themes.ApplyDarkTheme(this);
+                }
+                else
+                {
+                    Themes.ApplyLightTheme(this);
+                }
+
+                return eventBroker.Notify(new ListNotebooksCommand());
+            });
         }
     }
 }
