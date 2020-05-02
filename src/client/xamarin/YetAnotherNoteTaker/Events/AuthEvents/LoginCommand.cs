@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YetAnotherNoteTaker.State;
+﻿using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Events.AuthEvents
 {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Xamarin.Forms;
 
-
 namespace YetAnotherNoteTaker.State
 {
     public class PageNavigatorImpl

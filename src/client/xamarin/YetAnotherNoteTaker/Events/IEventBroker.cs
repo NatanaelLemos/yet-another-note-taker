@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace YetAnotherNoteTaker.Events
@@ -10,6 +8,5 @@ namespace YetAnotherNoteTaker.Events
         void Subscribe<TEvent>(Func<TEvent, Task> callback);
 
         Task Notify<TEvent>(TEvent command);
-
     }
 }

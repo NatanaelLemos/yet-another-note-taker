@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Dtos;
 using YetAnotherNoteTaker.Client.Common.Services;
@@ -30,7 +28,6 @@ namespace YetAnotherNoteTaker.Events.NotebookEvents
         {
             var notebooks = await _service.GetAll(UserState.UserId);
             await _eventBroker.Notify(new ListNotebooksResult(notebooks));
-
         }
 
         private async Task EditNotebookCommandHandler(EditNotebookCommand arg)

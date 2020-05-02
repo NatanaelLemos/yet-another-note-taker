@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -69,7 +66,7 @@ namespace YetAnotherNoteTaker.Views
 
         private void btnNewNote_OnClick(object sender, EventArgs e)
         {
-            if(_notebook == null)
+            if (_notebook == null)
             {
                 return;
             }

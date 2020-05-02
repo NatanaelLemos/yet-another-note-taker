@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using YetAnotherNoteTaker.Client.Common.Dtos;
 
 namespace YetAnotherNoteTaker.State

@@ -45,4 +45,3 @@ namespace YetAnotherNoteTaker.Client.Common.Services
         }
     }
 }
-

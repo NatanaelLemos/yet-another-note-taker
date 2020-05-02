@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Dtos;
 
@@ -24,6 +23,7 @@ namespace YetAnotherNoteTaker.Client.Common.Services
             return Task.FromResult(
                 _db.Where(d => d.NotebookId == notebookId).ToList());
         }
+
         public Task<NoteDto> Create(Guid userId, NoteDto noteDto)
         {
             noteDto.Id = Guid.NewGuid();
@@ -34,7 +34,7 @@ namespace YetAnotherNoteTaker.Client.Common.Services
         public Task<NoteDto> Update(Guid userId, NoteDto noteDto)
         {
             var dbItem = _db.FirstOrDefault(d => d.Id == noteDto.Id);
-            if(dbItem != null)
+            if (dbItem != null)
             {
                 _db.Remove(dbItem);
             }

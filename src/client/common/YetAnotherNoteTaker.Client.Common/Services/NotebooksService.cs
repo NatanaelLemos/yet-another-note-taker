@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Dtos;
 
@@ -31,7 +30,7 @@ namespace YetAnotherNoteTaker.Client.Common.Services
         public Task<NotebookDto> Update(Guid userId, NotebookDto notebookDto)
         {
             var dbItem = _allNotebooks.FirstOrDefault(n => n.Id == notebookDto.Id);
-            if(dbItem != null)
+            if (dbItem != null)
             {
                 _allNotebooks.Remove(dbItem);
             }

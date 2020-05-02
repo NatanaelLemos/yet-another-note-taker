@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YetAnotherNoteTaker.Client.Common.Data;
+﻿using YetAnotherNoteTaker.Client.Common.Data;
 
 namespace YetAnotherNoteTaker.Xamarin.Data.Data
 {

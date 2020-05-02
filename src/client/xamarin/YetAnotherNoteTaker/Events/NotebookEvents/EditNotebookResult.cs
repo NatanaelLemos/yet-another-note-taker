@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YetAnotherNoteTaker.Client.Common.Dtos;
+﻿using YetAnotherNoteTaker.Client.Common.Dtos;
 
 namespace YetAnotherNoteTaker.Events.NotebookEvents
 {
