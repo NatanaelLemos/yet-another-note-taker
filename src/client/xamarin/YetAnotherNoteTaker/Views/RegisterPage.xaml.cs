@@ -27,6 +27,11 @@ namespace YetAnotherNoteTaker.Views
 
             boxRegister.SetDynamicWidth();
             BackgroundImageSource = FileHelpers.ReadAsImageSource("YetAnotherNoteTaker.Assets.loginbg.jpg");
+
+            txtEmail.Focus();
+            txtEmail.Completed += (object sender, EventArgs e) => txtPassword.Focus();
+            txtPassword.Completed += (object sender, EventArgs e) => txtRepeatPassword.Focus();
+            txtRepeatPassword.Completed += (object sender, EventArgs e) => btnRegister_OnClick(sender, e);
         }
 
         private async void btnRegister_OnClick(object sender, EventArgs e)

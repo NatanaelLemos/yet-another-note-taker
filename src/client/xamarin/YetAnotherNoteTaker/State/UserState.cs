@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using YetAnotherNoteTaker.Client.Common.Dtos;
+using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.State
 {

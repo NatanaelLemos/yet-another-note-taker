@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using YetAnotherNoteTaker.Client.Common.Dtos;
+using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Events;
 using YetAnotherNoteTaker.Events.NotebookEvents;
 using YetAnotherNoteTaker.Extensions;
@@ -38,6 +38,13 @@ namespace YetAnotherNoteTaker.Views
             boxNotebook.SetDynamicWidth();
             _eventBroker = ServiceLocator.Get<IEventBroker>();
             _eventBroker.Subscribe<EditNotebookResult>(NewNotebookResultHandler);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            txtNotebook.Focus();
+            txtNotebook.Completed += (object sender, EventArgs e) => btnSave_Click(sender, e);
         }
 
         private async Task NewNotebookResultHandler(EditNotebookResult arg)

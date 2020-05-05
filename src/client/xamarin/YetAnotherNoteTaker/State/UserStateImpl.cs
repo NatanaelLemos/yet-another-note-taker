@@ -1,5 +1,5 @@
 ﻿using System;
-using YetAnotherNoteTaker.Client.Common.Dtos;
+using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.State
 {

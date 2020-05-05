@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using YetAnotherNoteTaker.Client.Common.Dtos;
+using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Events;
 using YetAnotherNoteTaker.Events.NoteEvents;
 using YetAnotherNoteTaker.Events.SettingsEvents;
@@ -30,6 +30,8 @@ namespace YetAnotherNoteTaker.Views
             _notebook = notebook;
 
             InitializeEditor("");
+
+            SizeChanged += NoteEditorPage_SizeChanged;
         }
 
         public NoteEditorPage(NotebookDto notebook, NoteDto note)
@@ -46,16 +48,39 @@ namespace YetAnotherNoteTaker.Views
             InitializeEditor(note.Body);
         }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _eventBroker.Notify(new SettingsQuery());
+            txtName.Completed += (object sender, EventArgs e) => _textEditor.Focus();
+        }
+
         private void InitializeEditor(string body)
         {
             _eventBroker.Subscribe<SettingsQueryResult>(arg =>
             {
                 var height = Application.Current.MainPage.Height - 130;
                 _textEditor = new QuillEditor(webEditor, height, body, arg.Settings.IsDarkMode);
+
+                if (_note == null)
+                {
+                    txtName.Focus();
+                }
+                else
+                {
+                    _textEditor.Focus();
+                }
+
                 return Task.CompletedTask;
             });
+        }
 
-            _eventBroker.Notify(new SettingsQuery());
+        private void NoteEditorPage_SizeChanged(object sender, EventArgs e)
+        {
+            if (_textEditor != null)
+            {
+                _textEditor.Height = Application.Current.MainPage.Height - 130;
+            }
         }
 
         private async void btnRemoveNote_OnClick(object sender, EventArgs e)

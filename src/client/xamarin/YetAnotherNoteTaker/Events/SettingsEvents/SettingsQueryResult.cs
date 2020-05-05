@@ -1,4 +1,4 @@
-﻿using YetAnotherNoteTaker.Client.Common.Dtos;
+﻿using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.Events.SettingsEvents
 {

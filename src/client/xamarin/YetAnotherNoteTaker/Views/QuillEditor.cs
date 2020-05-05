@@ -56,6 +56,15 @@ namespace YetAnotherNoteTaker.Views
             return _lastContent;
         }
 
+        public void Focus()
+        {
+            if (EnvironmentHelpers.EnvironmentName != EnvironmentName.Mac)
+            {
+                _container.Focus();
+                _container.EvaluateJavaScriptAsync("document.querySelector('.quill-editor').focus()");
+            }
+        }
+
         private string Html
         {
             get
