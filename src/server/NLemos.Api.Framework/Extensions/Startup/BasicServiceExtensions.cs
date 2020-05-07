@@ -1,13 +1,10 @@
-﻿using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 
 namespace NLemos.Api.Framework.Extensions.Startup
 {

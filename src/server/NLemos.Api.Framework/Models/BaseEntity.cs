@@ -23,7 +23,7 @@ namespace NLemos.Api.Framework.Models
         /// The DateTime when the entity was first written to database.
         /// </summary>
         /// <remarks>
-        ///     See https://docs.microsoft.com/en-us/dotnet/api/system.datetimeoffset?view=netframework-4.8 
+        ///     See https://docs.microsoft.com/en-us/dotnet/api/system.datetimeoffset?view=netframework-4.8
         ///     and https://stackoverflow.com/a/14268167 for why to use DateTimeOffset
         /// </remarks>
         public DateTimeOffset Added { get; set; }

@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.Server.Services

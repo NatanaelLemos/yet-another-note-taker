@@ -1,4 +1,4 @@
-using NLemos.Api.Framework.Models;
+﻿using NLemos.Api.Framework.Models;
 
 namespace YetAnotherNoteTaker.Server.Entities
 {

@@ -1,4 +1,4 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using NLemos.Api.Framework.Exceptions;
 using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Common.Helpers;
