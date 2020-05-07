@@ -1,20 +1,19 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using NLemos.Api.Framework.Extensions.Startup;
+using Raven.Client.Documents;
+using Raven.Client.Documents.Session;
 
 namespace YetAnotherNoteTaker.Server
 {
     public class Startup
     {
+        private string AppTitle => Configuration.GetSection("AppTitle").Value;
+        private string AppVersion => Configuration.GetSection("AppVersion").Value;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -25,27 +24,35 @@ namespace YetAnotherNoteTaker.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services
+                .AddBasicServices()
+                .AddSwagger(AppTitle, AppVersion);
+
+            AddRavenDB(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app
+                .ConfigureBasicApp(env)
+                .ConfigureSwagger(AppTitle, AppVersion);
+        }
+
+        private void AddRavenDB(IServiceCollection services)
+        {
+            var store = new DocumentStore
             {
-                app.UseDeveloperExceptionPage();
-            }
+                Urls = Configuration.GetSection("RavenDB:Urls").GetChildren().Select(c => c.Value).ToArray(),
+                Database = Configuration.GetSection("RavenDB:DatabaseName").Value
+            };
 
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            store.Initialize();
+            services.AddSingleton<IDocumentStore>(store);
+            services.AddScoped<IAsyncDocumentSession>(
+                serviceProvider => serviceProvider
+                    .GetService<IDocumentStore>()
+                    .OpenAsyncSession());
         }
     }
 }
