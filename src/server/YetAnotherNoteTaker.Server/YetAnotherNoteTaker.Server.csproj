@@ -17,12 +17,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="RavenDB.Client" Version="4.2.102" />
+    <ProjectReference Include="..\..\YetAnotherNoteTaker.Common\YetAnotherNoteTaker.Common.csproj" />
+    <ProjectReference Include="..\NLemos.Api.Framework\NLemos.Api.Framework.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\YetAnotherNoteTaker.Common\YetAnotherNoteTaker.Common.csproj" />
-    <ProjectReference Include="..\NLemos.Api.Framework\NLemos.Api.Framework.csproj" />
+    <Content Update="appsettings.Development.json">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using YetAnotherNoteTaker.Common.Dtos;
+using YetAnotherNoteTaker.Server.Services;
 
 namespace YetAnotherNoteTaker.Server.Controllers
 {
@@ -14,10 +15,12 @@ namespace YetAnotherNoteTaker.Server.Controllers
     public class RegisterController : ControllerBase
     {
         private readonly ILogger<RegisterController> _logger;
+        private readonly IUsersService _service;
 
-        public RegisterController(ILogger<RegisterController> logger)
+        public RegisterController(ILogger<RegisterController> logger, IUsersService service)
         {
             _logger = logger;
+            _service = service;
         }
 
         /// <summary>
@@ -38,7 +41,7 @@ namespace YetAnotherNoteTaker.Server.Controllers
         [HttpPost]
         public Task<UserDto> Post([FromBody] NewUserDto newUser)
         {
-            return Task.FromResult(new UserDto { Id = Guid.NewGuid(), Email = newUser.Email });
+            return _service.CreateUser(newUser);
         }
     }
 }

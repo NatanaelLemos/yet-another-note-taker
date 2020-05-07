@@ -1,11 +1,10 @@
-using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NLemos.Api.Framework.Extensions.Startup;
-using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
+using YetAnotherNoteTaker.Server.Data;
+using YetAnotherNoteTaker.Server.Services;
 
 namespace YetAnotherNoteTaker.Server
 {
@@ -28,7 +27,12 @@ namespace YetAnotherNoteTaker.Server
                 .AddBasicServices()
                 .AddSwagger(AppTitle, AppVersion);
 
-            AddRavenDB(services);
+            services.AddSingleton(s =>
+                new NoteTakerContext(Configuration.GetConnectionString("Default")));
+
+            services
+                .AddScoped<IUsersRepository, UsersRepository>()
+                .AddScoped<IUsersService, UsersService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,22 +42,6 @@ namespace YetAnotherNoteTaker.Server
                 .UseErrorHandling()
                 .ConfigureBasicApp(env)
                 .ConfigureSwagger(AppTitle, AppVersion);
-        }
-
-        private void AddRavenDB(IServiceCollection services)
-        {
-            var store = new DocumentStore
-            {
-                Urls = Configuration.GetSection("RavenDB:Urls").GetChildren().Select(c => c.Value).ToArray(),
-                Database = Configuration.GetSection("RavenDB:DatabaseName").Value
-            };
-
-            store.Initialize();
-            services.AddSingleton<IDocumentStore>(store);
-            services.AddScoped<IAsyncDocumentSession>(
-                serviceProvider => serviceProvider
-                    .GetService<IDocumentStore>()
-                    .OpenAsyncSession());
         }
     }
 }

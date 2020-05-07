@@ -1,14 +1,28 @@
-using Raven.Client.Documents.Session;
+using System.Threading.Tasks;
+using MongoDB.Driver;
+using YetAnotherNoteTaker.Server.Entities;
 
 namespace YetAnotherNoteTaker.Server.Data
 {
-    public class UsersRepository
+    public class UsersRepository : IUsersRepository
     {
-        private readonly IAsyncDocumentSession _session;
+        private readonly NoteTakerContext _db;
 
-        public UsersRepository(IAsyncDocumentSession session)
+        public UsersRepository(NoteTakerContext db)
         {
-            _session = session;
+            _db = db;
+        }
+
+        public async Task<User> GetByEmail(string email)
+        {
+            var result = await _db.Users.FindAsync(u => u.Email == email);
+            return await result.FirstOrDefaultAsync();
+        }
+
+        public async Task<User> Add(User user)
+        {
+            await _db.Users.InsertOneAsync(user);
+            return user;
         }
     }
 }
