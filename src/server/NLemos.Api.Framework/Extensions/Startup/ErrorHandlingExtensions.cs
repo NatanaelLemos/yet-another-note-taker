@@ -20,6 +20,8 @@ namespace NLemos.Api.Framework.Extensions.Startup
 
                 await HandleExceptionAsync(context, exception);
             }));
+
+            app.UseHsts();
             return app;
         }
 

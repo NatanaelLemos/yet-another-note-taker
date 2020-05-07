@@ -48,11 +48,6 @@ namespace NLemos.Api.Framework.Extensions.Startup
 
         public static IApplicationBuilder ConfigureBasicApp(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
