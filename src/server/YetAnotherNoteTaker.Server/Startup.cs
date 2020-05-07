@@ -35,6 +35,7 @@ namespace YetAnotherNoteTaker.Server
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app
+                .UseErrorHandling()
                 .ConfigureBasicApp(env)
                 .ConfigureSwagger(AppTitle, AppVersion);
         }

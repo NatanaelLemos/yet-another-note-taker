@@ -16,7 +16,6 @@ namespace NLemos.Api.Framework.Models
 
         /// <summary>
         /// The key of the entity.
-        /// If not set, the <see cref="SqlDbContext"/> will set it to <see cref="Guid"/>.<see cref="Guid.NewGuid"/>
         /// </summary>
         Guid Id { get; set; }
 

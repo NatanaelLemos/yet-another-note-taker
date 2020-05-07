@@ -29,7 +29,7 @@ namespace NLemos.Api.Framework.Extensions.Startup
             return services;
         }
 
-        public static void ConfigureSwagger(this IApplicationBuilder app, string title, string version)
+        public static IApplicationBuilder ConfigureSwagger(this IApplicationBuilder app, string title, string version)
         {
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -37,6 +37,8 @@ namespace NLemos.Api.Framework.Extensions.Startup
                 c.SwaggerEndpoint("/swagger/v0/swagger.json", $"{title}");
                 c.RoutePrefix = string.Empty;
             });
+
+            return app;
         }
     }
 }
