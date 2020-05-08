@@ -1,12 +1,12 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using NLemos.Api.Framework.Exceptions;
+using NLemos.Api.Framework.Extensions.Controllers;
 using NLemos.Api.Framework.Models;
 using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Server.Services;
-using NLemos.Api.Framework.Extensions.Controllers;
-using Microsoft.AspNetCore.Authorization;
 
 namespace YetAnotherNoteTaker.Server.Controllers
 {
@@ -56,7 +56,6 @@ namespace YetAnotherNoteTaker.Server.Controllers
             var user = await _service.GetUserByEmail(email);
             return this.HateoasResult(user);
         }
-
 
         /// <summary>
         /// Creates a new instance of <see cref="NewUserDto"/>.

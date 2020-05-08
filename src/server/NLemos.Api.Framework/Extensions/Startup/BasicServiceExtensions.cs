@@ -45,7 +45,7 @@ namespace NLemos.Api.Framework.Extensions.Startup
 
         public static IApplicationBuilder ConfigureBasicApp(this IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
 
