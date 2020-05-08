@@ -8,5 +8,7 @@ namespace YetAnotherNoteTaker.Server.Data
         public Task<User> GetByEmail(string email);
 
         public Task<User> Add(User user);
+
+        public Task<User> Update(User user);
     }
 }

@@ -16,6 +16,22 @@ namespace YetAnotherNoteTaker.Server.Services
             _usersRepository = usersRepository;
         }
 
+        public async Task<UserDto> GetUserByEmail(string email)
+        {
+            var user = await _usersRepository.GetByEmail(email);
+            return new UserDto
+            {
+                Id = user.Id,
+                Email = user.Email
+            };
+        }
+
+        public async Task<bool> ValidatePassword(string email, string password)
+        {
+            var user = await _usersRepository.GetByEmail(email);
+            return EncryptionHelpers.Hash(password).Equals(user.Password);
+        }
+
         public async Task<UserDto> CreateUser(NewUserDto newUserDto)
         {
             var current = await _usersRepository.GetByEmail(newUserDto.Email);
@@ -29,6 +45,23 @@ namespace YetAnotherNoteTaker.Server.Services
             user = await _usersRepository.Add(user);
 
             return new UserDto { Id = user.Id, Email = user.Email };
+        }
+
+        public async Task<UserDto> UpdateUser(string email, NewUserDto updatedUserDto)
+        {
+            var current = await _usersRepository.GetByEmail(updatedUserDto.Email);
+            if (current != null)
+            {
+                throw new InvalidParametersException(
+                    nameof(updatedUserDto.Email), "Email is already in use.");
+            }
+
+            current = await _usersRepository.GetByEmail(email);
+            current.Email = updatedUserDto.Email;
+            current.Password = EncryptionHelpers.Hash(updatedUserDto.Password);
+
+            current = await _usersRepository.Update(current);
+            return new UserDto { Id = current.Id, Email = current.Email };
         }
     }
 }

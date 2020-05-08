@@ -24,5 +24,10 @@ namespace YetAnotherNoteTaker.Server.Data
             await _db.Users.InsertOneAsync(user);
             return user;
         }
+
+        public Task<User> Update(User user)
+        {
+            return _db.Users.FindOneAndReplaceAsync(u => u.Id == user.Id, user);
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace NLemos.Api.Framework.Data
         private IMongoDatabase _database { get; }
 
         /// <summary>
-        /// Creates an instance of <see cref="MongoDbContext"/> defining a connection to a Mongo database.
+        /// Creates an instance of <see cref="MongoDBContext"/> defining a connection to a Mongo database.
         /// </summary>
         /// <param name="connectionString">Connection string for the database.</param>
         /// <param name="databaseName">Database name.</param>
@@ -22,7 +22,7 @@ namespace NLemos.Api.Framework.Data
         }
 
         /// <summary>
-        /// Gets a enumerable of the entity <typeparamref name="T"/> in a <see cref="DbSet"/> fashion.
+        /// Gets a enumerable of the entity <typeparamref name="T"/> in a DbSet fashion.
         /// </summary>
         /// <typeparam name="T">The type of the entity.</typeparam>
         /// <param name="collectionName">The collection name in the database that will be mapped.</param>
