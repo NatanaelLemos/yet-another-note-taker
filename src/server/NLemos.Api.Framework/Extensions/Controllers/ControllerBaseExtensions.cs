@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using NLemos.Api.Framework.Exceptions;
 using NLemos.Api.Framework.Models;
 
 namespace NLemos.Api.Framework.Extensions.Controllers
@@ -26,7 +27,21 @@ namespace NLemos.Api.Framework.Extensions.Controllers
         /// <returns>Value containing links.</returns>
         public static Hateoas<T> HateoasResult<T>(this ControllerBase controller, T value)
         {
-            return HateoasProcessor.Instance.Process(controller, value);
+            return HateoasBuilder.Instance.Build(controller, value);
+        }
+
+        /// <summary>
+        /// Validates the passed email with the email inside the users token.
+        /// </summary>
+        /// <param name="controller">The controller that has the request.</param>
+        /// <param name="email">Email to be validated.</param>
+        public static void ValidateEmail(this ControllerBase controller, string email)
+        {
+            var controllerEmail = GetUserEmail(controller);
+            if (controllerEmail != email)
+            {
+                throw new InvalidParametersException("user", "You don't have permission to see this user.");
+            }
         }
     }
 }

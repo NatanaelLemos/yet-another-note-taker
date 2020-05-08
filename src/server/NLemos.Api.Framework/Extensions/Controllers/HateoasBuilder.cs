@@ -8,19 +8,19 @@ using NLemos.Api.Framework.Models;
 
 namespace NLemos.Api.Framework.Extensions.Controllers
 {
-    public class HateoasProcessor
+    public class HateoasBuilder
     {
-        private static readonly Lazy<HateoasProcessor> _instance = new Lazy<HateoasProcessor>(() => new HateoasProcessor());
+        private static readonly Lazy<HateoasBuilder> _instance = new Lazy<HateoasBuilder>(() => new HateoasBuilder());
 
         private Dictionary<Type, Dictionary<string, string>> _cache = new Dictionary<Type, Dictionary<string, string>>();
 
-        private HateoasProcessor()
+        private HateoasBuilder()
         {
         }
 
-        public static HateoasProcessor Instance => _instance.Value;
+        public static HateoasBuilder Instance => _instance.Value;
 
-        public Hateoas<T> Process<T>(ControllerBase controller, T value)
+        public Hateoas<T> Build<T>(ControllerBase controller, T value)
         {
             var controllerType = controller.GetType();
 
@@ -30,12 +30,39 @@ namespace NLemos.Api.Framework.Extensions.Controllers
                 _cache.Add(controllerType, links);
             }
 
-            var hateoas = new Hateoas<T>(value, links);
-
-            return hateoas;
+            return new Hateoas<T>(value, links);
         }
 
         private Dictionary<string, string> ExtractLinks(Type controllerType)
+        {
+            var links = new Dictionary<string, string>();
+            var controllerUrl = GetControllerUrl(controllerType);
+
+            var controllers = controllerType.Assembly.GetTypes().Where(t =>
+                t.BaseType == typeof(ControllerBase) &&
+                GetControllerUrl(t).StartsWith(controllerUrl))
+                .ToList();
+
+            foreach (var controller in controllers)
+            {
+                foreach (var link in GetControllerLinks(controller))
+                {
+                    links.Add(link.Key, link.Value);
+                }
+            }
+
+            return links;
+        }
+
+        private string GetControllerUrl(Type controllerType)
+        {
+            return controllerType.CustomAttributes
+                    .FirstOrDefault(c => c.AttributeType == typeof(RouteAttribute))
+                    .ConstructorArguments[0].Value.ToString()
+                    .Replace("[controller]", controllerType.Name.Replace("Controller", ""));
+        }
+
+        private Dictionary<string, string> GetControllerLinks(Type controllerType)
         {
             var links = new Dictionary<string, string>();
             var controllerUrl = GetControllerUrl(controllerType);
@@ -51,21 +78,13 @@ namespace NLemos.Api.Framework.Extensions.Controllers
 
                 if (httpMethod.ConstructorArguments.Any())
                 {
-                    link += "/" + httpMethod.ConstructorArguments[0].Value.ToString();
+                    link += $"/{httpMethod.ConstructorArguments[0].Value.ToString()}";
                 }
 
-                links.Add(method.Name, link);
+                links.Add($"{controllerType.Name.Replace("Controller", "")}/{method.Name}", link);
             }
 
             return links;
-        }
-
-        private string GetControllerUrl(Type controllerType)
-        {
-            return controllerType.CustomAttributes
-                    .FirstOrDefault(c => c.AttributeType == typeof(RouteAttribute))
-                    .ConstructorArguments[0].Value.ToString()
-                    .Replace("[controller]", controllerType.Name.Replace("Controller", ""));
         }
 
         private bool IsHttpMethod(CustomAttributeData attribute)

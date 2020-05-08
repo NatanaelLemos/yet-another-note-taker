@@ -14,7 +14,7 @@ namespace YetAnotherNoteTaker.Server.Controllers
     /// <see cref="UserDto"/>'s controllers.
     /// </summary>
     [ApiController]
-    [Route("v0/[controller]")]
+    [Route("v0/users")]
     public class UsersController : ControllerBase
     {
         private readonly ILogger<UsersController> _logger;
@@ -46,10 +46,7 @@ namespace YetAnotherNoteTaker.Server.Controllers
         [ProducesResponseType(422)]
         public async Task<Hateoas<UserDto>> Get(string email)
         {
-            if (email != this.GetUserEmail())
-            {
-                throw new InvalidParametersException("user", "You don't have permission to update this user.");
-            }
+            this.ValidateEmail(email);
 
             if (!ModelState.IsValid)
             {
@@ -116,10 +113,7 @@ namespace YetAnotherNoteTaker.Server.Controllers
         [ProducesResponseType(422)]
         public async Task<Hateoas<UserDto>> Put(string email, [FromBody] NewUserDto newUser)
         {
-            if (email != this.GetUserEmail())
-            {
-                throw new InvalidParametersException("user", "You don't have permission to update this user.");
-            }
+            this.ValidateEmail(email);
 
             if (!ModelState.IsValid)
             {

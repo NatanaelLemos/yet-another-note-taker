@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MongoDB.Driver;
 using YetAnotherNoteTaker.Server.Entities;
 
@@ -27,6 +28,7 @@ namespace YetAnotherNoteTaker.Server.Data
 
         public Task<User> Update(User user)
         {
+            user.Modified = DateTimeOffset.UtcNow;
             return _db.Users.FindOneAndReplaceAsync(u => u.Id == user.Id, user);
         }
     }

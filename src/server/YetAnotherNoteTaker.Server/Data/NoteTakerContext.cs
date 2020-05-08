@@ -15,8 +15,15 @@ namespace YetAnotherNoteTaker.Server.Data
                 cm.AutoMap();
                 cm.SetIgnoreExtraElements(true);
             });
+            BsonClassMap.RegisterClassMap<Notebook>(cm =>
+            {
+                cm.AutoMap();
+                cm.SetIgnoreExtraElements(true);
+            });
         }
 
         public IMongoCollection<User> Users => GetCollection<User>("users");
+
+        public IMongoCollection<Notebook> Notebooks => GetCollection<Notebook>("notebooks");
     }
 }

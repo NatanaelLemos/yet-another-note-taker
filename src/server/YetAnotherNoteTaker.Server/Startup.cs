@@ -40,6 +40,10 @@ namespace YetAnotherNoteTaker.Server
                 .AddScoped<IUsersService, UsersService>();
 
             services
+                .AddScoped<INotebooksRepository, NotebooksRepository>()
+                .AddScoped<INotebooksService, NotebooksService>();
+
+            services
                 .AddScoped<IResourceOwnerPasswordValidator, PasswordValidator>()
                 .AddScoped<IProfileService, ProfileService>();
 
