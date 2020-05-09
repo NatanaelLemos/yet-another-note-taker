@@ -9,12 +9,12 @@ namespace YetAnotherNoteTaker.Server.Services
     {
         Task<List<NotebookDto>> GetAll(string userEmail);
 
-        Task<NotebookDto> Get(string email, Guid id);
+        Task<NotebookDto> Get(string email, string notebookKey);
 
         Task<NotebookDto> Add(string userEmail, NotebookDto notebook);
 
-        Task<NotebookDto> Update(string userEmail, Guid id, NotebookDto notebook);
+        Task<NotebookDto> Update(string userEmail, string notebookKey, NotebookDto notebook);
 
-        Task Delete(string userEmail, Guid id);
+        Task Delete(string userEmail, string notebookKey);
     }
 }

@@ -11,7 +11,7 @@ namespace YetAnotherNoteTaker.Client.Common.Services
     {
         public static List<UserDto> Users = new List<UserDto>
         {
-            new UserDto{ Email = "e", Id = Guid.NewGuid() }
+            new UserDto{ Email = "e" }
         };
 
         private readonly IAuthRepository _authRepository;
@@ -25,7 +25,6 @@ namespace YetAnotherNoteTaker.Client.Common.Services
         {
             Users.Add(new UserDto
             {
-                Id = Guid.NewGuid(),
                 Email = newUserDto.Email
             });
 

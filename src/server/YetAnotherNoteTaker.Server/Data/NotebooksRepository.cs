@@ -21,15 +21,9 @@ namespace YetAnotherNoteTaker.Server.Data
             return await result.ToListAsync();
         }
 
-        public async Task<Notebook> Get(string userEmail, Guid id)
+        public async Task<Notebook> Get(string userEmail, string notebookKey)
         {
-            var result = await _db.Notebooks.FindAsync(n => n.UserEmail == userEmail && n.Id == id);
-            return await result.FirstOrDefaultAsync();
-        }
-
-        public async Task<Notebook> GetByName(string userEmail, string name)
-        {
-            var result = await _db.Notebooks.FindAsync(n => n.UserEmail == userEmail && n.Name == name);
+            var result = await _db.Notebooks.FindAsync(n => n.UserEmail == userEmail && n.Key == notebookKey);
             return await result.FirstOrDefaultAsync();
         }
 

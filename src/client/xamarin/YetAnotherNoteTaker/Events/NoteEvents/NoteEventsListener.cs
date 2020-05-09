@@ -26,27 +26,27 @@ namespace YetAnotherNoteTaker.Events.NoteEvents
 
         private async Task ListNotesCommandHandler(ListNotesCommand arg)
         {
-            if (arg.NotebookId == Guid.Empty)
+            if (string.IsNullOrEmpty(arg.NotebookKey))
             {
-                var notes = await _service.GetAll(UserState.UserId);
+                var notes = await _service.GetAll(UserState.UserEmail);
                 await _eventBroker.Notify(new ListNotesResult(notes));
             }
             else
             {
-                var notes = await _service.GetByNotebookId(UserState.UserId, arg.NotebookId);
+                var notes = await _service.GetByNotebookKey(UserState.UserEmail, arg.NotebookKey);
                 await _eventBroker.Notify(new ListNotesResult(notes));
             }
         }
 
         private async Task EditNoteCommandHandler(EditNoteCommand arg)
         {
-            if (arg.NoteId == Guid.Empty)
+            if (string.IsNullOrEmpty(arg.NoteKey))
             {
                 await _service.Create(
-                    UserState.UserId,
+                    UserState.UserEmail,
                     new NoteDto
                     {
-                        NotebookId = arg.NotebookId,
+                        NotebookKey = arg.NotebookKey,
                         Name = arg.Name,
                         Body = arg.Body
                     });
@@ -54,22 +54,22 @@ namespace YetAnotherNoteTaker.Events.NoteEvents
             else
             {
                 await _service.Update(
-                    UserState.UserId,
+                    UserState.UserEmail,
                     new NoteDto
                     {
-                        Id = arg.NoteId,
+                        Key = arg.NoteKey,
                         Name = arg.Name,
                         Body = arg.Body
                     });
             }
 
-            await _eventBroker.Notify(new ListNotesCommand(arg.NotebookId));
+            await _eventBroker.Notify(new ListNotesCommand(arg.NotebookKey));
         }
 
         private async Task DeleteNoteCommandHandler(DeleteNoteCommand arg)
         {
-            await _service.Delete(arg.NoteId);
-            await _eventBroker.Notify(new ListNotesCommand(arg.NotebookId));
+            await _service.Delete(arg.NoteKey);
+            await _eventBroker.Notify(new ListNotesCommand(arg.NotebookKey));
         }
     }
 }

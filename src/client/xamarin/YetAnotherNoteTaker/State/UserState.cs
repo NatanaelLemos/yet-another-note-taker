@@ -22,7 +22,7 @@ namespace YetAnotherNoteTaker.State
             return false;
         }
 
-        public static Guid UserId => UserStateImpl.Instance.CurrentUser?.Id ?? Guid.Empty;
+        public static string UserEmail => UserStateImpl.Instance.CurrentUser?.Email ?? string.Empty;
 
         public static void SetUser(UserDto user)
         {

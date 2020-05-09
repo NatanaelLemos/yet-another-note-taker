@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YetAnotherNoteTaker.Common.Dtos;
@@ -60,20 +59,25 @@ namespace YetAnotherNoteTaker.Views
 
         private void btnEditNotebook_OnClick(object sender, EventArgs e)
         {
-            var notebookId = (sender as Button)?.BindingContext as Guid?;
-            if (notebookId == null)
+            var notebookKey = GetNotebookKey(sender);
+            if (string.IsNullOrWhiteSpace(notebookKey))
             {
                 return;
             }
 
-            var notebook = _dataSource.FirstOrDefault(n => n.Id == notebookId);
+            var notebook = _dataSource.FirstOrDefault(n => n.Key == notebookKey);
             PageNavigator.NavigateTo<NotebookEditorPage>(notebook);
+        }
+
+        private string GetNotebookKey(object sender)
+        {
+            return (sender as Button)?.BindingContext as string;
         }
 
         private async void btnRemoveNotebook_OnClick(object sender, EventArgs e)
         {
-            var notebookId = (sender as Button)?.BindingContext as Guid?;
-            if (notebookId == null)
+            var notebookKey = GetNotebookKey(sender);
+            if (notebookKey == null)
             {
                 return;
             }
@@ -81,7 +85,7 @@ namespace YetAnotherNoteTaker.Views
             var answer = await DisplayAlert("Remove", "Are you sure?", "Yes", "No");
             if (answer)
             {
-                await _eventBroker.Notify(new DeleteNotebookCommand(notebookId.Value));
+                await _eventBroker.Notify(new DeleteNotebookCommand(notebookKey));
             }
         }
 

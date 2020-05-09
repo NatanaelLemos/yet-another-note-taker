@@ -25,19 +25,19 @@ namespace YetAnotherNoteTaker.Events.SettingsEvents
 
         private async Task SettingsQueryHandler(SettingsQuery arg)
         {
-            var settings = await _service.Get(UserState.UserId);
+            var settings = await _service.Get(UserState.UserEmail);
             await _eventBroker.Notify(new SettingsQueryResult(settings));
         }
 
         private Task EditSettingsCommandHandler(EditSettingsCommand arg)
         {
             var settings = new SettingsDto { IsDarkMode = arg.IsDarkMode };
-            return _service.Save(UserState.UserId, settings);
+            return _service.Save(UserState.UserEmail, settings);
         }
 
         private async Task SettingsRefreshQueryHandler(SettingsRefreshQuery arg)
         {
-            var settings = await _service.Get(UserState.UserId);
+            var settings = await _service.Get(UserState.UserEmail);
             await _eventBroker.Notify(new SettingsRefreshResult(settings));
         }
     }

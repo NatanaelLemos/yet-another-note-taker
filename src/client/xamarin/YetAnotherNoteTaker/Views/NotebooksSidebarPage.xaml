@@ -30,13 +30,13 @@
                                 Text="{Binding Name}" />
                             <Button
                                 Grid.Column="1"
-                                BindingContext="{Binding Id}"
+                                BindingContext="{Binding Key}"
                                 Clicked="btnEditNotebook_OnClick"
                                 StyleClass="btnBlue"
                                 Text="✏" />
                             <Button
                                 Grid.Column="2"
-                                BindingContext="{Binding Id}"
+                                BindingContext="{Binding Key}"
                                 Clicked="btnRemoveNotebook_OnClick"
                                 StyleClass="btnRed"
                                 Text="➖" />

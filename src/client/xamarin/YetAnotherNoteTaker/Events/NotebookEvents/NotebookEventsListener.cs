@@ -26,15 +26,15 @@ namespace YetAnotherNoteTaker.Events.NotebookEvents
 
         private async Task ListNotebooksCommandHandler(ListNotebooksCommand arg)
         {
-            var notebooks = await _service.GetAll(UserState.UserId);
+            var notebooks = await _service.GetAll(UserState.UserEmail);
             await _eventBroker.Notify(new ListNotebooksResult(notebooks));
         }
 
         private async Task EditNotebookCommandHandler(EditNotebookCommand arg)
         {
-            var task = arg.Id == Guid.Empty
-                ? _service.Create(UserState.UserId, new NotebookDto { Name = arg.Name })
-                : _service.Update(UserState.UserId, new NotebookDto { Id = arg.Id, Name = arg.Name });
+            var task = string.IsNullOrWhiteSpace(arg.Key)
+                ? _service.Create(UserState.UserEmail, new NotebookDto { Name = arg.Name })
+                : _service.Update(UserState.UserEmail, new NotebookDto { Key= arg.Key, Name = arg.Name });
 
             var result = await task;
             await _eventBroker.Notify(new EditNotebookResult(result));
@@ -42,7 +42,7 @@ namespace YetAnotherNoteTaker.Events.NotebookEvents
 
         private async Task DeleteNotebookCommandHandler(DeleteNotebookCommand arg)
         {
-            await _service.Delete(arg.Id);
+            await _service.Delete(arg.Key);
             await _eventBroker.Notify(new ListNotebooksCommand());
         }
     }

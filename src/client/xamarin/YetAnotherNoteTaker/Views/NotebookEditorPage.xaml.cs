@@ -14,14 +14,14 @@ namespace YetAnotherNoteTaker.Views
     public partial class NotebookEditorPage : ContentPage
     {
         private IEventBroker _eventBroker;
-        private Guid _id;
+        private readonly string _notebookKey;
 
         public NotebookEditorPage()
         {
             InitializeComponent();
             Initialize();
             Title = "New notebook";
-            _id = Guid.Empty;
+            _notebookKey = string.Empty;
         }
 
         public NotebookEditorPage(NotebookDto notebook)
@@ -30,7 +30,7 @@ namespace YetAnotherNoteTaker.Views
             Initialize();
             Title = notebook.Name;
             txtNotebook.Text = notebook.Name;
-            _id = notebook.Id;
+            _notebookKey = notebook.Key;
         }
 
         private void Initialize()
@@ -55,7 +55,7 @@ namespace YetAnotherNoteTaker.Views
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            _eventBroker.Notify(new EditNotebookCommand(_id, txtNotebook.Text));
+            _eventBroker.Notify(new EditNotebookCommand(_notebookKey, txtNotebook.Text));
         }
 
         private void btnCancel_Click(object sender, EventArgs e)

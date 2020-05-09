@@ -30,7 +30,6 @@ namespace YetAnotherNoteTaker.Views
             _notebook = notebook;
 
             InitializeEditor("");
-
             SizeChanged += NoteEditorPage_SizeChanged;
         }
 
@@ -85,7 +84,7 @@ namespace YetAnotherNoteTaker.Views
 
         private async void btnRemoveNote_OnClick(object sender, EventArgs e)
         {
-            await _eventBroker.Notify(new DeleteNoteCommand(_notebook.Id, _note.Id));
+            await _eventBroker.Notify(new DeleteNoteCommand(_notebook.Key, _note.Key));
             PageNavigator.NavigateTo<NotesPage>(_notebook);
         }
 
@@ -94,8 +93,8 @@ namespace YetAnotherNoteTaker.Views
             var body = await _textEditor.GetContent();
             await _eventBroker.Notify(
                 new EditNoteCommand(
-                    _notebook?.Id ?? Guid.Empty,
-                    _note?.Id ?? Guid.Empty,
+                    _notebook?.Key ?? string.Empty,
+                    _note?.Key ?? string.Empty,
                     txtName.Text,
                     body));
 

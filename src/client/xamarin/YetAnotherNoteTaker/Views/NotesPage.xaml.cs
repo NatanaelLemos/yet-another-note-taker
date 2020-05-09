@@ -34,7 +34,7 @@ namespace YetAnotherNoteTaker.Views
             Initialize();
 
             Title = notebook.Name;
-            _eventBroker.Notify(new ListNotesCommand(notebook.Id));
+            _eventBroker.Notify(new ListNotesCommand(notebook.Key));
             _notebook = notebook;
         }
 

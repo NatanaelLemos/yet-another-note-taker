@@ -6,8 +6,8 @@ namespace YetAnotherNoteTaker.Client.Common.Services
 {
     public interface ISettingsService
     {
-        Task<SettingsDto> Get(Guid userId);
+        Task<SettingsDto> Get(string email);
 
-        Task Save(Guid userId, SettingsDto settings);
+        Task Save(string email, SettingsDto settings);
     }
 }

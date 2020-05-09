@@ -4,15 +4,11 @@ namespace YetAnotherNoteTaker.Events.NoteEvents
 {
     public class ListNotesCommand
     {
-        public ListNotesCommand()
+        public ListNotesCommand(string notebookKey = "")
         {
+            NotebookKey = notebookKey;
         }
 
-        public ListNotesCommand(Guid notebookId)
-        {
-            NotebookId = notebookId;
-        }
-
-        public Guid NotebookId { get; }
+        public string NotebookKey { get; }
     }
 }

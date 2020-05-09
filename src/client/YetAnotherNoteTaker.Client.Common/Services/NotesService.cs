@@ -10,43 +10,43 @@ namespace YetAnotherNoteTaker.Client.Common.Services
     {
         private static List<NoteDto> _db = new List<NoteDto>
             {
-                new NoteDto { Id = Guid.NewGuid(), Name = "n1" }
+                new NoteDto { Key = "n1", Name = "n1" }
             };
 
-        public Task<List<NoteDto>> GetAll(Guid userId)
+        public Task<List<NoteDto>> GetAll(string email)
         {
             return Task.FromResult(_db);
         }
 
-        public Task<List<NoteDto>> GetByNotebookId(Guid userId, Guid notebookId)
+        public Task<List<NoteDto>> GetByNotebookKey(string email, string notebookKey)
         {
             return Task.FromResult(
-                _db.Where(d => d.NotebookId == notebookId).ToList());
+                _db.Where(d => d.NotebookKey == notebookKey).ToList());
         }
 
-        public Task<NoteDto> Create(Guid userId, NoteDto noteDto)
+        public Task<NoteDto> Create(string email, NoteDto noteDto)
         {
-            noteDto.Id = Guid.NewGuid();
+            noteDto.Key = noteDto.Name;
             _db.Add(noteDto);
             return Task.FromResult(noteDto);
         }
 
-        public Task<NoteDto> Update(Guid userId, NoteDto noteDto)
+        public Task<NoteDto> Update(string email, NoteDto noteDto)
         {
-            var dbItem = _db.FirstOrDefault(d => d.Id == noteDto.Id);
+            var dbItem = _db.FirstOrDefault(d => d.Key == noteDto.Key);
             if (dbItem != null)
             {
                 _db.Remove(dbItem);
             }
 
-            noteDto.NotebookId = dbItem.NotebookId;
+            noteDto.NotebookKey = dbItem.NotebookKey;
             _db.Add(noteDto);
             return Task.FromResult(noteDto);
         }
 
-        public Task Delete(Guid noteId)
+        public Task Delete(string noteKey)
         {
-            var dbItem = _db.FirstOrDefault(d => d.Id == noteId);
+            var dbItem = _db.FirstOrDefault(d => d.Key == noteKey);
             if (dbItem != null)
             {
                 _db.Remove(dbItem);

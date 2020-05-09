@@ -4,24 +4,24 @@ namespace YetAnotherNoteTaker.Events.NoteEvents
 {
     public class EditNoteCommand
     {
-        public EditNoteCommand(Guid notebookId, string name, string body)
+        public EditNoteCommand(string notebookKey, string name, string body)
         {
-            NotebookId = notebookId;
-            NoteId = Guid.Empty;
+            NotebookKey = notebookKey;
+            NoteKey = string.Empty;
             Name = name;
             Body = body;
         }
 
-        public EditNoteCommand(Guid notebookId, Guid noteId, string name, string body)
+        public EditNoteCommand(string notebookKey, string noteKey, string name, string body)
         {
-            NotebookId = notebookId;
-            NoteId = noteId;
+            NotebookKey = notebookKey;
+            NoteKey = noteKey;
             Name = name;
             Body = body;
         }
 
-        public Guid NotebookId { get; }
-        public Guid NoteId { get; }
+        public string NotebookKey { get; }
+        public string NoteKey { get; }
         public string Name { get; }
         public string Body { get; }
     }

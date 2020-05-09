@@ -5,12 +5,22 @@ namespace NLemos.Api.Framework.Extensions
 {
     public static class StringExtensions
     {
-        public static string GenerateHash(this string text)
+        public static string GenerateKey(this string text)
         {
             text = FormatString(text);
-            text = text.Replace(" ", "").Replace(",", "").Replace("/", "").Replace("-", "");
             text = RemoveDiacritics(text);
-            return text.Trim().ToLower();
+
+            var textBuilder = new StringBuilder();
+
+            foreach (var c in text)
+            {
+                if (char.IsLetterOrDigit(c))
+                {
+                    textBuilder.Append(c);
+                }
+            }
+
+            return textBuilder.ToString().ToLowerInvariant();
         }
 
         private static string FormatString(string text)

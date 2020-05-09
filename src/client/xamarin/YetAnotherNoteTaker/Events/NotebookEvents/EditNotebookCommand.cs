@@ -4,13 +4,13 @@ namespace YetAnotherNoteTaker.Events.NotebookEvents
 {
     public class EditNotebookCommand
     {
-        public EditNotebookCommand(Guid id, string name)
+        public EditNotebookCommand(string key, string name)
         {
-            Id = id;
+            Key = key;
             Name = name;
         }
 
-        public Guid Id { get; }
+        public string Key { get; }
 
         public string Name { get; }
     }

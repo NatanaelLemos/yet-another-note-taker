@@ -4,11 +4,11 @@ namespace YetAnotherNoteTaker.Events.NotebookEvents
 {
     public class DeleteNotebookCommand
     {
-        public DeleteNotebookCommand(Guid id)
+        public DeleteNotebookCommand(string key)
         {
-            Id = id;
+            Key = key;
         }
 
-        public Guid Id { get; }
+        public string Key { get; }
     }
 }

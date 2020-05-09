@@ -2,16 +2,18 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using NLemos.Api.Framework.Exceptions;
 using NLemos.Api.Framework.Extensions.Controllers;
 using NLemos.Api.Framework.Models;
 using YetAnotherNoteTaker.Common.Dtos;
+using YetAnotherNoteTaker.Server.Data;
 using YetAnotherNoteTaker.Server.Services;
 
 namespace YetAnotherNoteTaker.Server.Controllers
 {
     /// <summary>
-    /// <see cref="UserDto"/>'s controllers.
+    /// <see cref="UserDto"/>'s controller.
     /// </summary>
     [ApiController]
     [Route("v0/users")]
@@ -20,10 +22,22 @@ namespace YetAnotherNoteTaker.Server.Controllers
         private readonly ILogger<UsersController> _logger;
         private readonly IUsersService _service;
 
-        public UsersController(ILogger<UsersController> logger, IUsersService service)
+        public UsersController(ILogger<UsersController> logger, IUsersService service, NoteTakerContext ctx)
         {
             _logger = logger;
             _service = service;
+
+            var notebooks = ctx.Notebooks.FindSync(Builders<Entities.Notebook>.Filter.Empty).ToList();
+            foreach (var notebook in notebooks)
+            {
+                ctx.Notebooks.FindOneAndDelete(Builders<Entities.Notebook>.Filter.Eq(n => n.Id, notebook.Id));
+            }
+
+            var users = ctx.Users.FindSync(Builders<Entities.User>.Filter.Empty).ToList();
+            foreach (var user in users)
+            {
+                ctx.Users.FindOneAndDelete(Builders<Entities.User>.Filter.Eq(n => n.Id, user.Id));
+            }
         }
 
         /// <summary>

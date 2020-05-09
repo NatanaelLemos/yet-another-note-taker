@@ -9,9 +9,7 @@ namespace YetAnotherNoteTaker.Server.Data
     {
         Task<List<Notebook>> GetAll(string userEmail);
 
-        Task<Notebook> Get(string userEmail, Guid id);
-
-        Task<Notebook> GetByName(string userEmail, string name);
+        Task<Notebook> Get(string userEmail, string notebookKey);
 
         Task<Notebook> Add(Notebook notebook);
 

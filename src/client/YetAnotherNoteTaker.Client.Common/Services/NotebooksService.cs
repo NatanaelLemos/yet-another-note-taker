@@ -10,26 +10,26 @@ namespace YetAnotherNoteTaker.Client.Common.Services
     {
         private static List<NotebookDto> _allNotebooks = new List<NotebookDto>
             {
-                new NotebookDto{ Id = Guid.NewGuid(), Name = "1" },
-                new NotebookDto{ Id = Guid.NewGuid(), Name = "2" },
-                new NotebookDto{ Id = Guid.NewGuid(), Name = "3" }
+                new NotebookDto{ Key = "1", Name = "1" },
+                new NotebookDto{ Key = "2", Name = "2" },
+                new NotebookDto{ Key = "3", Name = "3" }
             };
 
-        public Task<List<NotebookDto>> GetAll(Guid userId)
+        public Task<List<NotebookDto>> GetAll(string email)
         {
             return Task.FromResult(_allNotebooks);
         }
 
-        public Task<NotebookDto> Create(Guid userId, NotebookDto notebookDto)
+        public Task<NotebookDto> Create(string email, NotebookDto notebookDto)
         {
-            notebookDto.Id = Guid.NewGuid();
+            notebookDto.Key = notebookDto.Name;
             _allNotebooks.Add(notebookDto);
             return Task.FromResult(notebookDto);
         }
 
-        public Task<NotebookDto> Update(Guid userId, NotebookDto notebookDto)
+        public Task<NotebookDto> Update(string email, NotebookDto notebookDto)
         {
-            var dbItem = _allNotebooks.FirstOrDefault(n => n.Id == notebookDto.Id);
+            var dbItem = _allNotebooks.FirstOrDefault(n => n.Key == notebookDto.Key);
             if (dbItem != null)
             {
                 _allNotebooks.Remove(dbItem);
@@ -39,9 +39,9 @@ namespace YetAnotherNoteTaker.Client.Common.Services
             return Task.FromResult(notebookDto);
         }
 
-        public Task Delete(Guid id)
+        public Task Delete(string key)
         {
-            var dbItem = _allNotebooks.FirstOrDefault(n => n.Id == id);
+            var dbItem = _allNotebooks.FirstOrDefault(n => n.Key == key);
             if (dbItem != null)
             {
                 _allNotebooks.Remove(dbItem);

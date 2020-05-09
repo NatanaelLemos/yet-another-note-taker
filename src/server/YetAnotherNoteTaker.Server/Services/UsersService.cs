@@ -19,16 +19,22 @@ namespace YetAnotherNoteTaker.Server.Services
         public async Task<UserDto> GetUserByEmail(string email)
         {
             var user = await _usersRepository.GetByEmail(email);
-            return new UserDto
+            if(user == null)
             {
-                Id = user.Id,
-                Email = user.Email
-            };
+                return null;
+            }
+
+            return new UserDto { Email = user.Email };
         }
 
         public async Task<bool> ValidatePassword(string email, string password)
         {
             var user = await _usersRepository.GetByEmail(email);
+            if(user == null)
+            {
+                return false;
+            }
+
             return EncryptionHelpers.Hash(password).Equals(user.Password);
         }
 
@@ -44,7 +50,7 @@ namespace YetAnotherNoteTaker.Server.Services
             var user = new User { Email = newUserDto.Email, Password = EncryptionHelpers.Hash(newUserDto.Password) };
             user = await _usersRepository.Add(user);
 
-            return new UserDto { Id = user.Id, Email = user.Email };
+            return new UserDto { Email = user.Email };
         }
 
         public async Task<UserDto> UpdateUser(string email, NewUserDto updatedUserDto)
@@ -61,7 +67,7 @@ namespace YetAnotherNoteTaker.Server.Services
             current.Password = EncryptionHelpers.Hash(updatedUserDto.Password);
 
             current = await _usersRepository.Update(current);
-            return new UserDto { Id = current.Id, Email = current.Email };
+            return new UserDto { Email = current.Email };
         }
     }
 }
