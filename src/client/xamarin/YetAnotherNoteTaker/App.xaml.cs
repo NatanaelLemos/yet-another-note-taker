@@ -2,7 +2,9 @@
 using System.IO;
 using Xamarin.Forms;
 using YetAnotherNoteTaker.Client.Common.Data;
+using YetAnotherNoteTaker.Client.Common.Http;
 using YetAnotherNoteTaker.Client.Common.Services;
+using YetAnotherNoteTaker.Data;
 using YetAnotherNoteTaker.Events;
 using YetAnotherNoteTaker.Events.AuthEvents;
 using YetAnotherNoteTaker.Events.NotebookEvents;
@@ -10,8 +12,6 @@ using YetAnotherNoteTaker.Events.NoteEvents;
 using YetAnotherNoteTaker.Events.SettingsEvents;
 using YetAnotherNoteTaker.State;
 using YetAnotherNoteTaker.Views;
-using YetAnotherNoteTaker.Xamarin.Data;
-using YetAnotherNoteTaker.Xamarin.Data.Data;
 
 namespace YetAnotherNoteTaker
 {
@@ -43,6 +43,8 @@ namespace YetAnotherNoteTaker
             XamarinClientContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
 
             ServiceLocator.Register<IEventBroker, EventBroker>();
+            ServiceLocator.Register<IRestClient, RestClient>();
+            ServiceLocator.Register<IUrlBuilder>(new UrlBuilder("http://localhost:5000"));
 
             ServiceLocator.Register<IAuthRepository, XamarinAuthRepository>();
             ServiceLocator.Register<IAuthService, AuthService>();

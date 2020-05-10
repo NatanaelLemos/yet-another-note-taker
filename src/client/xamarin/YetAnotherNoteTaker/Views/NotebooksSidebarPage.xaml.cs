@@ -86,6 +86,7 @@ namespace YetAnotherNoteTaker.Views
             if (answer)
             {
                 await _eventBroker.Notify(new DeleteNotebookCommand(notebookKey));
+                PageNavigator.NavigateTo<NotesPage>();
             }
         }
 

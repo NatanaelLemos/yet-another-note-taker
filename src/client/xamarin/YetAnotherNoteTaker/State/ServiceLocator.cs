@@ -19,6 +19,12 @@ namespace YetAnotherNoteTaker.State
             GetContainer().Register<TService, TImplementation>(Lifestyle.Singleton);
         }
 
+        public static void Register<TService>(TService implementation)
+            where TService : class
+        {
+            GetContainer().Register(() => implementation, Lifestyle.Singleton);
+        }
+
         public static TService Get<TService>() where TService : class
         {
             return GetContainer().GetInstance<TService>();

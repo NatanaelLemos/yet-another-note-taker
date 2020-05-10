@@ -42,7 +42,7 @@ namespace YetAnotherNoteTaker.Events.NotebookEvents
 
         private async Task DeleteNotebookCommandHandler(DeleteNotebookCommand arg)
         {
-            await _service.Delete(arg.Key);
+            await _service.Delete(UserState.UserEmail, arg.Key);
             await _eventBroker.Notify(new ListNotebooksCommand());
         }
     }

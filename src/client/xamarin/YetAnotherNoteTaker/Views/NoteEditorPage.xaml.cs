@@ -84,7 +84,8 @@ namespace YetAnotherNoteTaker.Views
 
         private async void btnRemoveNote_OnClick(object sender, EventArgs e)
         {
-            await _eventBroker.Notify(new DeleteNoteCommand(_notebook.Key, _note.Key));
+
+            await _eventBroker.Notify(new DeleteNoteCommand(GetNotebookKey(), _note.Key));
             PageNavigator.NavigateTo<NotesPage>(_notebook);
         }
 
@@ -93,7 +94,7 @@ namespace YetAnotherNoteTaker.Views
             var body = await _textEditor.GetContent();
             await _eventBroker.Notify(
                 new EditNoteCommand(
-                    _notebook?.Key ?? string.Empty,
+                    GetNotebookKey(),
                     _note?.Key ?? string.Empty,
                     txtName.Text,
                     body));
@@ -106,6 +107,21 @@ namespace YetAnotherNoteTaker.Views
             {
                 PageNavigator.NavigateTo<NotesPage>(_notebook);
             }
+        }
+
+        private string GetNotebookKey()
+        {
+            if (!string.IsNullOrWhiteSpace(_notebook?.Key))
+            {
+                return _notebook.Key;
+            }
+
+            if (!string.IsNullOrWhiteSpace(_note?.NotebookKey))
+            {
+                return _note.NotebookKey;
+            }
+
+            return string.Empty;
         }
 
         private void btnCancel_OnClick(object sender, EventArgs e)

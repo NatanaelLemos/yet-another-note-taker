@@ -15,6 +15,8 @@ namespace YetAnotherNoteTaker.Server.Data
 
         Task<Notebook> Update(Notebook notebook);
 
+        Task UpdateEmails(string oldUserEmail, string newUserEmail);
+
         Task Delete(Notebook notebook);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using YetAnotherNoteTaker.Client.Common.Dtos;
 using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.State
@@ -23,8 +24,9 @@ namespace YetAnotherNoteTaker.State
         }
 
         public static string UserEmail => UserStateImpl.Instance.CurrentUser?.Email ?? string.Empty;
+        public static string Token => UserStateImpl.Instance.CurrentUser?.AccessToken ?? string.Empty;
 
-        public static void SetUser(UserDto user)
+        public static void SetUser(LoggedInUserDto user)
         {
             UserStateImpl.Instance.CurrentUser = user;
         }

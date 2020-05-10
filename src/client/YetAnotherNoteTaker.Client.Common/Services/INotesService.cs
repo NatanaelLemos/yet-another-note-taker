@@ -15,6 +15,6 @@ namespace YetAnotherNoteTaker.Client.Common.Services
 
         Task<NoteDto> Update(string email, NoteDto noteDto);
 
-        Task Delete(string noteKey);
+        Task Delete(string email, string notebookKey, string noteKey);
     }
 }

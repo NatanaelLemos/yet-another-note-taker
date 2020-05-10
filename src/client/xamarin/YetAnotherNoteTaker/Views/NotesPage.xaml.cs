@@ -13,32 +13,23 @@ namespace YetAnotherNoteTaker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotesPage : ContentPage
     {
-        private readonly NotebookDto _notebook;
-
         private IEventBroker _eventBroker;
         private ObservableCollection<NoteDto> _dataSource;
+        private NotebookDto _notebook;
 
         public NotesPage()
         {
             InitializeComponent();
-            Initialize();
-
-            Title = "All notes";
-            ToolbarItems.RemoveAt(0);
-            _eventBroker.Notify(new ListNotesCommand());
+            Initialize(null);
         }
 
         public NotesPage(NotebookDto notebook)
         {
             InitializeComponent();
-            Initialize();
-
-            Title = notebook.Name;
-            _eventBroker.Notify(new ListNotesCommand(notebook.Key));
-            _notebook = notebook;
+            Initialize(notebook);
         }
 
-        private void Initialize()
+        private void Initialize(NotebookDto notebook)
         {
             _dataSource = new ObservableCollection<NoteDto>();
             lsvNotes.ItemsSource = _dataSource;
@@ -46,6 +37,18 @@ namespace YetAnotherNoteTaker.Views
 
             _eventBroker = ServiceLocator.Get<IEventBroker>();
             _eventBroker.Subscribe<ListNotesResult>(ListNotesResultHandler);
+
+            if (notebook == null)
+            {
+                Title = "All notes";
+                ToolbarItems.RemoveAt(0);
+                _eventBroker.Notify(new ListNotesCommand());
+                return;
+            }
+
+            Title = notebook?.Name;
+            _eventBroker.Notify(new ListNotesCommand(notebook.Key));
+            _notebook = notebook;
         }
 
         private void LsvNotes_ItemTapped(object sender, ItemTappedEventArgs e)

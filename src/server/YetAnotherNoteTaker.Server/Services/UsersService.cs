@@ -10,16 +10,20 @@ namespace YetAnotherNoteTaker.Server.Services
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository _usersRepository;
+        private readonly INotebooksRepository _notebooksRepository;
+        private readonly INotesRepository _notesRepository;
 
-        public UsersService(IUsersRepository usersRepository)
+        public UsersService(IUsersRepository usersRepository, INotebooksRepository notebooksRepository, INotesRepository notesRepository)
         {
             _usersRepository = usersRepository;
+            _notebooksRepository = notebooksRepository;
+            _notesRepository = notesRepository;
         }
 
         public async Task<UserDto> GetUserByEmail(string email)
         {
             var user = await _usersRepository.GetByEmail(email);
-            if(user == null)
+            if (user == null)
             {
                 return null;
             }
@@ -30,7 +34,7 @@ namespace YetAnotherNoteTaker.Server.Services
         public async Task<bool> ValidatePassword(string email, string password)
         {
             var user = await _usersRepository.GetByEmail(email);
-            if(user == null)
+            if (user == null)
             {
                 return false;
             }
@@ -67,6 +71,11 @@ namespace YetAnotherNoteTaker.Server.Services
             current.Password = EncryptionHelpers.Hash(updatedUserDto.Password);
 
             current = await _usersRepository.Update(current);
+
+            await _notebooksRepository.UpdateEmails(email, current.Email);
+            await _notesRepository.UpdateEmails(email, current.Email);
+
+
             return new UserDto { Email = current.Email };
         }
     }

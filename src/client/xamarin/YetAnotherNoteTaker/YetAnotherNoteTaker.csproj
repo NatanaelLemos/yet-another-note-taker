@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\YetAnotherNoteTaker.Client.Common\YetAnotherNoteTaker.Client.Common.csproj" />
-    <ProjectReference Include="..\YetAnotherNoteTaker.Xamarin.Data\YetAnotherNoteTaker.Xamarin.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

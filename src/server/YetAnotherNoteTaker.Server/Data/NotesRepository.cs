@@ -53,9 +53,28 @@ namespace YetAnotherNoteTaker.Server.Data
             return note;
         }
 
+        public Task UpdateEmails(string oldUserEmail, string newUserEmail)
+        {
+            return _db.Notes.UpdateManyAsync(
+                n => n.Email == oldUserEmail,
+                Builders<Note>.Update.Set(n => n.Email, newUserEmail));
+        }
+
+        public Task UpdateNotebookKeys(string oldNotebookKey, string newNotebookKey)
+        {
+            return _db.Notes.UpdateManyAsync(
+                n => n.NotebookKey == oldNotebookKey,
+                Builders<Note>.Update.Set(n => n.NotebookKey, newNotebookKey));
+        }
+
         public Task Delete(Note note)
         {
             return _db.Notes.FindOneAndDeleteAsync(n => n.Id == note.Id);
+        }
+
+        public Task DeleteByNotebookKey(string userEmail, string notebookKey)
+        {
+            return _db.Notes.FindOneAndDeleteAsync(n => n.Email == userEmail && n.NotebookKey == notebookKey);
         }
     }
 }

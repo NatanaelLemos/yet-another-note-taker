@@ -40,6 +40,13 @@ namespace YetAnotherNoteTaker.Server.Data
             return notebook;
         }
 
+        public Task UpdateEmails(string oldUserEmail, string newUserEmail)
+        {
+            return _db.Notebooks.UpdateManyAsync(
+                n => n.UserEmail == oldUserEmail,
+                Builders<Notebook>.Update.Set(n => n.UserEmail, newUserEmail));
+        }
+
         public Task Delete(Notebook notebook)
         {
             return _db.Notebooks.FindOneAndDeleteAsync(n => n.Id == notebook.Id);

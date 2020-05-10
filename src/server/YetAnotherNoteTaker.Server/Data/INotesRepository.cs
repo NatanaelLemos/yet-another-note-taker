@@ -13,6 +13,9 @@ namespace YetAnotherNoteTaker.Server.Data
         Task<Note> Get(string userEmail, string notebookKey, string noteKey);
         Task<Note> Add(Note note);
         Task<Note> Update(Note note);
+        Task UpdateEmails(string oldEmail, string newEmail);
+        Task UpdateNotebookKeys(string oldNotebookKey, string newNotebookKey);
         Task Delete(Note note);
+        Task DeleteByNotebookKey(string userEmail, string notebookKey);
     }
 }

@@ -13,10 +13,12 @@ namespace YetAnotherNoteTaker.Server.Services
     public class NotebooksService : INotebooksService
     {
         private readonly INotebooksRepository _repository;
+        private readonly INotesRepository _notesRepository;
 
-        public NotebooksService(INotebooksRepository repository)
+        public NotebooksService(INotebooksRepository repository, INotesRepository notesRepository)
         {
             _repository = repository;
+            _notesRepository = notesRepository;
         }
 
         public async Task<List<NotebookDto>> GetAll(string userEmail)
@@ -32,7 +34,7 @@ namespace YetAnotherNoteTaker.Server.Services
         public async Task<NotebookDto> Get(string email, string notebookKey)
         {
             var result = await _repository.Get(email, notebookKey);
-            if(result == null)
+            if (result == null)
             {
                 return null;
             }
@@ -79,6 +81,8 @@ namespace YetAnotherNoteTaker.Server.Services
             current.Name = notebook.Name;
             current = await _repository.Update(current);
 
+            await _notesRepository.UpdateNotebookKeys(notebookKey, current.Key);
+
             return new NotebookDto
             {
                 Key = current.Key,
@@ -94,7 +98,10 @@ namespace YetAnotherNoteTaker.Server.Services
                 throw new InvalidParametersException(nameof(notebookKey), "Notebook not found.");
             }
 
-            await _repository.Delete(current);
+            var deleteTask = _repository.Delete(current);
+            var deleteNotesTask = _notesRepository.DeleteByNotebookKey(userEmail, notebookKey);
+
+            await Task.WhenAll(deleteTask, deleteNotesTask);
         }
     }
 }

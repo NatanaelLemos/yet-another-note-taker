@@ -58,6 +58,7 @@ namespace YetAnotherNoteTaker.Events.NoteEvents
                     new NoteDto
                     {
                         Key = arg.NoteKey,
+                        NotebookKey = arg.NotebookKey,
                         Name = arg.Name,
                         Body = arg.Body
                     });
@@ -68,7 +69,7 @@ namespace YetAnotherNoteTaker.Events.NoteEvents
 
         private async Task DeleteNoteCommandHandler(DeleteNoteCommand arg)
         {
-            await _service.Delete(arg.NoteKey);
+            await _service.Delete(UserState.UserEmail, arg.NotebookKey, arg.NoteKey);
             await _eventBroker.Notify(new ListNotesCommand(arg.NotebookKey));
         }
     }

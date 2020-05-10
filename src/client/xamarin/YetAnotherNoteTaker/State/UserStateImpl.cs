@@ -1,4 +1,5 @@
 ﻿using System;
+using YetAnotherNoteTaker.Client.Common.Dtos;
 using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.State
@@ -13,6 +14,6 @@ namespace YetAnotherNoteTaker.State
 
         public static UserStateImpl Instance => _instance.Value;
 
-        public UserDto CurrentUser { get; set; }
+        public LoggedInUserDto CurrentUser { get; set; }
     }
 }
