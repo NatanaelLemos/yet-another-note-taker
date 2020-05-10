@@ -26,18 +26,6 @@ namespace YetAnotherNoteTaker.Server.Controllers
         {
             _logger = logger;
             _service = service;
-
-            var notebooks = ctx.Notebooks.FindSync(Builders<Entities.Notebook>.Filter.Empty).ToList();
-            foreach (var notebook in notebooks)
-            {
-                ctx.Notebooks.FindOneAndDelete(Builders<Entities.Notebook>.Filter.Eq(n => n.Id, notebook.Id));
-            }
-
-            var users = ctx.Users.FindSync(Builders<Entities.User>.Filter.Empty).ToList();
-            foreach (var user in users)
-            {
-                ctx.Users.FindOneAndDelete(Builders<Entities.User>.Filter.Eq(n => n.Id, user.Id));
-            }
         }
 
         /// <summary>

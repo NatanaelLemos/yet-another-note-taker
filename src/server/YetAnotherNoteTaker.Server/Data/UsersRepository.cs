@@ -26,10 +26,11 @@ namespace YetAnotherNoteTaker.Server.Data
             return user;
         }
 
-        public Task<User> Update(User user)
+        public async Task<User> Update(User user)
         {
             user.Modified = DateTimeOffset.UtcNow;
-            return _db.Users.FindOneAndReplaceAsync(u => u.Id == user.Id, user);
+            await _db.Users.FindOneAndReplaceAsync(u => u.Id == user.Id, user);
+            return user;
         }
     }
 }

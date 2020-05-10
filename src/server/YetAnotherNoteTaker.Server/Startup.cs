@@ -44,6 +44,10 @@ namespace YetAnotherNoteTaker.Server
                 .AddScoped<INotebooksService, NotebooksService>();
 
             services
+                .AddScoped<INotesRepository, NotesRepository>()
+                .AddScoped<INotesService, NotesService>();
+
+            services
                 .AddScoped<IResourceOwnerPasswordValidator, PasswordValidator>()
                 .AddScoped<IProfileService, ProfileService>();
 
@@ -52,6 +56,7 @@ namespace YetAnotherNoteTaker.Server
                 {
                     o.Authentication.CookieLifetime = new TimeSpan(360, 0, 0, 0);
                     o.Authentication.CookieSlidingExpiration = false;
+                    o.IssuerUri = SecurityConfig.GetIssuerUri(Configuration);
                 })
                 .AddDeveloperSigningCredential()
                 .AddInMemoryApiResources(SecurityConfig.GetApis(Configuration))

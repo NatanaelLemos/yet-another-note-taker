@@ -14,6 +14,7 @@ namespace YetAnotherNoteTaker.Server.Controllers
     /// <summary>
     /// <see cref="NotebookDto"/>'s controller.
     /// </summary>
+    [Authorize]
     [ApiController]
     [Route("v0/users/{email}/notebooks")]
     public class NotebooksController : ControllerBase
@@ -38,7 +39,6 @@ namespace YetAnotherNoteTaker.Server.Controllers
         /// </remarks>
         /// <response code="200">Returns the list of notebooks.</response>
         [HttpGet]
-        [Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(422)]
         public async Task<Hateoas<List<NotebookDto>>> GetAll(string email)
@@ -63,7 +63,6 @@ namespace YetAnotherNoteTaker.Server.Controllers
         /// </remarks>
         /// <response code="200">Returns the notebook.</response>
         [HttpGet("{notebookKey}")]
-        [Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(422)]
         public async Task<Hateoas<NotebookDto>> Get(string email, string notebookKey)
@@ -89,7 +88,6 @@ namespace YetAnotherNoteTaker.Server.Controllers
         ///
         /// </remarks>
         [HttpPost]
-        [Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(422)]
         public async Task<Hateoas<NotebookDto>> Post(string email, [FromBody]NotebookDto newDto)
@@ -122,7 +120,6 @@ namespace YetAnotherNoteTaker.Server.Controllers
         ///
         /// </remarks>
         [HttpPut("{notebookKey}")]
-        [Authorize]
         [ProducesResponseType(200)]
         [ProducesResponseType(422)]
         public async Task<Hateoas<NotebookDto>> Put(string email, string notebookKey, [FromBody]NotebookDto dto)
@@ -150,7 +147,6 @@ namespace YetAnotherNoteTaker.Server.Controllers
         ///
         /// </remarks>
         [HttpDelete("{notebookKey}")]
-        [Authorize]
         public Task Delete(string email, string notebookKey)
         {
             this.ValidateEmail(email);

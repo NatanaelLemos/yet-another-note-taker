@@ -33,10 +33,11 @@ namespace YetAnotherNoteTaker.Server.Data
             return notebook;
         }
 
-        public Task<Notebook> Update(Notebook notebook)
+        public async Task<Notebook> Update(Notebook notebook)
         {
             notebook.Modified = DateTimeOffset.UtcNow;
-            return _db.Notebooks.FindOneAndReplaceAsync(n => n.Id == notebook.Id, notebook);
+            await _db.Notebooks.FindOneAndReplaceAsync(n => n.Id == notebook.Id, notebook);
+            return notebook;
         }
 
         public Task Delete(Notebook notebook)

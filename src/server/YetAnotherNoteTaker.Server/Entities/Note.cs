@@ -10,6 +10,7 @@ namespace YetAnotherNoteTaker.Server.Entities
     {
         public string Key { get; set; }
         public string NotebookKey { get; set; }
+        public string Email { get; set; }
         public string Name { get; set; }
         public string Body { get; set; }
     }

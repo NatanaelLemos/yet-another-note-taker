@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using IdentityServer4.Models;
 using Microsoft.Extensions.Configuration;
 
@@ -60,6 +61,11 @@ namespace YetAnotherNoteTaker.Server.Security
                     configuration.GetSection("AuthServer:ScopeName").Value,
                     configuration.GetSection("AuthServer:ScopeDescription").Value)
             };
+        }
+
+        public static string GetIssuerUri(IConfiguration configuration)
+        {
+            return configuration.GetValue<string>("AuthClient:Authority");
         }
     }
 }
