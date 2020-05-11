@@ -13,22 +13,24 @@ namespace YetAnotherNoteTaker.Views
 
         public static void ApplyLightTheme(App app)
         {
-            if (EnvironmentHelpers.EnvironmentName == EnvironmentName.Mac)
+            if (EnvironmentHelpers.EnvironmentName != EnvironmentName.Mac)
             {
-                return;
+                ApplyTheme(app, new LightTheme());
             }
 
-            ApplyTheme(app, new LightTheme());
+            PageNavigator.ClearHistory();
+            app.MainPage = new MainPage();
         }
 
         public static void ApplyDarkTheme(App app)
         {
-            if (EnvironmentHelpers.EnvironmentName == EnvironmentName.Mac)
+            if (EnvironmentHelpers.EnvironmentName != EnvironmentName.Mac)
             {
-                return;
+                ApplyTheme(app, new DarkTheme());
             }
 
-            ApplyTheme(app, new DarkTheme());
+            PageNavigator.ClearHistory();
+            app.MainPage = new MainPage();
         }
 
         private static void ApplyTheme(App app, ThemeStyle style)
@@ -47,9 +49,6 @@ namespace YetAnotherNoteTaker.Views
             var template = FileHelpers.ReadAsString(TemplatePath);
             template = style.ReplaceVariables(template);
             app.Resources.Add(StyleSheet.FromString(template));
-
-            PageNavigator.ClearHistory();
-            app.MainPage = new MainPage();
         }
 
         private interface ThemeStyle

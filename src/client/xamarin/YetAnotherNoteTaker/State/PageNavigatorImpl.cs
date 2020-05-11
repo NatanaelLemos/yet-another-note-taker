@@ -74,7 +74,11 @@ namespace YetAnotherNoteTaker.State
                 if (_listener != null)
                 {
                     _listener.Detail = new NavigationPage(pageInstance);
-                    _listener.IsPresented = false;
+
+                    if (_listener.MasterBehavior == MasterBehavior.Popover)
+                    {
+                        _listener.IsPresented = false;
+                    }
                 }
 
                 _history.AddLast((pageType, args));

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 
 using Xamarin.Forms;
+using YetAnotherNoteTaker.Helpers;
 using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker
@@ -11,7 +12,15 @@ namespace YetAnotherNoteTaker
         public MainPage()
         {
             InitializeComponent();
-            MasterBehavior = MasterBehavior.Popover;
+            if (EnvironmentHelpers.EnvironmentName == EnvironmentName.Mac)
+            {
+                MasterBehavior = MasterBehavior.Split;
+            }
+            else
+            {
+                MasterBehavior = MasterBehavior.Popover;
+            }
+
             PageNavigator.AddListener(this);
         }
     }
