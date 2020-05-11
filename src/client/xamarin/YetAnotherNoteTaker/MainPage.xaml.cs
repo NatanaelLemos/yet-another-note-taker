@@ -12,8 +12,10 @@ namespace YetAnotherNoteTaker
         public MainPage()
         {
             InitializeComponent();
+
             if (EnvironmentHelpers.EnvironmentName == EnvironmentName.Mac)
             {
+                //Collapsable panel is not currently supported by Xamarin on Mac.
                 MasterBehavior = MasterBehavior.Split;
             }
             else

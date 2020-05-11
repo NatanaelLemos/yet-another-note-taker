@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -35,7 +36,7 @@ namespace YetAnotherNoteTaker.Views
         private Task ListNotebooksResultHandler(ListNotebooksResult arg)
         {
             _dataSource.Clear();
-            foreach (var item in arg.Notebooks)
+            foreach (var item in arg?.Notebooks ?? new List<NotebookDto>())
             {
                 _dataSource.Add(item);
             }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Xamarin.Forms;
 using Xamarin.Forms.StyleSheets;
 using YetAnotherNoteTaker.Helpers;
 using YetAnotherNoteTaker.State;
