@@ -1,0 +1,34 @@
+﻿@using YetAnotherNoteTaker.Web.Pages
+
+@inherits LayoutComponentBase
+@inject IUserState _userState
+
+@if (isUserAuthenticated)
+{
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+    <div class="main">
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
+
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+}
+else
+{
+    <LoginPage />
+}
+
+@code{
+    private bool isUserAuthenticated = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        isUserAuthenticated = await _userState.IsAuthenticated();
+        StateHasChanged();
+    }
+}
