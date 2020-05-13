@@ -19,6 +19,11 @@ namespace YetAnotherNoteTaker.Client.Common.Services
             return _repository.GetAll(email);
         }
 
+        public Task<NotebookDto> Get(string email, string notebookKey)
+        {
+            return _repository.Get(email, notebookKey);
+        }
+
         public Task<NotebookDto> Create(string email, NotebookDto notebookDto)
         {
             return _repository.Create(email, notebookDto);

@@ -9,6 +9,8 @@ namespace YetAnotherNoteTaker.Client.Common.Services
     {
         Task<List<NotebookDto>> GetAll(string email);
 
+        Task<NotebookDto> Get(string email, string notebookKey);
+
         Task<NotebookDto> Create(string email, NotebookDto notebookDto);
 
         Task<NotebookDto> Update(string email, NotebookDto notebookDto);

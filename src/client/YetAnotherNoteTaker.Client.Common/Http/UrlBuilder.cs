@@ -57,6 +57,11 @@ namespace YetAnotherNoteTaker.Client.Common.Http
             return $"{_urlBase}/v0/users/{email}/notebooks";
         }
 
+        public string Get(string email, string notebookKey)
+        {
+            return $"{_urlBase}/v0/users/{email}/notebooks/{notebookKey}";
+        }
+
         public string Post(string email)
         {
             return $"{_urlBase}/v0/users/{email}/notebooks";

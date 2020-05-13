@@ -24,6 +24,12 @@ namespace YetAnotherNoteTaker.Data
             return _restClient.Get<List<NotebookDto>>(url, UserState.Token);
         }
 
+        public Task<NotebookDto> Get(string email, string notebookKey)
+        {
+            var url = _urlBuilder.Notebooks.Get(email, notebookKey);
+            return _restClient.Get<NotebookDto>(url, UserState.Token);
+        }
+
         public Task<NotebookDto> Create(string email, NotebookDto notebookDto)
         {
             var url = _urlBuilder.Notebooks.Post(email);

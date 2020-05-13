@@ -1,0 +1,37 @@
+@page "/notebooks/{notebookKey}/notes"
+@inject INotebooksService _notebooksService
+@inject INotesService _notesService
+@inject IUserState _userState
+@inject NavigationManager _navigation
+
+<form class="login-form">
+    <h2>@notebook.Name</h2>
+
+    <ul>
+        @foreach (var note in notes)
+        {
+            <li>
+                @note.Name
+            </li>
+        }
+    </ul>
+</form>
+
+@code {
+
+    [Parameter]
+    public string NotebookKey { get; set; }
+
+    private NotebookDto notebook = new NotebookDto();
+    private List<NoteDto> notes = new List<NoteDto>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        var userEmail = await _userState.GetUserEmail();
+        notebook = await _notebooksService.Get(userEmail, NotebookKey);
+        notes = await _notesService.GetByNotebookKey(userEmail, NotebookKey);
+        StateHasChanged();
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

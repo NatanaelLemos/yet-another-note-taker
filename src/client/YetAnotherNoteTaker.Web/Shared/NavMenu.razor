@@ -1,4 +1,7 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@inject IUserState _userState
+@inject INotebooksService _notebooksService
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">YetAnotherNoteTaker.Web</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -9,17 +12,23 @@
     <ul class="nav flex-column">
         <li class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+                <span class="oi oi-home" aria-hidden="true"></span> All notebooks
             </NavLink>
         </li>
+        @foreach (var notebook in notebooks)
+        {
+            var url = $"/notebooks/{notebook.Key}/notes";
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@url">
+                    <span class="oi oi-book" aria-hidden="true"></span> @notebook.Name
+                </NavLink>
+            </li>
+        }
+
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
-            </NavLink>
-        </li>
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="/notebooks/new" Match="NavLinkMatch.All">
+                <span class="oi oi-plus" aria-hidden="true"></span> New notebook
             </NavLink>
         </li>
     </ul>
@@ -29,6 +38,19 @@
     private bool collapseNavMenu = true;
 
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private List<NotebookDto> notebooks = new List<NotebookDto>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            notebooks = await _notebooksService.GetAll(await _userState.GetUserEmail());
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
 
     private void ToggleNavMenu()
     {

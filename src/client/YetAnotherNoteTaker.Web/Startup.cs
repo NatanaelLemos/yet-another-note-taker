@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Threading.Tasks;
-using Blazored.LocalStorage;
+﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +38,14 @@ namespace YetAnotherNoteTaker.Web
             services
                 .AddScoped<IAuthRepository, BlazorAuthRepository>()
                 .AddScoped<IAuthService, AuthService>();
+
+            services
+                .AddScoped<INotebooksRepository, BlazorNotebooksRepository>()
+                .AddScoped<INotebooksService, NotebooksService>();
+
+            services
+                .AddScoped<INotesRepository, BlazorNotesRepository>()
+                .AddScoped<INotesService, NotesService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
