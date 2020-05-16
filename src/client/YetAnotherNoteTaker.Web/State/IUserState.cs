@@ -12,5 +12,7 @@ namespace YetAnotherNoteTaker.Web.State
         Task SetUserEmail(string email);
         Task<string> GetToken();
         Task SetToken(string token);
+        Task SetShouldUpdate(bool shouldUpdate);
+        Task<bool> ShouldUpdate();
     }
 }

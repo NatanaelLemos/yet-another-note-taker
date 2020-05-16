@@ -40,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YetAnotherNoteTaker.Client.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YetAnotherNoteTaker.Mac", "src\client\xamarin\YetAnotherNoteTaker.Mac\YetAnotherNoteTaker.Mac.csproj", "{2DA47331-7A18-4790-B75C-986E628B94D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "YetAnotherNoteTaker.Web", "src\client\YetAnotherNoteTaker.Web\YetAnotherNoteTaker.Web.csproj", "{938AA016-E21F-493A-A1C5-61EF38DA3D7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YetAnotherNoteTaker.Web", "src\client\YetAnotherNoteTaker.Web\YetAnotherNoteTaker.Web.csproj", "{938AA016-E21F-493A-A1C5-61EF38DA3D7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

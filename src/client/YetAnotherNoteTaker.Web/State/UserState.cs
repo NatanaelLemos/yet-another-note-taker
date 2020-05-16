@@ -10,6 +10,7 @@ namespace YetAnotherNoteTaker.Web.State
     {
         private const string UserEmailKey = "userEmail";
         private const string TokenKey = "token";
+        private const string ShouldUpdateKey = "shouldUpdate";
 
         private readonly ILocalStorageService _localStorage;
 
@@ -42,6 +43,18 @@ namespace YetAnotherNoteTaker.Web.State
         public Task SetToken(string token)
         {
             return _localStorage.SetItemAsync(TokenKey, token);
+        }
+
+        public Task SetShouldUpdate(bool shouldUpdate)
+        {
+            return _localStorage.SetItemAsync(ShouldUpdateKey, shouldUpdate);
+        }
+
+        public async Task<bool> ShouldUpdate()
+        {
+            var result = await _localStorage.GetItemAsync<bool>(ShouldUpdateKey);
+            await SetShouldUpdate(false);
+            return result;
         }
     }
 }
