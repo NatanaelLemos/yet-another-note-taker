@@ -5,6 +5,7 @@
 @inject INotebooksService _service
 @inject IUserState _userState
 @inject NavigationManager _navigation
+@inject IJSRuntime JsRuntime
 
 <form class="login-form">
     <h2>@(title)</h2>
@@ -12,7 +13,11 @@
         <label for="name">Notebook name</label>
         <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Notebook name" @bind-value="name">
     </div>
-    <button type="button" class="btn btn-primary" @onclick="Save">Save</button>
+
+    <div class="crud-actions">
+        <button type="button" class="btn btn-primary btn-action-save" @onclick="Save">Save</button>
+        <button type="button" class="btn btn-danger btn-action-cancel" @onclick="Cancel">Cancel</button>
+    </div>
 </form>
 
 @code {
@@ -74,4 +79,10 @@
 
         _navigation.NavigateTo($"/notebooks/{dto.Key}/notes", true);
     }
+
+    private async Task Cancel()
+    {
+        await JsRuntime.InvokeVoidAsync("window.history.back");
+    }
+
 }

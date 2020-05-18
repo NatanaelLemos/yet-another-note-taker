@@ -17,4 +17,15 @@
     <ProjectReference Include="..\YetAnotherNoteTaker.Client.Common\YetAnotherNoteTaker.Client.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\NoteEditorPage.razor">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="wwwroot\quill_light.html">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

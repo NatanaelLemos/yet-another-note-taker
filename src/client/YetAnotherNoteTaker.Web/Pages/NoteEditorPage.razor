@@ -1,0 +1,31 @@
+@page  "/notebooks/{NotebookKey}/notes/editor"
+@inject IJSRuntime JsRuntime
+
+<h2>
+    New note
+</h2>
+
+<div class="crud-actions">
+    <button class="btn btn-primary">Save</button>
+    <button class="btn btn-danger" @onclick="Cancel">Cancel</button>
+</div>
+
+<iframe src="quill_light.html" class="note-editor"></iframe>
+
+@code{
+
+    [Parameter]
+    public string NotebookKey { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await JsRuntime.InvokeVoidAsync("document.querySelector('.ql-editor').innerHTML = '';");
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task Cancel()
+    {
+        await JsRuntime.InvokeVoidAsync("window.history.back");
+    }
+
+}

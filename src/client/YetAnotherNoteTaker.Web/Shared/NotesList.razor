@@ -3,21 +3,27 @@
 @inject IUserState _userState
 @inject NavigationManager _navigation
 
-
 <h2>@(notebook?.Name ?? "All notes")</h2>
 
 <table class="table table-striped table-hover">
     <tbody>
-        @foreach (var note in notes)
-        {
-            <tr>
-                <td>
-                    @note.Name
-                </td>
-            </tr>
-        }
+    @foreach (var note in notes)
+    {
+        <tr>
+            <td>
+                @note.Name
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
+
+@if (notebook != null)
+{
+    <div class="crud-actions">
+        <button class="btn btn-default" @onclick="NewNote">New note</button>
+    </div>
+}
 
 @code {
 
@@ -49,4 +55,10 @@
         StateHasChanged();
         await base.OnAfterRenderAsync(firstRender);
     }
+
+    private void NewNote()
+    {
+        _navigation.NavigateTo($"/notebooks/{NotebookKey}/notes/editor");
+    }
+
 }
