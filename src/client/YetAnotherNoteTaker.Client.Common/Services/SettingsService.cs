@@ -19,12 +19,12 @@ namespace YetAnotherNoteTaker.Client.Common.Services
             _repository = repository;
         }
 
-        public Task<SettingsDto> Get(string email)
+        public Task<SettingsDto> Get()
         {
             return Task.FromResult(_settings);
         }
 
-        public Task Save(string email, SettingsDto settings)
+        public Task Save(SettingsDto settings)
         {
             _settings = settings;
             return Task.CompletedTask;

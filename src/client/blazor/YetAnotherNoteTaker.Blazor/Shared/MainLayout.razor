@@ -1,0 +1,48 @@
+﻿@using YetAnotherNoteTaker.Blazor.Pages
+
+@inherits LayoutComponentBase
+
+@inject IEventBroker _eventBroker
+@inject YetAnotherNoteTaker.Client.Common.State.IUserState _userState
+@inject YetAnotherNoteTaker.Client.Common.Events.AuthEvents.AuthEventsListener _authEvtListener
+@inject YetAnotherNoteTaker.Client.Common.Events.NotebookEvents.NotebookEventsListener _notebookEvtListener
+@inject YetAnotherNoteTaker.Client.Common.Events.NoteEvents.NoteEventsListener _noteEvtListener
+
+@if (isUserAuthenticated)
+{
+    <div class="sidebar">
+        <NotebooksSidebarPage />
+    </div>
+    <div class="main">
+        <div class="top-row px-4">
+        </div>
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>
+}
+else
+{
+    <LoginPage />
+}
+
+@code{
+    private bool isUserAuthenticated = false;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _authEvtListener.Start();
+            _notebookEvtListener.Start();
+            _noteEvtListener.Start();
+            StateHasChanged();
+        }
+
+        if (!isUserAuthenticated && await _userState.IsAuthenticated())
+        {
+            isUserAuthenticated = true;
+            StateHasChanged();
+        }
+    }
+}

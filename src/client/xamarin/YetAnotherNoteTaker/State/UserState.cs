@@ -1,34 +1,42 @@
 ﻿using System;
 using System.Linq;
 using YetAnotherNoteTaker.Client.Common.Dtos;
-using YetAnotherNoteTaker.Common.Dtos;
+using YetAnotherNoteTaker.Client.Common.Security;
+using YetAnotherNoteTaker.Client.Common.State;
+using System.Threading.Tasks;
 
 namespace YetAnotherNoteTaker.State
 {
-    public static class UserState
+    public class UserState : IUserState
     {
-        public static bool IsAuthenticated()
+        private LoggedInUserDto _currentUser;
+
+        public Task<bool> IsAuthenticated()
         {
-            return UserStateImpl.Instance.CurrentUser != null;
+            return Task.FromResult(_currentUser != null);
         }
 
-        public static bool IsAuthenticated(Type pageType)
+        public async Task<bool> IsAuthenticated(Type pageType)
         {
-            var anonymousAttr = pageType.CustomAttributes.FirstOrDefault(a => a.AttributeType == typeof(AllowAnonymousAttribute));
-            if (anonymousAttr != null || IsAuthenticated())
+            var anonymousAttr = pageType.CustomAttributes
+                .FirstOrDefault(a => a.AttributeType == typeof(AllowAnonymousAttribute));
+
+            if (anonymousAttr != null)
             {
                 return true;
             }
 
-            return false;
+            return await IsAuthenticated();
         }
 
-        public static string UserEmail => UserStateImpl.Instance.CurrentUser?.Email ?? string.Empty;
-        public static string Token => UserStateImpl.Instance.CurrentUser?.AccessToken ?? string.Empty;
+        public Task<string> UserEmail => Task.FromResult(_currentUser?.Email ?? string.Empty);
 
-        public static void SetUser(LoggedInUserDto user)
+        public Task<string> Token => Task.FromResult(_currentUser?.AccessToken ?? string.Empty);
+
+        public Task SetUser(LoggedInUserDto user)
         {
-            UserStateImpl.Instance.CurrentUser = user;
+            _currentUser = user;
+            return Task.CompletedTask;
         }
     }
 }

@@ -7,14 +7,14 @@ namespace YetAnotherNoteTaker.Client.Common.Services
 {
     public interface INotesService
     {
-        Task<List<NoteDto>> GetAll(string email);
+        Task<List<NoteDto>> GetAll();
 
-        Task<List<NoteDto>> GetByNotebookKey(string email, string notebookKey);
+        Task<List<NoteDto>> GetByNotebookKey(string notebookKey);
 
-        Task<NoteDto> Create(string email, NoteDto noteDto);
+        Task<NoteDto> Create(NoteDto noteDto);
 
-        Task<NoteDto> Update(string email, NoteDto noteDto);
+        Task<NoteDto> Update(NoteDto noteDto);
 
-        Task Delete(string email, string notebookKey, string noteKey);
+        Task Delete(string notebookKey, string noteKey);
     }
 }

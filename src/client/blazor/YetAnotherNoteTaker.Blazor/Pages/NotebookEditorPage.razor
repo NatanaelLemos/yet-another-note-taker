@@ -1,0 +1,73 @@
+﻿@page "/notebooks/editor"
+
+@using Microsoft.AspNetCore.WebUtilities
+@using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
+
+@inject IJSRuntime JsRuntime
+@inject NavigationManager _navigation
+@inject IEventBroker _eventBroker
+@inject YetAnotherNoteTaker.Client.Common.Services.INotebooksService _notebookService
+
+<form class="login-form">
+    <h2>@(title)</h2>
+    <div class="form-group">
+        <label for="name">Notebook name</label>
+        <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Notebook name" @bind-value="name">
+    </div>
+
+    <div class="crud-actions">
+        <button type="button" class="btn btn-primary btn-action-save" @onclick="Save">Save</button>
+        <button type="button" class="btn btn-danger btn-action-cancel" @onclick="Cancel">Cancel</button>
+    </div>
+</form>
+
+@code {
+    private string title = "New notebook";
+    private string notebookKey;
+    private string name;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        _eventBroker.Subscribe<EditNotebookResult>(NewNotebookResultHandler);
+
+        var uri = _navigation.ToAbsoluteUri(_navigation.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("notebookKey", out var param))
+        {
+            notebookKey = param.First();
+            var dto = await _notebookService.Get(notebookKey);
+            title = dto.Name;
+            name = dto.Name;
+            notebookKey = dto.Key;
+        }
+        else
+        {
+            title = "New notebook";
+            notebookKey = string.Empty;
+        }
+
+        StateHasChanged();
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private async Task NewNotebookResultHandler(EditNotebookResult arg)
+    {
+        await _eventBroker.Notify(new ListNotebooksCommand());
+        _navigation.NavigateTo($"/notebooks/{arg.Notebook.Key}/notes");
+    }
+
+    private Task Save()
+    {
+        return _eventBroker.Notify(new EditNotebookCommand(notebookKey, name));
+    }
+
+    private async Task Cancel()
+    {
+        await JsRuntime.InvokeVoidAsync("window.history.back");
+    }
+
+}

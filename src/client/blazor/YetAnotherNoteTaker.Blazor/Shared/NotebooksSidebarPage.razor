@@ -1,0 +1,97 @@
+﻿@using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
+
+@inject IJSRuntime JsRuntime
+@inject NavigationManager _navigation
+@inject IEventBroker _eventBroker
+
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">Yet another note taker</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> All notebooks
+            </NavLink>
+        </li>
+        @foreach (var notebook in notebooks)
+        {
+            var url = $"/notebooks/{notebook.Key}/notes";
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="@url">
+                    <div class="action-text">
+                        @notebook.Name
+                    </div>
+                    <button class="action-btn btn btn-info" @onclick="() => EditNotebook(notebook.Key)">✏</button>
+                    <button class="action-btn btn btn-danger" @onclick="() => RemoveNotebook(notebook.Key)">➖</button>
+                </NavLink>
+            </li>
+        }
+
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="/notebooks/editor" Match="NavLinkMatch.All">
+                <span class="oi oi-plus" aria-hidden="true"></span> New notebook
+            </NavLink>
+        </li>
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private List<NotebookDto> notebooks = new List<NotebookDto>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _eventBroker.Subscribe<ListNotebooksResult>(ListNotebooksResultHandler);
+            await _eventBroker.Notify(new ListNotebooksCommand());
+            StateHasChanged();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private Task ListNotebooksResultHandler(ListNotebooksResult arg)
+    {
+        notebooks.Clear();
+        foreach (var item in arg?.Notebooks ?? new List<NotebookDto>())
+        {
+            notebooks.Add(item);
+        }
+
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private async Task EditNotebook(string notebookKey)
+    {
+        _navigation.NavigateTo($"/notebooks/editor?notebookKey={notebookKey}");
+        await Task.CompletedTask;
+    }
+
+    private async Task RemoveNotebook(string notebookKey)
+    {
+        var result = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+
+        if (!result)
+        {
+            return;
+        }
+
+        await _eventBroker.Notify(new DeleteNotebookCommand(notebookKey));
+    }
+}

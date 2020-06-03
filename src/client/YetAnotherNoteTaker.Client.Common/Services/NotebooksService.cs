@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Data;
+using YetAnotherNoteTaker.Client.Common.State;
 using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.Client.Common.Services
@@ -8,35 +9,47 @@ namespace YetAnotherNoteTaker.Client.Common.Services
     public class NotebooksService : INotebooksService
     {
         private readonly INotebooksRepository _repository;
+        private readonly IUserState _userState;
 
-        public NotebooksService(INotebooksRepository repository)
+        public NotebooksService(INotebooksRepository repository, IUserState userState)
         {
             _repository = repository;
+            _userState = userState;
         }
 
-        public Task<List<NotebookDto>> GetAll(string email)
+        public async Task<List<NotebookDto>> GetAll()
         {
-            return _repository.GetAll(email);
+            var email = await _userState.UserEmail;
+            var token = await _userState.Token;
+            return await _repository.GetAll(email, token);
         }
 
-        public Task<NotebookDto> Get(string email, string notebookKey)
+        public async Task<NotebookDto> Get(string notebookKey)
         {
-            return _repository.Get(email, notebookKey);
+            var email = await _userState.UserEmail;
+            var token = await _userState.Token;
+            return await _repository.Get(email, notebookKey, token);
         }
 
-        public Task<NotebookDto> Create(string email, NotebookDto notebookDto)
+        public async Task<NotebookDto> Create(NotebookDto notebookDto)
         {
-            return _repository.Create(email, notebookDto);
+            var email = await _userState.UserEmail;
+            var token = await _userState.Token;
+            return await _repository.Create(email, notebookDto, token);
         }
 
-        public Task<NotebookDto> Update(string email, NotebookDto notebookDto)
+        public async Task<NotebookDto> Update(NotebookDto notebookDto)
         {
-            return _repository.Update(email, notebookDto);
+            var email = await _userState.UserEmail;
+            var token = await _userState.Token;
+            return await _repository.Update(email, notebookDto, token);
         }
 
-        public Task Delete(string email, string notebookKey)
+        public async Task Delete(string notebookKey)
         {
-            return _repository.Delete(email, notebookKey);
+            var email = await _userState.UserEmail;
+            var token = await _userState.Token;
+            await _repository.Delete(email, notebookKey, token);
         }
     }
 }

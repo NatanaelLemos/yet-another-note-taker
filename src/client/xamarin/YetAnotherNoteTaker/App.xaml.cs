@@ -2,14 +2,15 @@
 using System.IO;
 using Xamarin.Forms;
 using YetAnotherNoteTaker.Client.Common.Data;
+using YetAnotherNoteTaker.Client.Common.Events;
+using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
+using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
+using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
+using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 using YetAnotherNoteTaker.Client.Common.Http;
 using YetAnotherNoteTaker.Client.Common.Services;
+using YetAnotherNoteTaker.Client.Common.State;
 using YetAnotherNoteTaker.Data;
-using YetAnotherNoteTaker.Events;
-using YetAnotherNoteTaker.Events.AuthEvents;
-using YetAnotherNoteTaker.Events.NotebookEvents;
-using YetAnotherNoteTaker.Events.NoteEvents;
-using YetAnotherNoteTaker.Events.SettingsEvents;
 using YetAnotherNoteTaker.State;
 using YetAnotherNoteTaker.Views;
 
@@ -42,7 +43,8 @@ namespace YetAnotherNoteTaker
             var localPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
             XamarinClientContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
 
-            ServiceLocator.Register<IEventBroker, EventBroker>();
+            ServiceLocator.Register<IUserState, UserState>();
+            ServiceLocator.Register<IEventBroker>(new EventBroker(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t)));
             ServiceLocator.Register<IRestClient, RestClient>();
             ServiceLocator.Register<IUrlBuilder>(new UrlBuilder("http://localhost:5000"));
 

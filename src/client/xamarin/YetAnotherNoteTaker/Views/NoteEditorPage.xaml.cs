@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Client.Common.Events;
+using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
+using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using YetAnotherNoteTaker.Events;
-using YetAnotherNoteTaker.Events.NoteEvents;
-using YetAnotherNoteTaker.Events.SettingsEvents;
 using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views

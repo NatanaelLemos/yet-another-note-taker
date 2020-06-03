@@ -32,7 +32,6 @@ namespace NLemos.Api.Framework.Extensions.Startup
                 opt.SuppressModelStateInvalidFilter = true;
             });
 
-            services.AddCors();
             return services;
         }
 
@@ -54,9 +53,7 @@ namespace NLemos.Api.Framework.Extensions.Startup
                 endpoints.MapControllers();
             });
 
-            app
-                .UseResponseCompression()
-                .UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+            app.UseResponseCompression();
 
             return app;
         }

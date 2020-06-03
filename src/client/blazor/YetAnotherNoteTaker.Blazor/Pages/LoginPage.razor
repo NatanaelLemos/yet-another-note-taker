@@ -1,0 +1,101 @@
+﻿@inherits LayoutComponentBase
+@inject IJSRuntime JsRuntime
+@inject NavigationManager _navigation
+@inject IEventBroker _eventBroker
+
+<link rel="stylesheet" href="css/login.css" />
+
+@if (isInLoginPage)
+{
+    <form class="login-form">
+        <h2>Login</h2>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="Enter email" @bind-value="email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" @bind-value="password">
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="Login">Login</button>
+        <button type="button" class="btn btn-secondary" @onclick="GoToRegister">Register</button>
+    </form>
+}
+else
+{
+    <form class="register-form">
+        <h2>Register</h2>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="Enter email" @bind-value="email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" placeholder="Password" @bind-value="password">
+        </div>
+        <div class="form-group">
+            <label for="repeatPassword">Repeat password</label>
+            <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat password" @bind-value="repeatPassword">
+        </div>
+        <button type="button" class="btn btn-primary" @onclick="Register">Register</button>
+        <button type="button" class="btn btn-secondary" @onclick="GoToLogin">Back</button>
+    </form>
+}
+
+@code {
+    private string email;
+    private string password;
+    private string repeatPassword;
+    private bool isInLoginPage = true;
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            StateHasChanged();
+        }
+
+        return base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async Task Login()
+    {
+        try
+        {
+            await _eventBroker.Notify(new YetAnotherNoteTaker.Client.Common.Events.AuthEvents.LoginCommand(email, password));
+            await _eventBroker.Notify(new YetAnotherNoteTaker.Client.Common.Events.NotebookEvents.ListNotebooksCommand());
+            _navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+
+    public void GoToRegister()
+    {
+        email = password = repeatPassword = string.Empty;
+        isInLoginPage = false;
+        StateHasChanged();
+    }
+
+    public async Task Register()
+    {
+        try
+        {
+            await _eventBroker.Notify(new YetAnotherNoteTaker.Client.Common.Events.AuthEvents.CreateUserCommand(email, password));
+            _navigation.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+        }
+    }
+
+    public void GoToLogin()
+    {
+        email = password = repeatPassword = string.Empty;
+        isInLoginPage = true;
+        StateHasChanged();
+    }
+}

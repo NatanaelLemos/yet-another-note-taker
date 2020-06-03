@@ -94,7 +94,10 @@ namespace YetAnotherNoteTaker.Client.Common.Http
         private HttpContent CreateJson<T>(T dto)
         {
             var json = JsonConvert.SerializeObject(dto);
-            return new StringContent(json, Encoding.UTF8, "application/json");
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+            content.Headers.Clear();
+            content.Headers.Add("Content-Type", "application/json");
+            return content;
         }
 
         private HttpContent CreateFormUrlEncoded(Dictionary<string, string> parameters)

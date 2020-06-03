@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
+using YetAnotherNoteTaker.Client.Common.State;
 
 namespace YetAnotherNoteTaker.State
 {
@@ -11,8 +13,11 @@ namespace YetAnotherNoteTaker.State
         private MasterDetailPage _listener;
         private readonly LinkedList<(Type pageType, object[] args)> _history = new LinkedList<(Type, object[])>();
 
+        private readonly IUserState _userState;
+
         private PageNavigatorImpl()
         {
+            _userState = ServiceLocator.Get<IUserState>();
         }
 
         public static PageNavigatorImpl Instance => _instance.Value;
@@ -38,11 +43,11 @@ namespace YetAnotherNoteTaker.State
             }
         }
 
-        public void NavigateTo<TPage>(params object[] args)
+        public Task NavigateTo<TPage>(params object[] args)
             where TPage : ContentPage
         {
             var pageType = typeof(TPage);
-            NavigateTo(pageType, args);
+            return NavigateTo(pageType, args);
         }
 
         public void ClearHistory()
@@ -50,24 +55,25 @@ namespace YetAnotherNoteTaker.State
             _history.Clear();
         }
 
-        public void Back()
+        public Task Back()
         {
             if (_history.Count > 1)
             {
                 _history.RemoveLast();
                 var last = _history.Last.Value;
-                NavigateTo(last.pageType, last.args);
+                return NavigateTo(last.pageType, last.args);
             }
+            return Task.CompletedTask;
         }
 
-        private void NavigateTo(Type pageType, object[] args)
+        private async Task NavigateTo(Type pageType, object[] args)
         {
             while (_history.Count > 20)
             {
                 _history.RemoveFirst();
             }
 
-            if (UserState.IsAuthenticated(pageType))
+            if (await _userState.IsAuthenticated(pageType))
             {
                 var pageInstance = (Page)Activator.CreateInstance(pageType, args);
 

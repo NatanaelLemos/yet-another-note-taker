@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NLemos.Api.Framework.Extensions.Startup;
+using NLemos.Api.Framework.Extensions.Startup; 
 using YetAnotherNoteTaker.Server.Data;
 using YetAnotherNoteTaker.Server.Security;
 using YetAnotherNoteTaker.Server.Services;
@@ -28,6 +28,8 @@ namespace YetAnotherNoteTaker.Server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
+
             services
                 .AddBasicServices()
                 .AddSwagger(AppTitle, AppVersion);
@@ -76,6 +78,8 @@ namespace YetAnotherNoteTaker.Server
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+
             app
                 .UseErrorHandling()
                 .UseIdentityServer()

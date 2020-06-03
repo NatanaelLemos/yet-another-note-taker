@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Client.Common.Events;
+using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using YetAnotherNoteTaker.Events;
-using YetAnotherNoteTaker.Events.NotebookEvents;
 using YetAnotherNoteTaker.Extensions;
 using YetAnotherNoteTaker.State;
 

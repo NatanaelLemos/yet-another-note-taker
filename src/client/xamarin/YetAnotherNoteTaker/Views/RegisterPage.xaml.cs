@@ -1,11 +1,12 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using YetAnotherNoteTaker.Events;
-using YetAnotherNoteTaker.Events.AuthEvents;
 using YetAnotherNoteTaker.Extensions;
 using YetAnotherNoteTaker.Helpers;
 using YetAnotherNoteTaker.State;
+using YetAnotherNoteTaker.Client.Common.Security;
+using YetAnotherNoteTaker.Client.Common.Events;
+using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 
 namespace YetAnotherNoteTaker.Views
 {

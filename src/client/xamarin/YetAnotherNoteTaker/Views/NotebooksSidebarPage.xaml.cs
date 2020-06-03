@@ -5,9 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Client.Common.Events;
+using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using YetAnotherNoteTaker.Events;
-using YetAnotherNoteTaker.Events.NotebookEvents;
 using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views
@@ -16,7 +16,7 @@ namespace YetAnotherNoteTaker.Views
     public partial class NotebooksSidebarPage : ContentPage
     {
         private readonly ObservableCollection<NotebookDto> _dataSource;
-        private IEventBroker _eventBroker;
+        private readonly IEventBroker _eventBroker;
 
         public NotebooksSidebarPage()
         {

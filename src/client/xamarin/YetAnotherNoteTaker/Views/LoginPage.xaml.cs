@@ -1,12 +1,14 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
-using YetAnotherNoteTaker.Events;
-using YetAnotherNoteTaker.Events.AuthEvents;
-using YetAnotherNoteTaker.Events.SettingsEvents;
 using YetAnotherNoteTaker.Extensions;
 using YetAnotherNoteTaker.Helpers;
 using YetAnotherNoteTaker.State;
+using YetAnotherNoteTaker.Client.Common.Security;
+using YetAnotherNoteTaker.Client.Common.Events;
+using YetAnotherNoteTaker.Client.Common.State;
+using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
+using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 
 namespace YetAnotherNoteTaker.Views
 {
@@ -15,18 +17,20 @@ namespace YetAnotherNoteTaker.Views
     public partial class LoginPage : ContentPage
     {
         private readonly IEventBroker _eventBroker;
+        private readonly IUserState _userState;
 
         public LoginPage()
         {
             InitializeComponent();
             _eventBroker = ServiceLocator.Get<IEventBroker>();
+            _userState = ServiceLocator.Get<IUserState>();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
 
-            if (UserState.IsAuthenticated())
+            if (await _userState.IsAuthenticated())
             {
                 PageNavigator.NavigateTo<NotesPage>();
                 return;

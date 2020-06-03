@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Client.Common.Events;
+using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using YetAnotherNoteTaker.Events;
-using YetAnotherNoteTaker.Events.NoteEvents;
 using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views

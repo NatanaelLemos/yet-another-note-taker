@@ -1,0 +1,75 @@
+﻿@using YetAnotherNoteTaker.Client.Common.Events.NoteEvents
+
+@inject NavigationManager _navigation
+@inject IEventBroker _eventBroker
+@inject YetAnotherNoteTaker.Client.Common.Services.INotebooksService _notebooksService
+
+<h2>@(notebook?.Name ?? "All notes")</h2>
+
+<table class="table table-striped table-hover">
+    <tbody>
+        @foreach (var note in notes)
+        {
+            <tr>
+                <td>
+                    @note.Name
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (notebook != null)
+{
+    <div class="crud-actions">
+        <button class="btn btn-default" @onclick="NewNote">New note</button>
+    </div>
+}
+
+@code {
+
+    [Parameter]
+    public string NotebookKey { get; set; }
+
+    private NotebookDto notebook;
+    private List<NoteDto> notes = new List<NoteDto>();
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _eventBroker.Subscribe<ListNotesResult>(ListNotesResultHandler);
+            StateHasChanged();
+        }
+
+        if(firstRender || notebook?.Key != NotebookKey)
+        {
+            await _eventBroker.Notify(new ListNotesCommand(NotebookKey));
+
+            if (!string.IsNullOrWhiteSpace(NotebookKey))
+            {
+                notebook = await _notebooksService.Get(NotebookKey);
+            }
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    private Task ListNotesResultHandler(ListNotesResult arg)
+    {
+        notes.Clear();
+        foreach (var item in arg.Notes)
+        {
+            notes.Add(item);
+        }
+
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+
+    private void NewNote()
+    {
+        _navigation.NavigateTo($"/notebooks/{NotebookKey}/notes/editor");
+    }
+
+}
