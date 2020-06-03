@@ -79,6 +79,11 @@ app {
 
     .sidebar .nav-link {
         padding: 0 5px 0 5px;
+        display: inline-block;
+        color: #d7d7d7;
+        border-radius: 4px;
+        align-items: center;
+        line-height: 3rem;
     }
 
     .sidebar .nav-item:first-of-type {
@@ -89,20 +94,12 @@ app {
         padding-bottom: 1rem;
     }
 
-    .sidebar .nav-item a {
-        color: #d7d7d7;
-        border-radius: 4px;
-        display: flex;
-        align-items: center;
-        line-height: 3rem;
-    }
-
         .sidebar .nav-item a.active {
             background-color: rgba(255, 255, 255, 0.25);
             color: white;
         }
 
-        .sidebar .nav-item a:hover {
+        .sidebar .nav-item:hover {
             background-color: rgba(255, 255, 255, 0.1);
             color: white;
         }
@@ -114,9 +111,10 @@ app {
     .sidebar .action-btn {
         border: none;
         color: #fff;
-        width: 50px;
-        margin: 0;
+        width: 40px;
+        margin: 11px 0 0 0;
         padding: 0;
+        float: right;
     }
 
 .content {

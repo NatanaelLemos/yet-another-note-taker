@@ -22,47 +22,50 @@
 </form>
 
 @code {
-    private string title = "New notebook";
     private string notebookKey;
+    private NotebookDto notebook;
+
+    private string title = "New notebook";
     private string name;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
-        {
-            return;
-        }
-
-        _eventBroker.Subscribe<EditNotebookResult>(NewNotebookResultHandler);
-
         var uri = _navigation.ToAbsoluteUri(_navigation.Uri);
         if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("notebookKey", out var param))
         {
             notebookKey = param.First();
-            var dto = await _notebookService.Get(notebookKey);
-            title = dto.Name;
-            name = dto.Name;
-            notebookKey = dto.Key;
         }
         else
         {
-            title = "New notebook";
             notebookKey = string.Empty;
         }
 
-        StateHasChanged();
+        if (firstRender || notebookKey != notebook?.Key)
+        {
+            notebook = await _notebookService.Get(notebookKey);
+
+            if (notebook == null)
+            {
+                title = "New notebook";
+                name = string.Empty;
+            }
+            else
+            {
+                title = notebook.Name;
+                name = notebook.Name;
+            }
+
+            StateHasChanged();
+        }
+
         await base.OnAfterRenderAsync(firstRender);
     }
 
-    private async Task NewNotebookResultHandler(EditNotebookResult arg)
+    private async Task Save()
     {
+        await _eventBroker.Notify(new EditNotebookCommand(notebookKey, name));
         await _eventBroker.Notify(new ListNotebooksCommand());
-        _navigation.NavigateTo($"/notebooks/{arg.Notebook.Key}/notes");
-    }
-
-    private Task Save()
-    {
-        return _eventBroker.Notify(new EditNotebookCommand(notebookKey, name));
+        _navigation.NavigateTo($"/notebooks/{notebookKey}/notes");
     }
 
     private async Task Cancel()
