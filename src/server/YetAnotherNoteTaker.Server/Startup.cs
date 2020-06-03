@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NLemos.Api.Framework.Extensions.Startup; 
+using NLemos.Api.Framework.Extensions.Startup;
 using YetAnotherNoteTaker.Server.Data;
 using YetAnotherNoteTaker.Server.Security;
 using YetAnotherNoteTaker.Server.Services;

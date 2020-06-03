@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YetAnotherNoteTaker.Common.Dtos
+﻿namespace YetAnotherNoteTaker.Common.Dtos
 {
     public class UserDto
     {

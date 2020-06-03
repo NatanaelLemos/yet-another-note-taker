@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Client.Common.State;
+using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.Client.Common.Events.AuthEvents
 {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Data;
 using YetAnotherNoteTaker.Client.Common.Http;
 using YetAnotherNoteTaker.Common.Dtos;
@@ -61,5 +60,4 @@ namespace YetAnotherNoteTaker.Blazor.Data
             await _restClient.Delete(url, token);
         }
     }
-
 }

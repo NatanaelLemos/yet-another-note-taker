@@ -1,14 +1,14 @@
 ﻿using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Client.Common.Events;
+using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
+using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
+using YetAnotherNoteTaker.Client.Common.Security;
+using YetAnotherNoteTaker.Client.Common.State;
 using YetAnotherNoteTaker.Extensions;
 using YetAnotherNoteTaker.Helpers;
 using YetAnotherNoteTaker.State;
-using YetAnotherNoteTaker.Client.Common.Security;
-using YetAnotherNoteTaker.Client.Common.Events;
-using YetAnotherNoteTaker.Client.Common.State;
-using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
-using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 
 namespace YetAnotherNoteTaker.Views
 {

@@ -84,7 +84,6 @@ namespace YetAnotherNoteTaker.Views
 
         private async void btnRemoveNote_OnClick(object sender, EventArgs e)
         {
-
             await _eventBroker.Notify(new DeleteNoteCommand(GetNotebookKey(), _note.Key));
             PageNavigator.NavigateTo<NotesPage>(_notebook);
         }

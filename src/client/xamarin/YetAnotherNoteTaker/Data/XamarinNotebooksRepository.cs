@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Data;
 using YetAnotherNoteTaker.Client.Common.Http;
 using YetAnotherNoteTaker.Common.Dtos;
-using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Data
 {

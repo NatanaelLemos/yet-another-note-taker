@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Dtos;
 using YetAnotherNoteTaker.Client.Common.Security;
 using YetAnotherNoteTaker.Client.Common.State;
-using System.Threading.Tasks;
 
 namespace YetAnotherNoteTaker.State
 {

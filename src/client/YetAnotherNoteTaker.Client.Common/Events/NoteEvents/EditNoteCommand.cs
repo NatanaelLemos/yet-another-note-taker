@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YetAnotherNoteTaker.Client.Common.Events.NoteEvents
+﻿namespace YetAnotherNoteTaker.Client.Common.Events.NoteEvents
 {
     public class EditNoteCommand
     {

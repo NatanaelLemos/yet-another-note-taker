@@ -75,7 +75,6 @@ namespace YetAnotherNoteTaker.Server.Services
             await _notebooksRepository.UpdateEmails(email, current.Email);
             await _notesRepository.UpdateEmails(email, current.Email);
 
-
             return new UserDto { Email = current.Email };
         }
     }

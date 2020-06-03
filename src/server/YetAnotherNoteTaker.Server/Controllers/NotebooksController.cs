@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -90,7 +89,7 @@ namespace YetAnotherNoteTaker.Server.Controllers
         [HttpPost]
         [ProducesResponseType(200)]
         [ProducesResponseType(422)]
-        public async Task<Hateoas<NotebookDto>> Post(string email, [FromBody]NotebookDto newDto)
+        public async Task<Hateoas<NotebookDto>> Post(string email, [FromBody] NotebookDto newDto)
         {
             this.ValidateEmail(email);
 
@@ -122,7 +121,7 @@ namespace YetAnotherNoteTaker.Server.Controllers
         [HttpPut("{notebookKey}")]
         [ProducesResponseType(200)]
         [ProducesResponseType(422)]
-        public async Task<Hateoas<NotebookDto>> Put(string email, string notebookKey, [FromBody]NotebookDto dto)
+        public async Task<Hateoas<NotebookDto>> Put(string email, string notebookKey, [FromBody] NotebookDto dto)
         {
             this.ValidateEmail(email);
 

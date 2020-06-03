@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using MongoDB.Driver;
 using NLemos.Api.Framework.Exceptions;
 using NLemos.Api.Framework.Extensions.Controllers;
 using NLemos.Api.Framework.Models;

@@ -1,21 +1,19 @@
-﻿using System;
-using System.Net.Http;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Blazored.LocalStorage;
+using Blazored.LocalStorage.JsonConverters;
+using Blazored.LocalStorage.StorageOptions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using YetAnotherNoteTaker.Client.Common.Http;
-using YetAnotherNoteTaker.Client.Common.Data;
 using YetAnotherNoteTaker.Blazor.Data;
-using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Blazor.State;
-using Blazored.LocalStorage;
-using YetAnotherNoteTaker.Client.Common.State;
+using YetAnotherNoteTaker.Client.Common.Data;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
-using Blazored.LocalStorage.StorageOptions;
-using Blazored.LocalStorage.JsonConverters;
+using YetAnotherNoteTaker.Client.Common.Http;
+using YetAnotherNoteTaker.Client.Common.Services;
+using YetAnotherNoteTaker.Client.Common.State;
 
 namespace YetAnotherNoteTaker.Blazor
 {

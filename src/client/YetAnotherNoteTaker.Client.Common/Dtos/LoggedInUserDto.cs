@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using YetAnotherNoteTaker.Common.Dtos;
+﻿using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.Client.Common.Dtos
 {

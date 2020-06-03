@@ -42,7 +42,7 @@
             StateHasChanged();
         }
 
-        if(firstRender || notebook?.Key != NotebookKey)
+        if (firstRender || notebook?.Key != NotebookKey)
         {
             await _eventBroker.Notify(new ListNotesCommand(NotebookKey));
 

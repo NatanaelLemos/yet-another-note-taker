@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
+﻿namespace YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
 {
     public class DeleteNotebookCommand
     {
