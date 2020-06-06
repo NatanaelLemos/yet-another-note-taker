@@ -25,7 +25,7 @@
 
 #quill-div {
     border: 1px solid black;
-    height: 75%;
+    min-height: 75%;
 }
 
 #toolbar-container {
@@ -38,33 +38,4 @@
     background-color: #f3f3f8;
     z-index: 999999;
     padding: 2px;
-}
-
-#editor-container {
-    margin-top: 40px;
-    border: none;
-}
-
-@media all and (max-width: 1045px) {
-    #editor-container {
-        margin-top: 80px;
-    }
-}
-
-@media all and (max-width: 540px) {
-    #editor-container {
-        margin-top: 112px;
-    }
-}
-
-@media all and (max-width: 371px) {
-    #editor-container {
-        margin-top: 130px;
-    }
-}
-
-@media all and (max-width: 348px) {
-    #editor-container {
-        margin-top: 162px;
-    }
 }

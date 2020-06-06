@@ -37,7 +37,12 @@
         }
         else
         {
-            notebookKey = string.Empty;
+            notebookKey = null;
+        }
+
+        if (firstRender)
+        {
+            _eventBroker.Subscribe<EditNotebookResult>(EditNotebookResultHandler);
         }
 
         if (firstRender || notebookKey != notebook?.Key)
@@ -65,7 +70,6 @@
     {
         await _eventBroker.Notify(new EditNotebookCommand(notebookKey, name));
         await _eventBroker.Notify(new ListNotebooksCommand());
-        _navigation.NavigateTo($"/notebooks/{notebookKey}/notes");
     }
 
     private async Task Cancel()
@@ -73,4 +77,9 @@
         await JsRuntime.InvokeVoidAsync("window.history.back");
     }
 
+    private Task EditNotebookResultHandler(EditNotebookResult result)
+    {
+        _navigation.NavigateTo($"/notebooks/{result.Notebook.Key}/notes");
+        return Task.CompletedTask;
+    }
 }

@@ -6,25 +6,30 @@
 
 <h2>@(notebook?.Name ?? "All notes")</h2>
 
+@if (notebook != null)
+{
+    var newNoteUrl = $"/notebooks/{NotebookKey}/notes/editor";
+    <div class="crud-actions">
+        <NavLink class="btn btn-default" href="@newNoteUrl">New note</NavLink>
+    </div>
+}
+
 <table class="table table-striped table-hover">
     <tbody>
         @foreach (var note in notes)
         {
+            var url = $"/notebooks/{note.NotebookKey}/notes/editor?noteKey={note.Key}";
+
             <tr>
                 <td>
-                    @note.Name
+                    <NavLink class="nav-link" href="@url">
+                        @note.Name
+                    </NavLink>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-@if (notebook != null)
-{
-    <div class="crud-actions">
-        <button class="btn btn-default" @onclick="NewNote">New note</button>
-    </div>
-}
 
 @code {
 
@@ -66,10 +71,4 @@
         StateHasChanged();
         return Task.CompletedTask;
     }
-
-    private void NewNote()
-    {
-        _navigation.NavigateTo($"/notebooks/{NotebookKey}/notes/editor");
-    }
-
 }

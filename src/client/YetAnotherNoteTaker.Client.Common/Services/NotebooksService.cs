@@ -28,6 +28,14 @@ namespace YetAnotherNoteTaker.Client.Common.Services
         {
             var email = await _userState.UserEmail;
             var token = await _userState.Token;
+
+            if (string.IsNullOrWhiteSpace(notebookKey) ||
+                string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(token))
+            {
+                return null;
+            }
+
             return await _repository.Get(email, notebookKey, token);
         }
 

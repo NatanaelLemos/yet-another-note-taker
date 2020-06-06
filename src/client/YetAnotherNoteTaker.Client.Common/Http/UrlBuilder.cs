@@ -93,6 +93,11 @@
             return $"{_urlBase}/v0/users/{email}/notebooks/{notebookKey}/notes";
         }
 
+        public string Get(string email, string notebookKey, string noteKey)
+        {
+            return $"{_urlBase}/v0/users/{email}/notebooks/{notebookKey}/notes/{noteKey}";
+        }
+
         public string Post(string email, string notebookKey)
         {
             return $"{_urlBase}/v0/users/{email}/notebooks/{notebookKey}/notes";

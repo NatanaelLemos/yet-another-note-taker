@@ -10,6 +10,8 @@ namespace YetAnotherNoteTaker.Client.Common.Data
 
         Task<List<NoteDto>> GetByNotebookKey(string email, string notebookKey, string token);
 
+        Task<NoteDto> Get(string email, string notebookKey, string noteKey, string token);
+
         Task<NoteDto> Create(string email, NoteDto noteDto, string token);
 
         Task<NoteDto> Update(string email, NoteDto noteDto, string token);

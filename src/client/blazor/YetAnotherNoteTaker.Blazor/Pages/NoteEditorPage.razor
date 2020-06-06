@@ -1,7 +1,11 @@
 @page  "/notebooks/{NotebookKey}/notes/editor"
 
+@using Microsoft.AspNetCore.WebUtilities
+
 @inject IJSRuntime JsRuntime
 @inject IEventBroker _eventBroker
+@inject NavigationManager _navigation
+@inject YetAnotherNoteTaker.Client.Common.Services.INotesService _noteService
 
 <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.7.1/katex.min.css" />
@@ -9,14 +13,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/monokai-sublime.min.css" />
 <link rel="stylesheet" href="css/quill_light.css" />
 
-<div class="crud-actions">
-    <button class="btn btn-primary" @onclick="Save">Save</button>
-    <button class="btn btn-danger" @onclick="Cancel">Cancel</button>
-</div>
-
-<h2>
-    New note
-</h2>
+<h2>@title</h2>
 
 <div>
     <label for="name">Note name</label>
@@ -74,27 +71,67 @@
     </div>
 </div>
 
+<div class="crud-actions">
+    <button class="btn btn-primary" @onclick="Save">Save</button>
+    <button class="btn btn-danger" @onclick="Cancel">Cancel</button>
+</div>
+
 @code{
 
     [Parameter]
     public string NotebookKey { get; set; }
 
+    private string noteKey;
+    private NoteDto note;
+
+    private string title = "New note";
     private string name;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        await JsRuntime.InvokeVoidAsync("startQuill", "'hahahah'");
+        var uri = _navigation.ToAbsoluteUri(_navigation.Uri);
+        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("noteKey", out var param))
+        {
+            noteKey = param.First();
+        }
+        else
+        {
+            noteKey = null;
+        }
+
+        if (firstRender || noteKey != note?.Key)
+        {
+            note = await _noteService.Get(NotebookKey, noteKey);
+            var body = string.Empty;
+
+            if (note == null)
+            {
+                title = "New note";
+                name = string.Empty;
+            }
+            else
+            {
+                title = note.Name;
+                name = note.Name;
+                body = note.Body;
+            }
+
+            await JsRuntime.InvokeVoidAsync("startQuill", $"{body}");
+            StateHasChanged();
+        }
+
         await base.OnAfterRenderAsync(firstRender);
     }
 
     private async Task Save()
     {
-        var quillContent = await JsRuntime.InvokeAsync<string>("getQuillContent");
-        await _eventBroker.Notify(new YetAnotherNoteTaker.Client.Common.Events.NoteEvents.EditNoteCommand(
+        var body = await JsRuntime.InvokeAsync<string>("getQuillContent");
+        await _eventBroker.Notify(
+            new YetAnotherNoteTaker.Client.Common.Events.NoteEvents.EditNoteCommand(
                     NotebookKey,
-                    string.Empty,
+                    noteKey,
                     name,
-                    quillContent));
+                    body));
 
         await JsRuntime.InvokeVoidAsync("window.history.back");
     }

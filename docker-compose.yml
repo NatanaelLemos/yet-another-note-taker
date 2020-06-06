@@ -1,15 +1,15 @@
 version: "3.4"
 services:
-  webclient:
-    build:
-      context: .
-      dockerfile: src/client/YetAnotherNoteTaker.Web/Dockerfile
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "5003:80"
-    depends_on:
-        - webserver
+  # webclient:
+  #   build:
+  #     context: .
+  #     dockerfile: src/client/YetAnotherNoteTaker.Web/Dockerfile
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   ports:
+  #     - "5003:80"
+  #   depends_on:
+  #       - webserver
   webserver:
     build:
       context: .

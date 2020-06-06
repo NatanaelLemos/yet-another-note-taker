@@ -75,6 +75,8 @@ app {
         padding-left: 6px !important;
         padding-right: 6px !important;
         padding-bottom: 0.5rem;
+        height: 48px;
+        overflow: hidden;
     }
 
     .sidebar .nav-link {
@@ -84,25 +86,20 @@ app {
         border-radius: 4px;
         align-items: center;
         line-height: 3rem;
+        width: calc(100% - 90px);
+        height: 48px;
+        overflow: hidden;
     }
 
-    .sidebar .nav-item:first-of-type {
-        padding-top: 1rem;
+    .sidebar .nav-item a.active {
+        background-color: rgba(255, 255, 255, 0.25);
+        color: white;
     }
 
-    .sidebar .nav-item:last-of-type {
-        padding-bottom: 1rem;
+    .sidebar .nav-item:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
     }
-
-        .sidebar .nav-item a.active {
-            background-color: rgba(255, 255, 255, 0.25);
-            color: white;
-        }
-
-        .sidebar .nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
 
     .sidebar .action-text {
         width: 100%;

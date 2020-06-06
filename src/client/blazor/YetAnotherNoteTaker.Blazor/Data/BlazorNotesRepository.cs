@@ -29,6 +29,12 @@ namespace YetAnotherNoteTaker.Blazor.Data
             return await _restClient.Get<List<NoteDto>>(url, token);
         }
 
+        public Task<NoteDto> Get(string email, string notebookKey, string noteKey, string token)
+        {
+            var url = _urlBuilder.Notes.Get(email, notebookKey, noteKey);
+            return _restClient.Get<NoteDto>(url, token);
+        }
+
         public async Task<NoteDto> Create(string email, NoteDto noteDto, string token)
         {
             var url = _urlBuilder.Notes.Post(email, noteDto.NotebookKey);

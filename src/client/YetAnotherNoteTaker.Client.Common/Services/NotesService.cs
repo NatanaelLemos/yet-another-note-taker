@@ -31,6 +31,22 @@ namespace YetAnotherNoteTaker.Client.Common.Services
             return await _repository.GetByNotebookKey(email, notebookKey, token);
         }
 
+        public async Task<NoteDto> Get(string notebookKey, string noteKey)
+        {
+            var email = await _userState.UserEmail;
+            var token = await _userState.Token;
+
+            if (string.IsNullOrWhiteSpace(notebookKey) ||
+                string.IsNullOrWhiteSpace(noteKey) ||
+                string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(token))
+            {
+                return null;
+            }
+
+            return await _repository.Get(email, notebookKey, noteKey, token);
+        }
+
         public async Task<NoteDto> Create(NoteDto noteDto)
         {
             var email = await _userState.UserEmail;
