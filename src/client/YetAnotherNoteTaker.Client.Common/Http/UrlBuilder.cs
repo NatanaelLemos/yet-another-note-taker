@@ -7,6 +7,8 @@
         NotebooksUrlBuilder Notebooks { get; }
 
         NotesUrlBuilder Notes { get; }
+
+        SettingsUrlBuilder Settings { get; }
     }
 
     public class UrlBuilder : IUrlBuilder
@@ -23,6 +25,8 @@
         public NotebooksUrlBuilder Notebooks => new NotebooksUrlBuilder(_urlBase);
 
         public NotesUrlBuilder Notes => new NotesUrlBuilder(_urlBase);
+
+        public SettingsUrlBuilder Settings => new SettingsUrlBuilder(_urlBase);
     }
 
     public class UsersUrlBuilder
@@ -111,6 +115,26 @@
         public string Delete(string email, string notebookKey, string noteKey)
         {
             return $"{_urlBase}/v0/users/{email}/notebooks/{notebookKey}/notes/{noteKey}";
+        }
+    }
+
+    public class SettingsUrlBuilder
+    {
+        private readonly string _urlBase;
+
+        public SettingsUrlBuilder(string urlBase)
+        {
+            _urlBase = urlBase;
+        }
+
+        public string Get(string email)
+        {
+            return $"{_urlBase}/v0/users/{email}/settings";
+        }
+
+        public string Put(string email)
+        {
+            return $"{_urlBase}/v0/users/{email}/settings";
         }
     }
 }

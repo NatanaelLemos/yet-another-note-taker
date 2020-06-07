@@ -7,6 +7,6 @@ namespace YetAnotherNoteTaker.Client.Common.Services
     {
         Task<SettingsDto> Get();
 
-        Task Save(SettingsDto settings);
+        Task<SettingsDto> Save(SettingsDto settings);
     }
 }

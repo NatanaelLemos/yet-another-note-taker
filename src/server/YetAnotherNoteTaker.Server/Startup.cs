@@ -54,6 +54,10 @@ namespace YetAnotherNoteTaker.Server
                 .AddScoped<IProfileService, ProfileService>();
 
             services
+                .AddScoped<ISettingsRepository, SettingsRepository>()
+                .AddScoped<ISettingsService, SettingsService>();
+
+            services
                 .AddIdentityServer(o =>
                 {
                     o.Authentication.CookieLifetime = new TimeSpan(360, 0, 0, 0);

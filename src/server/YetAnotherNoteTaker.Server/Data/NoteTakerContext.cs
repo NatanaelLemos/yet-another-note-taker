@@ -25,6 +25,11 @@ namespace YetAnotherNoteTaker.Server.Data
                 cm.AutoMap();
                 cm.SetIgnoreExtraElements(true);
             });
+            BsonClassMap.RegisterClassMap<Settings>(cm =>
+            {
+                cm.AutoMap();
+                cm.SetIgnoreExtraElements(true);
+            });
         }
 
         public IMongoCollection<User> Users => GetCollection<User>("users");
@@ -32,5 +37,7 @@ namespace YetAnotherNoteTaker.Server.Data
         public IMongoCollection<Notebook> Notebooks => GetCollection<Notebook>("notebooks");
 
         public IMongoCollection<Note> Notes => GetCollection<Note>("notes");
+
+        public IMongoCollection<Settings> Settings => GetCollection<Settings>("settings");
     }
 }
