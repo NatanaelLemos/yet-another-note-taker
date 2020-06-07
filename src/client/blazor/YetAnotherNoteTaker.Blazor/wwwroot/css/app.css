@@ -1,18 +1,29 @@
 ﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
 
 html, body {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #f3f3f8;
 }
 
 a, .btn-link {
     color: #0366d6;
 }
 
-.btn-primary {
-    color: #fff;
-    background-color: #1b6ec2;
-    border-color: #1861ac;
+button, .btn {
+    border-radius: 0 !important;
 }
+
+.btn-topbar {
+    background-color: #2176E3;
+    color: #fff;
+    min-width: 100px;
+}
+
+    .btn-topbar:hover {
+        background-color: #1c70dd;
+        border: 1px solid #1568d5;
+        color: #fff;
+    }
 
 app {
     position: relative;
@@ -47,22 +58,13 @@ app {
         }
 
 .sidebar {
-    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+    background-color: #d7d7e3;
 }
 
-    .sidebar .top-row {
-        background-color: rgba(0, 0, 0, 0.4);
-    }
-
-    .sidebar .navbar-brand {
+    .main .top-row, .sidebar .top-row {
+        background-color: #2176E3;
+        color: #fff;
         font-size: 1.1rem;
-    }
-
-    .sidebar .oi {
-        width: 2rem;
-        font-size: 1.1rem;
-        vertical-align: text-top;
-        top: -2px;
     }
 
     .sidebar .collapse {
@@ -72,45 +74,44 @@ app {
 
     .sidebar .nav-item {
         font-size: 0.9rem;
-        padding-left: 6px !important;
-        padding-right: 6px !important;
-        padding-bottom: 0.5rem;
+        margin: 2px 6px 0 6px !important;
+        padding: 0 !important;
         height: 48px;
         overflow: hidden;
     }
 
     .sidebar .nav-link {
+        margin: 0;
         padding: 0 5px 0 5px;
         display: inline-block;
-        color: #d7d7d7;
-        border-radius: 4px;
-        align-items: center;
         line-height: 3rem;
-        width: calc(100% - 90px);
+        width: 100%;
         height: 48px;
         overflow: hidden;
     }
 
     .sidebar .nav-item a.active {
-        background-color: rgba(255, 255, 255, 0.25);
-        color: white;
+        background-color: #81B1DE;
     }
 
     .sidebar .nav-item:hover {
-        background-color: rgba(255, 255, 255, 0.1);
-        color: white;
+        background-color: #C2C2CD;
     }
 
     .sidebar .action-text {
-        width: 100%;
+        width: calc(100% - 91px);
+        color: #333;
+        display: inline-block;
+        height: 48px;
+        overflow: hidden;
     }
 
     .sidebar .action-btn {
         border: none;
-        color: #fff;
         width: 40px;
-        margin: 11px 0 0 0;
         padding: 0;
+        margin: 12px 0 0 0;
+        z-index: 9999999;
         float: right;
     }
 
