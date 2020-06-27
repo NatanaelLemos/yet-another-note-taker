@@ -37,6 +37,7 @@ namespace YetAnotherNoteTaker.Blazor
             services
                 .AddSingleton<IUserState, UserState>()
                 .AddSingleton<IEventBroker>(new EventBroker(
+                    //TODO:
                     t => Task.FromResult(true)));
 
             services

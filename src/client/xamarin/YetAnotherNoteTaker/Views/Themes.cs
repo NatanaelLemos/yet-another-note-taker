@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using NLemos.Xamarin.Common.Helpers;
+using NLemos.Xamarin.Common.State;
 using Xamarin.Forms.StyleSheets;
-using YetAnotherNoteTaker.Helpers;
-using YetAnotherNoteTaker.State;
+using YetAnotherNoteTaker.Blazor.State;
 
 namespace YetAnotherNoteTaker.Views
 {
@@ -18,7 +19,7 @@ namespace YetAnotherNoteTaker.Views
                 ApplyTheme(app, new LightTheme());
             }
 
-            PageNavigator.ClearHistory();
+            ServiceLocator.Get<IPageNavigator>().ClearHistory();
             app.MainPage = new MainPage();
         }
 
@@ -29,7 +30,7 @@ namespace YetAnotherNoteTaker.Views
                 ApplyTheme(app, new DarkTheme());
             }
 
-            PageNavigator.ClearHistory();
+            ServiceLocator.Get<IPageNavigator>().ClearHistory();
             app.MainPage = new MainPage();
         }
 

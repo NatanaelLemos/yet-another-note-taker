@@ -2,8 +2,8 @@
 using System.Globalization;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using NLemos.Xamarin.Common.Helpers;
 using Xamarin.Forms;
-using YetAnotherNoteTaker.Helpers;
 
 namespace YetAnotherNoteTaker.Views
 {

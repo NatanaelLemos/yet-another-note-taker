@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using NLemos.Xamarin.Common.State;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views
 {
@@ -14,6 +15,7 @@ namespace YetAnotherNoteTaker.Views
     public partial class NotesPage : ContentPage
     {
         private IEventBroker _eventBroker;
+        private IPageNavigator _pageNavigator;
         private ObservableCollection<NoteDto> _dataSource;
         private NotebookDto _notebook;
 
@@ -38,6 +40,8 @@ namespace YetAnotherNoteTaker.Views
             _eventBroker = ServiceLocator.Get<IEventBroker>();
             _eventBroker.Subscribe<ListNotesResult>(ListNotesResultHandler);
 
+            _pageNavigator = ServiceLocator.Get<IPageNavigator>();
+
             if (notebook == null)
             {
                 Title = "All notes";
@@ -51,9 +55,9 @@ namespace YetAnotherNoteTaker.Views
             _notebook = notebook;
         }
 
-        private void LsvNotes_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void LsvNotes_ItemTapped(object sender, ItemTappedEventArgs e)
         {
-            PageNavigator.NavigateTo<NoteEditorPage>(_notebook, e.Item as NoteDto);
+            await _pageNavigator.NavigateTo<NoteEditorPage>(_notebook, e.Item as NoteDto);
         }
 
         private Task ListNotesResultHandler(ListNotesResult arg)
@@ -67,14 +71,14 @@ namespace YetAnotherNoteTaker.Views
             return Task.CompletedTask;
         }
 
-        private void btnNewNote_OnClick(object sender, EventArgs e)
+        private async void btnNewNote_OnClick(object sender, EventArgs e)
         {
             if (_notebook == null)
             {
                 return;
             }
 
-            PageNavigator.NavigateTo<NoteEditorPage>(_notebook);
+            await _pageNavigator.NavigateTo<NoteEditorPage>(_notebook);
         }
     }
 }

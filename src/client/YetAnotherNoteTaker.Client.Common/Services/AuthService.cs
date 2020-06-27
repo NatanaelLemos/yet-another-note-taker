@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Data;
 using YetAnotherNoteTaker.Client.Common.Dtos;
+using YetAnotherNoteTaker.Client.Common.State;
 using YetAnotherNoteTaker.Common.Dtos;
 
 namespace YetAnotherNoteTaker.Client.Common.Services
@@ -9,10 +10,12 @@ namespace YetAnotherNoteTaker.Client.Common.Services
     public class AuthService : IAuthService
     {
         private readonly IAuthRepository _authRepository;
+        private readonly IUserState _userState;
 
-        public AuthService(IAuthRepository authRepository)
+        public AuthService(IAuthRepository authRepository, IUserState userState)
         {
             _authRepository = authRepository;
+            _userState = userState;
         }
 
         public Task<UserDto> CreateUser(NewUserDto newUserDto)
@@ -29,11 +32,14 @@ namespace YetAnotherNoteTaker.Client.Common.Services
                 throw new NullReferenceException("Invalid email or password");
             }
 
-            return new LoggedInUserDto
+            var loggedUser = new LoggedInUserDto
             {
                 AccessToken = accessToken,
                 Email = email
             };
+
+            await _userState.SetUser(loggedUser);
+            return loggedUser;
         }
     }
 }

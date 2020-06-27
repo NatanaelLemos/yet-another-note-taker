@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
-
+using NLemos.Xamarin.Common.Helpers;
+using NLemos.Xamarin.Common.State;
 using Xamarin.Forms;
-using YetAnotherNoteTaker.Helpers;
-using YetAnotherNoteTaker.State;
+using YetAnotherNoteTaker.Blazor.State;
 
 namespace YetAnotherNoteTaker
 {
@@ -23,7 +23,7 @@ namespace YetAnotherNoteTaker
                 MasterBehavior = MasterBehavior.Popover;
             }
 
-            PageNavigator.AddListener(this);
+            ServiceLocator.Get<IPageNavigator>().AddListener(this);
         }
     }
 }

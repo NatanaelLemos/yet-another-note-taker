@@ -2,6 +2,7 @@
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Client.Common.State;
 using YetAnotherNoteTaker.Common.Dtos;
+using YetAnotherNoteTaker.Common.Helpers;
 
 namespace YetAnotherNoteTaker.Client.Common.Events.AuthEvents
 {
@@ -9,13 +10,11 @@ namespace YetAnotherNoteTaker.Client.Common.Events.AuthEvents
     {
         private readonly IEventBroker _eventBroker;
         private readonly IAuthService _authService;
-        private readonly IUserState _userState;
 
-        public AuthEventsListener(IEventBroker eventBroker, IAuthService authService, IUserState userState)
+        public AuthEventsListener(IEventBroker eventBroker, IAuthService authService)
         {
-            _eventBroker = eventBroker;
-            _authService = authService;
-            _userState = userState;
+            _eventBroker = eventBroker.AsNotNull();
+            _authService = authService.AsNotNull();
         }
 
         public void Start()
@@ -33,10 +32,9 @@ namespace YetAnotherNoteTaker.Client.Common.Events.AuthEvents
             });
         }
 
-        private async Task LoginCommandHandler(LoginCommand arg)
+        private Task LoginCommandHandler(LoginCommand arg)
         {
-            var user = await _authService.Login(arg.Email, arg.Password);
-            await _userState.SetUser(user);
+            return _authService.Login(arg.Email, arg.Password);
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Common.Dtos;
+using YetAnotherNoteTaker.Common.Helpers;
 
 namespace YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
 {
@@ -11,8 +12,8 @@ namespace YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
 
         public NotebookEventsListener(IEventBroker eventBroker, INotebooksService service)
         {
-            _eventBroker = eventBroker;
-            _service = service;
+            _eventBroker = eventBroker.AsNotNull();
+            _service = service.AsNotNull();
         }
 
         public void Start()

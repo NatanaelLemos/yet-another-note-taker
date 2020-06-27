@@ -11,7 +11,8 @@ namespace YetAnotherNoteTaker.Client.Common.Events
 
         private readonly Func<Type, Task<bool>> _userIsAuthenticatedFactory;
 
-        public EventBroker(Func<Type, Task<bool>> userIsAuthenticatedFactory)
+        public EventBroker(
+            Func<Type, Task<bool>> userIsAuthenticatedFactory = null)
         {
             _userIsAuthenticatedFactory = userIsAuthenticatedFactory;
         }
@@ -40,7 +41,8 @@ namespace YetAnotherNoteTaker.Client.Common.Events
                 return;
             }
 
-            if (!await _userIsAuthenticatedFactory(typeof(TEvent)))
+            if ((_userIsAuthenticatedFactory != null) &&
+                (!await _userIsAuthenticatedFactory(typeof(TEvent))))
             {
                 return;
             }

@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using NLemos.Xamarin.Common.State;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Common.Dtos;
@@ -17,6 +19,7 @@ namespace YetAnotherNoteTaker.Views
     {
         private readonly ObservableCollection<NotebookDto> _dataSource;
         private readonly IEventBroker _eventBroker;
+        private readonly IPageNavigator _pageNavigator;
 
         public NotebooksSidebarPage()
         {
@@ -28,6 +31,8 @@ namespace YetAnotherNoteTaker.Views
 
             _eventBroker = ServiceLocator.Get<IEventBroker>();
             _eventBroker.Subscribe<ListNotebooksResult>(ListNotebooksResultHandler);
+
+            _pageNavigator = ServiceLocator.Get<IPageNavigator>();
 
             btnAllNotes.IsVisible = false;
             gridActions.IsVisible = false;
@@ -47,18 +52,18 @@ namespace YetAnotherNoteTaker.Views
             return Task.CompletedTask;
         }
 
-        private void LsvNotebooks_ItemTapped(object sender, ItemTappedEventArgs e)
+        private async void LsvNotebooks_ItemTapped(object sender, ItemTappedEventArgs e)
         {
             var notebookDto = e?.Item as NotebookDto;
-            PageNavigator.NavigateTo<NotesPage>(notebookDto);
+            await _pageNavigator.NavigateTo<NotesPage>(notebookDto);
         }
 
-        private void btnAllNotes_OnClick(object sender, EventArgs e)
+        private async void btnAllNotes_OnClick(object sender, EventArgs e)
         {
-            PageNavigator.NavigateTo<NotesPage>();
+            await _pageNavigator.NavigateTo<NotesPage>();
         }
 
-        private void btnEditNotebook_OnClick(object sender, EventArgs e)
+        private async void btnEditNotebook_OnClick(object sender, EventArgs e)
         {
             var notebookKey = GetNotebookKey(sender);
             if (string.IsNullOrWhiteSpace(notebookKey))
@@ -67,7 +72,7 @@ namespace YetAnotherNoteTaker.Views
             }
 
             var notebook = _dataSource.FirstOrDefault(n => n.Key == notebookKey);
-            PageNavigator.NavigateTo<NotebookEditorPage>(notebook);
+            await _pageNavigator.NavigateTo<NotebookEditorPage>(notebook);
         }
 
         private string GetNotebookKey(object sender)
@@ -87,18 +92,18 @@ namespace YetAnotherNoteTaker.Views
             if (answer)
             {
                 await _eventBroker.Notify(new DeleteNotebookCommand(notebookKey));
-                PageNavigator.NavigateTo<NotesPage>();
+                await _pageNavigator.NavigateTo<NotesPage>();
             }
         }
 
-        private void btnNewNotebook_OnClick(object sender, EventArgs e)
+        private async void btnNewNotebook_OnClick(object sender, EventArgs e)
         {
-            PageNavigator.NavigateTo<NotebookEditorPage>();
+            await _pageNavigator.NavigateTo<NotebookEditorPage>();
         }
 
-        private void btnSettings_OnClick(object sender, EventArgs e)
+        private async void btnSettings_OnClick(object sender, EventArgs e)
         {
-            PageNavigator.NavigateTo<SettingsPage>();
+            await _pageNavigator.NavigateTo<SettingsPage>();
         }
     }
 }

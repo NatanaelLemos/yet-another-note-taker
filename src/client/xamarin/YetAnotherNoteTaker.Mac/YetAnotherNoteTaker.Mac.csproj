@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\..\..\..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.props" Condition="Exists('..\..\..\..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.props')" />
+  <Import Project="..\..\..\..\packages\Xamarin.Forms.4.7.0.968\build\Xamarin.Forms.props" Condition="Exists('..\..\..\..\packages\Xamarin.Forms.4.7.0.968\build\Xamarin.Forms.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -115,6 +115,9 @@
     <Reference Include="Microsoft.Extensions.Primitives, Version=3.1.4.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\Microsoft.Extensions.Primitives.3.1.4\lib\netstandard2.0\Microsoft.Extensions.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="SimpleInjector, Version=5.0.0.0, Culture=neutral, PublicKeyToken=984cb50dea722e99, processorArchitecture=MSIL">
+      <HintPath>..\..\..\..\packages\SimpleInjector.5.0.1\lib\netstandard2.1\SimpleInjector.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.5.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\..\..\..\packages\System.Collections.Immutable.1.7.1\lib\netstandard2.0\System.Collections.Immutable.dll</HintPath>
@@ -130,18 +133,15 @@
       <HintPath>..\..\..\..\packages\System.Text.Json.4.7.2\lib\netstandard2.0\System.Text.Json.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Xamarin.Forms.4.6.0.800\lib\Xamarin.Mac\Xamarin.Forms.Core.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Xamarin.Forms.4.7.0.968\lib\Xamarin.Mac\Xamarin.Forms.Core.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Platform, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Xamarin.Forms.4.6.0.800\lib\Xamarin.Mac\Xamarin.Forms.Platform.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Xamarin.Forms.4.7.0.968\lib\Xamarin.Mac\Xamarin.Forms.Platform.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Forms.Xaml, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\..\packages\Xamarin.Forms.4.6.0.800\lib\Xamarin.Mac\Xamarin.Forms.Xaml.dll</HintPath>
+      <HintPath>..\..\..\..\packages\Xamarin.Forms.4.7.0.968\lib\Xamarin.Mac\Xamarin.Forms.Xaml.dll</HintPath>
     </Reference>
     <Reference Include="Xamarin.Mac" />
-    <Reference Include="SimpleInjector">
-      <HintPath>..\..\..\..\packages\SimpleInjector.4.10.2\lib\netstandard2.0\SimpleInjector.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.Bcl.HashCode">
       <HintPath>..\..\..\..\packages\Microsoft.Bcl.HashCode.1.1.0\lib\netstandard2.1\Microsoft.Bcl.HashCode.dll</HintPath>
     </Reference>
@@ -218,8 +218,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\..\..\..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.props'))" />
-    <Error Condition="!Exists('..\..\..\..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.targets'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\Xamarin.Forms.4.7.0.968\build\Xamarin.Forms.props')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Xamarin.Forms.4.7.0.968\build\Xamarin.Forms.props'))" />
+    <Error Condition="!Exists('..\..\..\..\packages\Xamarin.Forms.4.7.0.968\build\Xamarin.Forms.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\..\..\packages\Xamarin.Forms.4.7.0.968\build\Xamarin.Forms.targets'))" />
   </Target>
-  <Import Project="..\..\..\..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.targets" Condition="Exists('..\..\..\..\packages\Xamarin.Forms.4.6.0.800\build\Xamarin.Forms.targets')" />
+  <Import Project="..\..\..\..\packages\Xamarin.Forms.4.7.0.968\build\Xamarin.Forms.targets" Condition="Exists('..\..\..\..\packages\Xamarin.Forms.4.7.0.968\build\Xamarin.Forms.targets')" />
 </Project>

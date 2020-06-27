@@ -1,20 +1,23 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NLemos.Xamarin.Common.Extensions;
+using NLemos.Xamarin.Common.State;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using YetAnotherNoteTaker.Extensions;
-using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NotebookEditorPage : ContentPage
     {
-        private IEventBroker _eventBroker;
         private readonly string _notebookKey;
+
+        private IEventBroker _eventBroker;
+        private IPageNavigator _pageNavigator;
 
         public NotebookEditorPage()
         {
@@ -38,6 +41,8 @@ namespace YetAnotherNoteTaker.Views
             boxNotebook.SetDynamicWidth();
             _eventBroker = ServiceLocator.Get<IEventBroker>();
             _eventBroker.Subscribe<EditNotebookResult>(NewNotebookResultHandler);
+
+            _pageNavigator = ServiceLocator.Get<IPageNavigator>();
         }
 
         protected override void OnAppearing()
@@ -50,7 +55,7 @@ namespace YetAnotherNoteTaker.Views
         private async Task NewNotebookResultHandler(EditNotebookResult arg)
         {
             await _eventBroker.Notify(new ListNotebooksCommand());
-            PageNavigator.NavigateTo<NotesPage>(arg.Notebook);
+            await _pageNavigator.NavigateTo<NotesPage>(arg.Notebook);
         }
 
         private void btnSave_Click(object sender, EventArgs e)
@@ -58,9 +63,9 @@ namespace YetAnotherNoteTaker.Views
             _eventBroker.Notify(new EditNotebookCommand(_notebookKey, txtNotebook.Text));
         }
 
-        private void btnCancel_Click(object sender, EventArgs e)
+        private async void btnCancel_Click(object sender, EventArgs e)
         {
-            PageNavigator.Back();
+            await _pageNavigator.Back();
         }
     }
 }

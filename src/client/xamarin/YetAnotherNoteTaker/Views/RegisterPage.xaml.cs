@@ -1,12 +1,13 @@
 ﻿using System;
+using NLemos.Xamarin.Common.Extensions;
+using NLemos.Xamarin.Common.Helpers;
+using NLemos.Xamarin.Common.State;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 using YetAnotherNoteTaker.Client.Common.Security;
-using YetAnotherNoteTaker.Extensions;
-using YetAnotherNoteTaker.Helpers;
-using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views
 {
@@ -14,12 +15,14 @@ namespace YetAnotherNoteTaker.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class RegisterPage : ContentPage
     {
-        private IEventBroker _eventBroker;
+        private readonly IEventBroker _eventBroker;
+        private readonly IPageNavigator _pageNavigator;
 
         public RegisterPage()
         {
             InitializeComponent();
             _eventBroker = ServiceLocator.Get<IEventBroker>();
+            _pageNavigator = ServiceLocator.Get<IPageNavigator>();
         }
 
         protected override void OnAppearing()
@@ -58,7 +61,7 @@ namespace YetAnotherNoteTaker.Views
             try
             {
                 await _eventBroker.Notify(new CreateUserCommand(txtEmail.Text, txtPassword.Text));
-                PageNavigator.NavigateTo<LoginPage>();
+                await _pageNavigator.NavigateTo<LoginPage>();
             }
             catch (Exception ex)
             {
@@ -67,9 +70,9 @@ namespace YetAnotherNoteTaker.Views
             }
         }
 
-        private void btnBackToLogin_OnClick(object sender, EventArgs e)
+        private async void btnBackToLogin_OnClick(object sender, EventArgs e)
         {
-            PageNavigator.NavigateTo<LoginPage>();
+            await _pageNavigator.NavigateTo<LoginPage>();
         }
     }
 }

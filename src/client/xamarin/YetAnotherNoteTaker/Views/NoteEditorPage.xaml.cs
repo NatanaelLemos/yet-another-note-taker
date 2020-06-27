@@ -1,33 +1,35 @@
 ﻿using System;
 using System.Threading.Tasks;
+using NLemos.Xamarin.Common.State;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
 using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class NoteEditorPage : ContentPage
     {
-        private readonly IEventBroker _eventBroker;
-        private readonly NotebookDto _notebook;
         private readonly NoteDto _note;
 
         private QuillEditor _textEditor;
 
+        private IEventBroker _eventBroker;
+        private IPageNavigator _pageNavigator;
+        private NotebookDto _notebook;
+
         public NoteEditorPage(NotebookDto notebook)
         {
             InitializeComponent();
-            _eventBroker = ServiceLocator.Get<IEventBroker>();
+            Initialize(notebook);
 
             Title = "New note";
             ToolbarItems.RemoveAt(0);
 
-            _notebook = notebook;
 
             InitializeEditor("");
             SizeChanged += NoteEditorPage_SizeChanged;
@@ -36,15 +38,21 @@ namespace YetAnotherNoteTaker.Views
         public NoteEditorPage(NotebookDto notebook, NoteDto note)
         {
             InitializeComponent();
-            _eventBroker = ServiceLocator.Get<IEventBroker>();
+            Initialize(notebook);
 
             Title = note.Name;
             txtName.Text = note.Name;
 
-            _notebook = notebook;
             _note = note;
 
             InitializeEditor(note.Body);
+        }
+
+        private void Initialize(NotebookDto notebook)
+        {
+            _eventBroker = ServiceLocator.Get<IEventBroker>();
+            _pageNavigator = ServiceLocator.Get<IPageNavigator>();
+            _notebook = notebook;
         }
 
         protected override void OnAppearing()
@@ -85,7 +93,7 @@ namespace YetAnotherNoteTaker.Views
         private async void btnRemoveNote_OnClick(object sender, EventArgs e)
         {
             await _eventBroker.Notify(new DeleteNoteCommand(GetNotebookKey(), _note.Key));
-            PageNavigator.NavigateTo<NotesPage>(_notebook);
+            await _pageNavigator.NavigateTo<NotesPage>(_notebook);
         }
 
         private async void btnSave_OnClick(object sender, EventArgs e)
@@ -100,11 +108,11 @@ namespace YetAnotherNoteTaker.Views
 
             if (_notebook == null)
             {
-                PageNavigator.NavigateTo<NotesPage>();
+                await _pageNavigator.NavigateTo<NotesPage>();
             }
             else
             {
-                PageNavigator.NavigateTo<NotesPage>(_notebook);
+                await _pageNavigator.NavigateTo<NotesPage>(_notebook);
             }
         }
 
@@ -123,9 +131,9 @@ namespace YetAnotherNoteTaker.Views
             return string.Empty;
         }
 
-        private void btnCancel_OnClick(object sender, EventArgs e)
+        private async void btnCancel_OnClick(object sender, EventArgs e)
         {
-            PageNavigator.Back();
+            await _pageNavigator.Back();
         }
     }
 }

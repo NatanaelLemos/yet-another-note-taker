@@ -1,14 +1,15 @@
 ﻿using System;
+using NLemos.Xamarin.Common.Extensions;
+using NLemos.Xamarin.Common.Helpers;
+using NLemos.Xamarin.Common.State;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 using YetAnotherNoteTaker.Client.Common.Security;
 using YetAnotherNoteTaker.Client.Common.State;
-using YetAnotherNoteTaker.Extensions;
-using YetAnotherNoteTaker.Helpers;
-using YetAnotherNoteTaker.State;
 
 namespace YetAnotherNoteTaker.Views
 {
@@ -18,12 +19,14 @@ namespace YetAnotherNoteTaker.Views
     {
         private readonly IEventBroker _eventBroker;
         private readonly IUserState _userState;
+        private readonly IPageNavigator _pageNavigator;
 
         public LoginPage()
         {
             InitializeComponent();
             _eventBroker = ServiceLocator.Get<IEventBroker>();
             _userState = ServiceLocator.Get<IUserState>();
+            _pageNavigator = ServiceLocator.Get<IPageNavigator>();
         }
 
         protected override async void OnAppearing()
@@ -32,7 +35,7 @@ namespace YetAnotherNoteTaker.Views
 
             if (await _userState.IsAuthenticated())
             {
-                PageNavigator.NavigateTo<NotesPage>();
+                await _pageNavigator.NavigateTo<NotesPage>();
                 return;
             }
 
@@ -57,9 +60,9 @@ namespace YetAnotherNoteTaker.Views
             }
         }
 
-        private void btnRegister_OnClick(object sender, EventArgs e)
+        private async void btnRegister_OnClick(object sender, EventArgs e)
         {
-            PageNavigator.NavigateTo<RegisterPage>();
+            await _pageNavigator.NavigateTo<RegisterPage>();
         }
     }
 }
