@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
 using YetAnotherNoteTaker.Client.Common.Events;
 
-namespace YetAnotherNoteTaker.Client.Common.Tests.Events
+namespace YetAnotherNoteTaker.Client.Common.UnitTests.Events
 {
     public class EventBrokerTests
     {

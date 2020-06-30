@@ -79,7 +79,7 @@ namespace YetAnotherNoteTaker.Client.Common.Http
             return token.Value<string>("access_token");
         }
 
-        private HttpClient GetClient(string authToken)
+        protected virtual HttpClient GetClient(string authToken)
         {
             var client = new HttpClient();
 

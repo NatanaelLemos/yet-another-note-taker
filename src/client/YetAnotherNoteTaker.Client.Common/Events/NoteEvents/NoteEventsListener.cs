@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Common.Dtos;
 
@@ -11,8 +12,8 @@ namespace YetAnotherNoteTaker.Client.Common.Events.NoteEvents
 
         public NoteEventsListener(IEventBroker eventBroker, INotesService service)
         {
-            _eventBroker = eventBroker;
-            _service = service;
+            _eventBroker = eventBroker ?? throw new ArgumentNullException(nameof(eventBroker));
+            _service = service ?? throw new ArgumentNullException(nameof(service));
         }
 
         public void Start()

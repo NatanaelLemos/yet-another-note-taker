@@ -48,9 +48,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{9ED14AEB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "client", "client", "{E2A780DF-8B13-4AEC-9631-6D06E55F1C9F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YetAnotherNoteTaker.Client.Common.Tests", "tests\client\YetAnotherNoteTaker.Client.Common.Tests\YetAnotherNoteTaker.Client.Common.Tests.csproj", "{5515B143-3C5B-4101-9F8D-0EED9BA2FABB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YetAnotherNoteTaker.Client.Common.UnitTests", "tests\client\YetAnotherNoteTaker.Client.Common.Tests\YetAnotherNoteTaker.Client.Common.UnitTests.csproj", "{5515B143-3C5B-4101-9F8D-0EED9BA2FABB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NLemos.Xamarin.Common", "src\client\xamarin\NLemos.Xamarin.Common\NLemos.Xamarin.Common.csproj", "{E8866400-6346-450B-9E69-403011D6351F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLemos.Xamarin.Common", "src\client\xamarin\NLemos.Xamarin.Common\NLemos.Xamarin.Common.csproj", "{E8866400-6346-450B-9E69-403011D6351F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

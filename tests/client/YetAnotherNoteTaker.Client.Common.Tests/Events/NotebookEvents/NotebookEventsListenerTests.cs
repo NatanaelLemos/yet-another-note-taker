@@ -9,7 +9,7 @@ using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Client.Common.Services;
 
-namespace YetAnotherNoteTaker.Client.Common.Tests.Events.NotebookEvents
+namespace YetAnotherNoteTaker.Client.Common.UnitTests.Events.NotebookEvents
 {
     public class NotebookEventsListenerTests
     {

@@ -7,7 +7,7 @@ using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 using YetAnotherNoteTaker.Client.Common.Services;
 
-namespace YetAnotherNoteTaker.Client.Common.Tests.Events.AuthEvents
+namespace YetAnotherNoteTaker.Client.Common.UnitTests.Events.AuthEvents
 {
     public class AuthEventsListenerTests
     {

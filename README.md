@@ -1,7 +1,17 @@
-# yet-another-note-taker
+# yet another note taker
+
+## A note taker app
+----
 
 
-## PORTS
+### Dependencies
+- Docker runtime
+- .Net Core 3.1
+- MongoDB
+- Xamarin Forms
+
+
+### PORTS
 YetAnotherNoteTaker.Server
     - Local: 5000
     - Docker/Development: 5000 / webserver
