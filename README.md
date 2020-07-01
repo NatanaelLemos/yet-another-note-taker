@@ -18,14 +18,14 @@
 
 
 ### PORTS
-YetAnotherNoteTaker.Server
+- YetAnotherNoteTaker.Server
     - Local: 5000
     - Docker/Development: 5000 / webserver
-MongoDb
+- MongoDb
     - Local: 5002
     - Docker/Development: 5002 / mongodb
-YetAnotherNoteTaker.Blazor (WebAssembly / Docker / Nginx)
+- YetAnotherNoteTaker.Blazor (WebAssembly / Docker / Nginx)
     - Docker/Development: 5003
-YetAnotherNoteTaker.Blazor.Server
+- YetAnotherNoteTaker.Blazor.Server
     - Local: 5004
     - Docker/Development: 5004
