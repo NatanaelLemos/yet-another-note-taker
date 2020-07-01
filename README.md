@@ -10,6 +10,12 @@
 - MongoDB
 - Xamarin Forms
 
+### TODOs
+- Testing
+- Xamarin local database
+- WebAssembly dark theme
+- Code cleanup
+
 
 ### PORTS
 YetAnotherNoteTaker.Server
