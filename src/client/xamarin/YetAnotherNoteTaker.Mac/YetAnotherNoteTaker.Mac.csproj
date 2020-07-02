@@ -212,6 +212,10 @@
       <Project>{5ECDBD91-A316-412E-AB3D-BC8242CA6B0F}</Project>
       <Name>YetAnotherNoteTaker</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NLemos.Xamarin.Common\NLemos.Xamarin.Common.csproj">
+      <Project>{E8866400-6346-450B-9E69-403011D6351F}</Project>
+      <Name>NLemos.Xamarin.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
