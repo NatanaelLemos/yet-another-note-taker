@@ -1,9 +1,8 @@
 ﻿@page "/notebooks/editor"
 
-@using Microsoft.AspNetCore.WebUtilities
 @using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
 
-@inject IJSRuntime JsRuntime
+@inject IJSRuntime _js
 @inject NavigationManager _navigation
 @inject IEventBroker _eventBroker
 @inject YetAnotherNoteTaker.Client.Common.Services.INotebooksService _notebookService
@@ -12,7 +11,13 @@
     <h2>@(title)</h2>
     <div class="form-group">
         <label for="name">Notebook name</label>
-        <input type="text" class="form-control" id="name" aria-describedby="name" placeholder="Notebook name" @bind-value="name">
+        <input type="text"
+               class="form-control"
+               id="name"
+               aria-describedby="name"
+               placeholder="Notebook name"
+               @bind-value="name"
+               @onkeydown="OnNameKeyDown"/>
     </div>
 
     <div class="crud-actions">
@@ -31,14 +36,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var uri = _navigation.ToAbsoluteUri(_navigation.Uri);
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("notebookKey", out var param))
-        {
-            notebookKey = param.First();
-        }
-        else
-        {
-            notebookKey = null;
-        }
+        notebookKey = NotebookHelpers.GetKeyFromUri(uri);
 
         if (firstRender)
         {
@@ -48,32 +46,51 @@
         if (firstRender || notebookKey != notebook?.Key)
         {
             notebook = await _notebookService.Get(notebookKey);
-
-            if (notebook == null)
-            {
-                title = "New notebook";
-                name = string.Empty;
-            }
-            else
-            {
-                title = notebook.Name;
-                name = notebook.Name;
-            }
-
+            BindValues();
             StateHasChanged();
         }
 
         await base.OnAfterRenderAsync(firstRender);
     }
 
+    private void BindValues()
+    {
+        if (notebook == null)
+        {
+            title = "New notebook";
+            name = string.Empty;
+        }
+        else
+        {
+            title = notebook.Name;
+            name = notebook.Name;
+        }
+    }
+
+    private Task OnNameKeyDown(KeyboardEventArgs e)
+    {
+        if(e.IsSubmit())
+        {
+            return Save();
+        }
+
+        return Task.CompletedTask;
+    }
+
     private async Task Save()
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            await _js.Alert("Invalid notebook name");
+            return;
+        }
+
         await _eventBroker.Notify(new EditNotebookCommand(notebookKey, name));
     }
 
-    private async Task Cancel()
+    private Task Cancel()
     {
-        await JsRuntime.InvokeVoidAsync("window.history.back");
+        return _js.NavigateBack();
     }
 
     private async Task EditNotebookResultHandler(EditNotebookResult result)

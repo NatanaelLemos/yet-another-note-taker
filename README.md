@@ -25,7 +25,5 @@
     - Local: 5002
     - Docker/Development: 5002 / mongodb
 - YetAnotherNoteTaker.Blazor (WebAssembly / Docker / Nginx)
-    - Docker/Development: 5003
-- YetAnotherNoteTaker.Blazor.Server
     - Local: 5004
-    - Docker/Development: 5004
+    - Docker/Development: 5003

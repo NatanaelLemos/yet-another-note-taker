@@ -1,8 +1,8 @@
 @page  "/notebooks/{NotebookKey}/notes/editor"
 
-@using Microsoft.AspNetCore.WebUtilities
+@using YetAnotherNoteTaker.Client.Common.Events.NoteEvents
 
-@inject IJSRuntime JsRuntime
+@inject IJSRuntime _js
 @inject IEventBroker _eventBroker
 @inject NavigationManager _navigation
 @inject YetAnotherNoteTaker.Client.Common.Services.INotesService _noteService
@@ -90,55 +90,52 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         var uri = _navigation.ToAbsoluteUri(_navigation.Uri);
-        if (QueryHelpers.ParseQuery(uri.Query).TryGetValue("noteKey", out var param))
-        {
-            noteKey = param.First();
-        }
-        else
-        {
-            noteKey = null;
-        }
+        noteKey = NoteHelpers.GetKeyFromUri(uri);
 
         if (firstRender || noteKey != note?.Key)
         {
             note = await _noteService.Get(NotebookKey, noteKey);
-            var body = string.Empty;
-
-            if (note == null)
-            {
-                title = "New note";
-                name = string.Empty;
-            }
-            else
-            {
-                title = note.Name;
-                name = note.Name;
-                body = note.Body;
-            }
-
-            await JsRuntime.InvokeVoidAsync("startQuill", $"{body}");
+            await BindValues();
             StateHasChanged();
         }
 
         await base.OnAfterRenderAsync(firstRender);
     }
 
+    private async Task BindValues()
+    {
+        var body = string.Empty;
+
+        if (note == null)
+        {
+            title = "New note";
+            name = string.Empty;
+        }
+        else
+        {
+            title = note.Name;
+            name = note.Name;
+            body = note.Body;
+        }
+
+        await _js.InvokeVoidAsync("startQuill", $"{body}");
+    }
+
     private async Task Save()
     {
-        var body = await JsRuntime.InvokeAsync<string>("getQuillContent");
+        var body = await _js.InvokeAsync<string>("getQuillContent");
         await _eventBroker.Notify(
-            new YetAnotherNoteTaker.Client.Common.Events.NoteEvents.EditNoteCommand(
+            new EditNoteCommand(
                     NotebookKey,
                     noteKey,
                     name,
                     body));
 
-        await JsRuntime.InvokeVoidAsync("window.history.back");
+        await _js.InvokeVoidAsync("window.history.back");
     }
 
-    private async Task Cancel()
+    private Task Cancel()
     {
-        await JsRuntime.InvokeVoidAsync("window.history.back");
+        return _js.NavigateBack();
     }
-
 }

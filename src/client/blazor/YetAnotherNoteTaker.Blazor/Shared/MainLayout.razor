@@ -2,7 +2,6 @@
 
 @inherits LayoutComponentBase
 
-@inject IEventBroker _eventBroker
 @inject YetAnotherNoteTaker.Client.Common.State.IUserState _userState
 @inject YetAnotherNoteTaker.Client.Common.Events.AuthEvents.AuthEventsListener _authEvtListener
 @inject YetAnotherNoteTaker.Client.Common.Events.NotebookEvents.NotebookEventsListener _notebookEvtListener
@@ -36,7 +35,6 @@ else
             _authEvtListener.Start();
             _notebookEvtListener.Start();
             _noteEvtListener.Start();
-            StateHasChanged();
         }
 
         if (!isUserAuthenticated && await _userState.IsAuthenticated())

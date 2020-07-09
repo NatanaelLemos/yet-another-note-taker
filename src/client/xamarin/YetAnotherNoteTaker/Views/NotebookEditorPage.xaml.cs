@@ -40,7 +40,7 @@ namespace YetAnotherNoteTaker.Views
         {
             boxNotebook.SetDynamicWidth();
             _eventBroker = ServiceLocator.Get<IEventBroker>();
-            _eventBroker.Subscribe<EditNotebookResult>(NewNotebookResultHandler);
+            _eventBroker.Subscribe<EditNotebookResult>(EditNotebookResultHandler);
 
             _pageNavigator = ServiceLocator.Get<IPageNavigator>();
         }
@@ -52,7 +52,7 @@ namespace YetAnotherNoteTaker.Views
             txtNotebook.Completed += (object sender, EventArgs e) => btnSave_Click(sender, e);
         }
 
-        private async Task NewNotebookResultHandler(EditNotebookResult arg)
+        private async Task EditNotebookResultHandler(EditNotebookResult arg)
         {
             await _eventBroker.Notify(new ListNotebooksCommand());
             await _pageNavigator.NavigateTo<NotesPage>(arg.Notebook);

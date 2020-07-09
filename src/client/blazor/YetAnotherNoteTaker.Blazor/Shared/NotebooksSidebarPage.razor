@@ -1,6 +1,6 @@
 ﻿@using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
 
-@inject IJSRuntime JsRuntime
+@inject IJSRuntime _js
 @inject NavigationManager _navigation
 @inject IEventBroker _eventBroker
 
@@ -14,7 +14,7 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
                 <div class="action-text">
                     All notes
                 </div>
@@ -48,7 +48,6 @@
 
 @code {
     private bool collapseNavMenu = true;
-
     private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 
     private List<NotebookDto> notebooks = new List<NotebookDto>();
@@ -59,7 +58,6 @@
         {
             _eventBroker.Subscribe<ListNotebooksResult>(ListNotebooksResultHandler);
             await _eventBroker.Notify(new ListNotebooksCommand());
-            StateHasChanged();
         }
 
         await base.OnAfterRenderAsync(firstRender);
@@ -84,7 +82,7 @@
 
     private async Task RemoveNotebook(string notebookKey)
     {
-        var result = await JsRuntime.InvokeAsync<bool>("confirm", "Are you sure?");
+        var result = await _js.Confirm("Are you sure?");
 
         if (!result)
         {

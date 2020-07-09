@@ -1,5 +1,8 @@
 ﻿@inherits LayoutComponentBase
-@inject IJSRuntime JsRuntime
+
+@using YetAnotherNoteTaker.Client.Common.Events.AuthEvents
+
+@inject IJSRuntime _js
 @inject NavigationManager _navigation
 @inject IEventBroker _eventBroker
 
@@ -11,11 +14,22 @@
         <h2>Login</h2>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="Enter email" @bind-value="email">
+            <input type="email"
+                   id="email"
+                   class="form-control"
+                   aria-describedby="email"
+                   placeholder="Enter email"
+                   @bind-value="email"
+                   @onkeydown="OnEmailKeyDown" />
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" @bind-value="password">
+            <input type="password"
+                   id="password"
+                   class="form-control"
+                   placeholder="Password"
+                   @bind-value="password"
+                   @onkeydown="OnLoginPasswordKeyDown" />
         </div>
         <button type="button" class="btn btn-primary" @onclick="Login">Login</button>
         <button type="button" class="btn btn-secondary" @onclick="GoToRegister">Register</button>
@@ -27,15 +41,31 @@ else
         <h2>Register</h2>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" aria-describedby="email" placeholder="Enter email" @bind-value="email">
+            <input type="email"
+                   id="email"
+                   class="form-control"
+                   aria-describedby="email"
+                   placeholder="Enter email"
+                   @bind-value="email"
+                   @onkeydown="OnEmailKeyDown" />
         </div>
         <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" class="form-control" id="password" placeholder="Password" @bind-value="password">
+            <input type="password"
+                   id="password"
+                   class="form-control"
+                   placeholder="Password"
+                   @bind-value="password"
+                   @onkeydown="OnRegisterPasswordKeyDown" />
         </div>
         <div class="form-group">
             <label for="repeatPassword">Repeat password</label>
-            <input type="password" class="form-control" id="repeatPassword" placeholder="Repeat password" @bind-value="repeatPassword">
+            <input type="password"
+                   class="form-control"
+                   id="repeatPassword"
+                   placeholder="Repeat password"
+                   @bind-value="repeatPassword"
+                   @onkeydown="OnRegisterRepeatPasswordKeyDown" />
         </div>
         <button type="button" class="btn btn-primary" @onclick="Register">Register</button>
         <button type="button" class="btn btn-secondary" @onclick="GoToLogin">Back</button>
@@ -48,27 +78,48 @@ else
     private string repeatPassword;
     private bool isInLoginPage = true;
 
-    protected override Task OnAfterRenderAsync(bool firstRender)
+    private async Task OnEmailKeyDown(KeyboardEventArgs e)
     {
-        if (firstRender)
+        if (e.IsSubmit())
         {
-            StateHasChanged();
+            await _js.FocusElement("password");
         }
+    }
 
-        return base.OnAfterRenderAsync(firstRender);
+    private async Task OnLoginPasswordKeyDown(KeyboardEventArgs e)
+    {
+        if (e.IsSubmit())
+        {
+            await Login();
+        }
+    }
+
+    private async Task OnRegisterPasswordKeyDown(KeyboardEventArgs e)
+    {
+        if (e.IsSubmit())
+        {
+            await _js.FocusElement("repeatPassword");
+        }
+    }
+
+    private async Task OnRegisterRepeatPasswordKeyDown(KeyboardEventArgs e)
+    {
+        if (e.IsSubmit())
+        {
+            await Register();
+        }
     }
 
     public async Task Login()
     {
         try
         {
-            await _eventBroker.Notify(new YetAnotherNoteTaker.Client.Common.Events.AuthEvents.LoginCommand(email, password));
-            await _eventBroker.Notify(new YetAnotherNoteTaker.Client.Common.Events.NotebookEvents.ListNotebooksCommand());
+            await _eventBroker.Notify(new LoginCommand(email, password));
             _navigation.NavigateTo("/");
         }
         catch (Exception ex)
         {
-            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+            await _js.Alert(ex.Message);
         }
     }
 
@@ -83,12 +134,12 @@ else
     {
         try
         {
-            await _eventBroker.Notify(new YetAnotherNoteTaker.Client.Common.Events.AuthEvents.CreateUserCommand(email, password));
-            _navigation.NavigateTo("/");
+            await _eventBroker.Notify(new CreateUserCommand(email, password));
+            GoToLogin();
         }
         catch (Exception ex)
         {
-            await JsRuntime.InvokeVoidAsync("alert", ex.Message);
+            await _js.Alert(ex.Message);
         }
     }
 
