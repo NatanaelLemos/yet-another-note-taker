@@ -4,6 +4,7 @@ using YetAnotherNoteTaker.Client.Common.Data;
 using YetAnotherNoteTaker.Client.Common.Dtos;
 using YetAnotherNoteTaker.Client.Common.State;
 using YetAnotherNoteTaker.Common.Dtos;
+using YetAnotherNoteTaker.Common.Helpers;
 
 namespace YetAnotherNoteTaker.Client.Common.Services
 {
@@ -14,8 +15,8 @@ namespace YetAnotherNoteTaker.Client.Common.Services
 
         public AuthService(IAuthRepository authRepository, IUserState userState)
         {
-            _authRepository = authRepository;
-            _userState = userState;
+            _authRepository = authRepository.AsNotNull();
+            _userState = userState.AsNotNull();
         }
 
         public Task<UserDto> CreateUser(NewUserDto newUserDto)
@@ -29,7 +30,7 @@ namespace YetAnotherNoteTaker.Client.Common.Services
 
             if (string.IsNullOrWhiteSpace(accessToken))
             {
-                throw new NullReferenceException("Invalid email or password");
+                throw new InvalidOperationException("Invalid email or password");
             }
 
             var loggedUser = new LoggedInUserDto

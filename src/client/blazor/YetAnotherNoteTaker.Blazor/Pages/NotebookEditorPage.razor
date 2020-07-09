@@ -69,7 +69,6 @@
     private async Task Save()
     {
         await _eventBroker.Notify(new EditNotebookCommand(notebookKey, name));
-        await _eventBroker.Notify(new ListNotebooksCommand());
     }
 
     private async Task Cancel()
@@ -77,9 +76,9 @@
         await JsRuntime.InvokeVoidAsync("window.history.back");
     }
 
-    private Task EditNotebookResultHandler(EditNotebookResult result)
+    private async Task EditNotebookResultHandler(EditNotebookResult result)
     {
+        await _eventBroker.Notify(new ListNotebooksCommand());
         _navigation.NavigateTo($"/notebooks/{result.Notebook.Key}/notes");
-        return Task.CompletedTask;
     }
 }

@@ -7,7 +7,8 @@ namespace YetAnotherNoteTaker.Client.Common.Events
 {
     public class EventBroker : IEventBroker
     {
-        private readonly Dictionary<string, List<object>> _subscriptions = new Dictionary<string, List<object>>();
+        private readonly Dictionary<string, List<object>> _subscriptions =
+            new Dictionary<string, List<object>>();
 
         private readonly Func<Type, Task<bool>> _userIsAuthenticatedFactory;
 
