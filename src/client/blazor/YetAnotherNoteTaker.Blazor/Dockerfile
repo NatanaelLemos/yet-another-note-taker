@@ -5,10 +5,12 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["src", "src"]
-RUN dotnet restore "src/client/blazor/YetAnotherNoteTaker.Blazor/YetAnotherNoteTaker.Blazor.csproj"
-COPY . .
-WORKDIR "/src/src/client/blazor/YetAnotherNoteTaker.Blazor"
+COPY ["src/client/blazor", "client/blazor"]
+COPY ["src/client/YetAnotherNoteTaker.Client.Common", "client/YetAnotherNoteTaker.Client.Common"]
+COPY ["src/YetAnotherNoteTaker.Common", "YetAnotherNoteTaker.Common"]
+RUN dotnet restore "client/blazor/YetAnotherNoteTaker.Blazor/YetAnotherNoteTaker.Blazor.csproj"
+
+WORKDIR "/src/client/blazor/YetAnotherNoteTaker.Blazor"
 RUN dotnet build "YetAnotherNoteTaker.Blazor.csproj" -c Release -o /app/build
 
 FROM build AS publish

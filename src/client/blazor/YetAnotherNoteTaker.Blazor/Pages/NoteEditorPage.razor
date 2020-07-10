@@ -72,6 +72,10 @@
 </div>
 
 <div class="crud-actions">
+    @if (note != null)
+    {
+        <button class="btn btn-topbar" @onclick="Delete">Delete</button>
+    }
     <button class="btn btn-topbar" @onclick="Save">Save</button>
     <button class="btn btn-topbar" @onclick="Cancel">Cancel</button>
 </div>
@@ -121,6 +125,17 @@
         await _js.InvokeVoidAsync("startQuill", $"{body}");
     }
 
+    private async Task Delete()
+    {
+        var confirm = await _js.Confirm("Are you sure?");
+
+        if (confirm)
+        {
+            await _eventBroker.Notify(new DeleteNoteCommand(NotebookKey, note.Key));
+            _navigation.NavigateTo($"/notebooks/{NotebookKey}/notes");
+        }
+    }
+
     private async Task Save()
     {
         var body = await _js.InvokeAsync<string>("getQuillContent");
@@ -131,7 +146,7 @@
                     name,
                     body));
 
-        await _js.InvokeVoidAsync("window.history.back");
+        await _js.NavigateBack();
     }
 
     private Task Cancel()
