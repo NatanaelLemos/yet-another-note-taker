@@ -8,6 +8,7 @@ using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 using YetAnotherNoteTaker.Client.Common.Security;
+using Observatron;
 
 namespace YetAnotherNoteTaker.Views
 {

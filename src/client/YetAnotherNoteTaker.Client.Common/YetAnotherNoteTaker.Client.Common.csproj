@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\YetAnotherNoteTaker.Common\YetAnotherNoteTaker.Common.csproj" />
+    <ProjectReference Include="..\Observatron\Observatron.csproj" />
   </ItemGroup>
 
 </Project>

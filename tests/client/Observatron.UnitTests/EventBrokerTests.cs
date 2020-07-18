@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
-using YetAnotherNoteTaker.Client.Common.Events;
+using Observatron;
 
 namespace YetAnotherNoteTaker.Client.Common.UnitTests.Events
 {

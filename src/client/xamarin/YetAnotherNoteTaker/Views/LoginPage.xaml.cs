@@ -2,10 +2,10 @@
 using NLemos.Xamarin.Common.Extensions;
 using NLemos.Xamarin.Common.Helpers;
 using NLemos.Xamarin.Common.State;
+using Observatron;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YetAnotherNoteTaker.Blazor.State;
-using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 using YetAnotherNoteTaker.Client.Common.Security;

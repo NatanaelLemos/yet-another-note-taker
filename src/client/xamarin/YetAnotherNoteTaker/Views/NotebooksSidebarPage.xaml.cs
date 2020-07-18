@@ -11,6 +11,7 @@ using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.State;
+using Observatron;
 
 namespace YetAnotherNoteTaker.Views
 {

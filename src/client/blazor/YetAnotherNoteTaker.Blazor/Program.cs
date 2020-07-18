@@ -4,10 +4,10 @@ using Blazored.LocalStorage.JsonConverters;
 using Blazored.LocalStorage.StorageOptions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
+using Observatron;
 using YetAnotherNoteTaker.Blazor.Data;
 using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Data;
-using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
@@ -36,9 +36,7 @@ namespace YetAnotherNoteTaker.Blazor
 
             services
                 .AddSingleton<IUserState, UserState>()
-                .AddSingleton<IEventBroker>(new EventBroker(
-                    //TODO:
-                    t => Task.FromResult(true)));
+                .AddObservatron();
 
             services
                 .AddSingleton<IRestClient, RestClient>()

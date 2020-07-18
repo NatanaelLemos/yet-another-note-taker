@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Observatron;
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Common.Helpers;

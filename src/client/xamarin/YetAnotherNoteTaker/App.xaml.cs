@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using NLemos.Xamarin.Common.State;
+using Observatron;
 using Xamarin.Forms;
 using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Data;
@@ -46,7 +47,10 @@ namespace YetAnotherNoteTaker
             XamarinClientContext.DatabasePath = Path.Combine(localPath, "notetaker.db");
 
             ServiceLocator.Register<IUserState, UserState>();
-            ServiceLocator.Register<IEventBroker>(new EventBroker(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t)));
+            ServiceLocator.Register(
+                ObservatronBuilder.Build(opt =>
+                    opt.AddInterrupter(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t))));
+
             ServiceLocator.Register<IPageNavigator>(new PageNavigator(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t)));
             ServiceLocator.Register<IRestClient, RestClient>();
             ServiceLocator.Register<IUrlBuilder>(new UrlBuilder("http://localhost:5000"));

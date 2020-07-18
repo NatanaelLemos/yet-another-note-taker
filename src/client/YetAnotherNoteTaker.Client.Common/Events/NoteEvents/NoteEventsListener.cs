@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Common.Dtos;
+using Observatron;
 
 namespace YetAnotherNoteTaker.Client.Common.Events.NoteEvents
 {

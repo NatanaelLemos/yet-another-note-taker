@@ -8,6 +8,7 @@ using Xunit;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Client.Common.Services;
+using Observatron;
 
 namespace YetAnotherNoteTaker.Client.Common.UnitTests.Events.NotebookEvents
 {

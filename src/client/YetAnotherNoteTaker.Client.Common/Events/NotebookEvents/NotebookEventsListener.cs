@@ -2,6 +2,7 @@
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Common.Helpers;
+using Observatron;
 
 namespace YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
 {

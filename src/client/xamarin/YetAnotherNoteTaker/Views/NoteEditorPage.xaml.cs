@@ -8,6 +8,7 @@ using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
 using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 using YetAnotherNoteTaker.Common.Dtos;
+using Observatron;
 
 namespace YetAnotherNoteTaker.Views
 {
