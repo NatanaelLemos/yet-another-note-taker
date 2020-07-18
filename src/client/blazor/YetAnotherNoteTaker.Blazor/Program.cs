@@ -4,7 +4,7 @@ using Blazored.LocalStorage.JsonConverters;
 using Blazored.LocalStorage.StorageOptions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Observatron;
+using System.Nxlx.Observer;
 using YetAnotherNoteTaker.Blazor.Data;
 using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Data;
@@ -36,7 +36,7 @@ namespace YetAnotherNoteTaker.Blazor
 
             services
                 .AddSingleton<IUserState, UserState>()
-                .AddObservatron();
+                .AddObserver();
 
             services
                 .AddSingleton<IRestClient, RestClient>()

@@ -1,12 +1,12 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Observatron
+namespace System.Nxlx.Observer
 {
     /// <summary>
     /// <see cref="IServiceCollection"/> extensions to inject an <see cref="IEventBroker"/>.
     /// </summary>
-    public static class ObservatronExtensions
+    public static class ObserverExtensions
     {
         /// <summary>
         /// Adds an instance of <see cref="IEventBroker"/> to the service collection.
@@ -16,12 +16,12 @@ namespace Observatron
         /// </param>
         /// <param name="options">Options to configure the instance.</param>
         /// <returns>Injected <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddObservatron(
+        public static IServiceCollection AddObserver(
             this IServiceCollection services,
-            Action<ObservatronOptions> options = null)
+            Action<ObserverOptions> options = null)
         {
-            var optionsInstance = new ObservatronOptions();
-            var eventBroker = ObservatronBuilder.Build(optionsInstance, options);
+            var optionsInstance = new ObserverOptions();
+            var eventBroker = ObserverBuilder.Build(optionsInstance, options);
             services.AddSingleton(eventBroker);
             return services;
         }

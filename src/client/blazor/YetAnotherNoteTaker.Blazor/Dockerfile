@@ -7,7 +7,7 @@ FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["src/client/blazor", "client/blazor"]
 COPY ["src/client/YetAnotherNoteTaker.Client.Common", "client/YetAnotherNoteTaker.Client.Common"]
-COPY ["src/client/Observatron", "client/Observatron"]
+COPY ["src/client/System.Nxlx.Observer", "client/System.Nxlx.Observer"]
 COPY ["src/YetAnotherNoteTaker.Common", "YetAnotherNoteTaker.Common"]
 RUN dotnet restore "client/blazor/YetAnotherNoteTaker.Blazor/YetAnotherNoteTaker.Blazor.csproj"
 

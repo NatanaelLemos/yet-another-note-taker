@@ -1,9 +1,8 @@
 ﻿using System.Threading.Tasks;
 using FluentAssertions;
 using Xunit;
-using Observatron;
 
-namespace YetAnotherNoteTaker.Client.Common.UnitTests.Events
+namespace System.Nxlx.Observer.UnitTests
 {
     public class EventBrokerTests
     {

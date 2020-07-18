@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using NLemos.Xamarin.Common.State;
-using Observatron;
+using System.Nxlx.Observer;
 using Xamarin.Forms;
 using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Data;
@@ -48,7 +48,7 @@ namespace YetAnotherNoteTaker
 
             ServiceLocator.Register<IUserState, UserState>();
             ServiceLocator.Register(
-                ObservatronBuilder.Build(opt =>
+                ObserverBuilder.Build(opt =>
                     opt.AddInterrupter(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t))));
 
             ServiceLocator.Register<IPageNavigator>(new PageNavigator(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t)));

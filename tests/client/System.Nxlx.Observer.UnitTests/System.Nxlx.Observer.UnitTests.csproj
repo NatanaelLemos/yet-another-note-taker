@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\src\client\Observatron\Observatron.csproj" />
+    <ProjectReference Include="..\..\..\src\client\System.Nxlx.Observer\System.Nxlx.Observer.csproj" />
   </ItemGroup>
 
 </Project>

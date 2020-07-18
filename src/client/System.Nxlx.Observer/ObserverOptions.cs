@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace Observatron
+namespace System.Nxlx.Observer
 {
     /// <summary>
     /// Options to configure the instance of <see cref="IEventBroker"/>.
     /// </summary>
-    public class ObservatronOptions
+    public class ObserverOptions
     {
         private readonly List<Func<Type, Task<bool>>> _interrupters = new List<Func<Type, Task<bool>>>();
 
@@ -19,7 +19,7 @@ namespace Observatron
         /// </summary>
         /// <param name="interrupter">An interrupter function.</param>
         /// <returns>Options instance with the interrupter injected.</returns>
-        public ObservatronOptions AddInterrupter(Func<Type, Task<bool>> interrupter)
+        public ObserverOptions AddInterrupter(Func<Type, Task<bool>> interrupter)
         {
             _interrupters.Add(interrupter);
             return this;

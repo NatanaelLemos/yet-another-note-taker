@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Observatron
+namespace System.Nxlx.Observer
 {
     /// <summary>
     /// An internal implementation of <see cref="IEventBroker"/>.
@@ -31,7 +31,7 @@ namespace Observatron
         /// <inheritdoc />
         public void Subscribe<TEvent>(Func<TEvent, Task> callback)
         {
-            if(callback == null)
+            if (callback == null)
             {
                 return;
             }
@@ -53,7 +53,7 @@ namespace Observatron
         /// <inheritdoc />
         public async Task Notify<TEvent>(TEvent command)
         {
-            if(command == null)
+            if (command == null)
             {
                 return;
             }

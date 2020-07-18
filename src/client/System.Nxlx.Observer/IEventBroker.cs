@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace Observatron
+namespace System.Nxlx.Observer
 {
     /// <summary>
-    /// Interface for subscribing and notifying events into Observatron.
+    /// Interface for subscribing and notifying events into the Observer.
     /// </summary>
     public interface IEventBroker : IDisposable
     {

@@ -7,7 +7,7 @@ using Xamarin.Forms.Xaml;
 using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
-using Observatron;
+using System.Nxlx.Observer;
 
 namespace YetAnotherNoteTaker.Views
 {

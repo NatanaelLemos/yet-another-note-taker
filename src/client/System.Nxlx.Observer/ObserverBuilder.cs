@@ -1,26 +1,26 @@
 ﻿using System;
 
-namespace Observatron
+namespace System.Nxlx.Observer
 {
     /// <summary>
     /// Builder for <see cref="IEventBroker"/>.
     /// </summary>
-    public static class ObservatronBuilder
+    public static class ObserverBuilder
     {
         /// <summary>
         /// Builds an instance of <see cref="IEventBroker"/>.
         /// </summary>
         /// <param name="options">Options to configure the instance.</param>
         /// <returns>Instance of <see cref="IEventBroker"/>.</returns>
-        public static IEventBroker Build(Action<ObservatronOptions> options = null)
+        public static IEventBroker Build(Action<ObserverOptions> options = null)
         {
-            var optionsInstance = new ObservatronOptions();
+            var optionsInstance = new ObserverOptions();
             return Build(optionsInstance, options);
         }
 
         internal static IEventBroker Build(
-            ObservatronOptions optionsInstance,
-            Action<ObservatronOptions> options)
+            ObserverOptions optionsInstance,
+            Action<ObserverOptions> options)
         {
             options?.Invoke(optionsInstance);
             var eventBroker = new EventBroker(optionsInstance.Interrupters);
