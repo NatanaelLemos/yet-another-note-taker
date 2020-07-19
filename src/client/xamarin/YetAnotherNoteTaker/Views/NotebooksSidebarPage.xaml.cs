@@ -11,7 +11,7 @@ using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NotebookEvents;
 using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.State;
-using System.Nxlx.Observer;
+using Nxl.Observer;
 
 namespace YetAnotherNoteTaker.Views
 {

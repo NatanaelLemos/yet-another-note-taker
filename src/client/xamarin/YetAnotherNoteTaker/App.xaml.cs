@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using NLemos.Xamarin.Common.State;
-using System.Nxlx.Observer;
+using Nxl.Observer;
 using Xamarin.Forms;
 using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Data;

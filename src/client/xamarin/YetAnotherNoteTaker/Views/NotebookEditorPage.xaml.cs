@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using NLemos.Xamarin.Common.Extensions;
 using NLemos.Xamarin.Common.State;
-using System.Nxlx.Observer;
+using Nxl.Observer;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using YetAnotherNoteTaker.Blazor.State;

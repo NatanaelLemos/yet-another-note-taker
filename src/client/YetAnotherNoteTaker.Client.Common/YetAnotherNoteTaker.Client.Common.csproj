@@ -7,11 +7,11 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Nxl.Observer" Version="1.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\YetAnotherNoteTaker.Common\YetAnotherNoteTaker.Common.csproj" />
-    <ProjectReference Include="..\System.Nxlx.Observer\System.Nxlx.Observer.csproj" />
   </ItemGroup>
 
 </Project>

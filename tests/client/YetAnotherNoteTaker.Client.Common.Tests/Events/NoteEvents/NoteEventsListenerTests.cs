@@ -6,7 +6,7 @@ using Xunit;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
 using YetAnotherNoteTaker.Client.Common.Services;
-using System.Nxlx.Observer;
+using Nxl.Observer;
 
 namespace YetAnotherNoteTaker.Client.Common.UnitTests.Events.NoteEvents
 {

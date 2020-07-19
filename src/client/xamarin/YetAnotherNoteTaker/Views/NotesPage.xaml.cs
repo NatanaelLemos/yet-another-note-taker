@@ -8,7 +8,7 @@ using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using System.Nxlx.Observer;
+using Nxl.Observer;
 
 namespace YetAnotherNoteTaker.Views
 {
