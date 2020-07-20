@@ -6,7 +6,7 @@ using Xunit;
 using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.AuthEvents;
 using YetAnotherNoteTaker.Client.Common.Services;
-using Nxl.Observer;
+using N2tl.Observer;
 
 namespace YetAnotherNoteTaker.Client.Common.UnitTests.Events.AuthEvents
 {

@@ -16,9 +16,9 @@ namespace YetAnotherNoteTaker.State
             return Task.FromResult(_currentUser != null);
         }
 
-        public async Task<bool> IsAuthenticated(Type pageType)
+        public async Task<bool> IsAuthenticated(object eventObj)
         {
-            var anonymousAttr = pageType.CustomAttributes
+            var anonymousAttr = eventObj.GetType().CustomAttributes
                 .FirstOrDefault(a => a.AttributeType == typeof(AllowAnonymousAttribute));
 
             if (anonymousAttr != null)

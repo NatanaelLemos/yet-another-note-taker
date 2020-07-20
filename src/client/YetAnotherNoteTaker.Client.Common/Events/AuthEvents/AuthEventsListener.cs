@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Nxl.Observer;
+using N2tl.Observer;
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Common.Helpers;

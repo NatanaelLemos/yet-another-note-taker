@@ -2,7 +2,7 @@
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Common.Dtos;
 using YetAnotherNoteTaker.Common.Helpers;
-using Nxl.Observer;
+using N2tl.Observer;
 
 namespace YetAnotherNoteTaker.Client.Common.Events.NotebookEvents
 {

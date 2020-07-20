@@ -4,7 +4,7 @@ using Blazored.LocalStorage.JsonConverters;
 using Blazored.LocalStorage.StorageOptions;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Nxl.Observer;
+using N2tl.Observer;
 using YetAnotherNoteTaker.Blazor.Data;
 using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Data;

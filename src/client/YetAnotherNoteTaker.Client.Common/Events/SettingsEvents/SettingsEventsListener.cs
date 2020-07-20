@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using YetAnotherNoteTaker.Client.Common.Services;
 using YetAnotherNoteTaker.Common.Dtos;
-using Nxl.Observer;
+using N2tl.Observer;
 
 namespace YetAnotherNoteTaker.Client.Common.Events.SettingsEvents
 {

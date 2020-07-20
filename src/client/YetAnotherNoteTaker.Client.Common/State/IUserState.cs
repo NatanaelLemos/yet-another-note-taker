@@ -8,7 +8,7 @@ namespace YetAnotherNoteTaker.Client.Common.State
     {
         Task<bool> IsAuthenticated();
 
-        Task<bool> IsAuthenticated(Type pageType);
+        Task<bool> IsAuthenticated(object eventObj);
 
         Task<string> UserEmail { get; }
 

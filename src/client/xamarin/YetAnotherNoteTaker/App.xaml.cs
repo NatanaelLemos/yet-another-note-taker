@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using NLemos.Xamarin.Common.State;
-using Nxl.Observer;
+using N2tl.Observer;
 using Xamarin.Forms;
 using YetAnotherNoteTaker.Blazor.State;
 using YetAnotherNoteTaker.Client.Common.Data;
@@ -49,7 +49,7 @@ namespace YetAnotherNoteTaker
             ServiceLocator.Register<IUserState, UserState>();
             ServiceLocator.Register(
                 ObserverBuilder.Build(opt =>
-                    opt.AddInterrupter(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t))));
+                    opt.AddGeneralInterrupter(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t))));
 
             ServiceLocator.Register<IPageNavigator>(new PageNavigator(t => ServiceLocator.Get<IUserState>().IsAuthenticated(t)));
             ServiceLocator.Register<IRestClient, RestClient>();

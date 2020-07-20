@@ -8,7 +8,7 @@ using YetAnotherNoteTaker.Client.Common.Events;
 using YetAnotherNoteTaker.Client.Common.Events.NoteEvents;
 using YetAnotherNoteTaker.Client.Common.Events.SettingsEvents;
 using YetAnotherNoteTaker.Common.Dtos;
-using Nxl.Observer;
+using N2tl.Observer;
 
 namespace YetAnotherNoteTaker.Views
 {

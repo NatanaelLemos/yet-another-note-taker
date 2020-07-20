@@ -24,7 +24,7 @@ namespace YetAnotherNoteTaker.Blazor.State
             return !string.IsNullOrEmpty(token);
         }
 
-        public Task<bool> IsAuthenticated(Type pageType)
+        public Task<bool> IsAuthenticated(object eventObj)
         {
             return IsAuthenticated();
         }
